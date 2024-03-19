@@ -53,7 +53,7 @@ func Run(crt *support.Crt) {
 			ok = true
 			return
 		default:
-			crt.InputError(e.ErrInvalidAction + t.SymSingleQuote + nextAction + t.SymSingleQuote)
+			crt.InputError(e.ErrInvalidAction, nextAction)
 		}
 	}
 }
@@ -79,7 +79,7 @@ func CheckService(i int) string {
 
 	// Check if the operation is a valid operation
 	if !slices.Contains(C.DashboardURIValidActions, support.Upcase(operation)) {
-		return e.ErrInvalidAction
+		return e.ErrInvalidAction.Error()
 	}
 
 	// Ping the service

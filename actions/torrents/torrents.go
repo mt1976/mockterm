@@ -1,11 +1,10 @@
 package skynews
 
 import (
-	e "github.com/mt1976/crt/errors"
-	t "github.com/mt1976/crt/language"
 	"github.com/mt1976/crt/support"
 	config "github.com/mt1976/crt/support/config"
 	page "github.com/mt1976/crt/support/page"
+	t "github.com/mt1976/mockterm/language"
 )
 
 // The Run function displays a menu of news topics and allows the user to select a topic to view the
@@ -42,7 +41,7 @@ func Run(crt *support.Crt) {
 			//QTor(crt, nextLevel.AlternateID, nextLevel.Title)
 			action = ""
 		default:
-			crt.InputError(e.ErrInvalidAction + t.SymSingleQuote + action + t.SymSingleQuote)
+			crt.InputError(support.ErrInvalidAction, action)
 			action = ""
 		}
 	}

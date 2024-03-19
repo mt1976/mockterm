@@ -5,18 +5,19 @@ import (
 	"os"
 
 	"github.com/jrudio/go-plex-client"
-	e "github.com/mt1976/crt/errors"
+	x "github.com/mt1976/crt/errors"
+	e "github.com/mt1976/mockterm/errors"
 
-	t "github.com/mt1976/crt/language"
 	"github.com/mt1976/crt/support"
 	page "github.com/mt1976/crt/support/page"
+	t "github.com/mt1976/mockterm/language"
 )
 
 func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	res, err := mediaVault.GetLibraryContent(wi.Key, "")
 	if err != nil {
-		crt.Error(e.ErrLibraryResponse, err)
+		crt.Error(e.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
 
@@ -38,7 +39,7 @@ func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 		if support.IsInt(nextAction) {
 			Detail(crt, res.MediaContainer.Metadata[support.ToInt(nextAction)-1])
 		} else {
-			crt.InputError(e.ErrInvalidAction + support.SQuote(nextAction))
+			crt.InputError(x.ErrInvalidAction, support.SQuote(nextAction))
 		}
 	}
 }
@@ -94,7 +95,7 @@ func Detail(crt *support.Crt, info plex.Metadata) {
 	case t.SymActionQuit:
 		return
 	default:
-		crt.InputError(e.ErrInvalidAction + support.SQuote(nextAction))
+		crt.InputError(x.ErrInvalidAction, support.SQuote(nextAction))
 	}
 
 }

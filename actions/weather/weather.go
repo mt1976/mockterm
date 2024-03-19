@@ -6,11 +6,11 @@ import (
 	"strings"
 
 	owm "github.com/briandowns/openweathermap"
-	e "github.com/mt1976/crt/errors"
-	t "github.com/mt1976/crt/language"
 	support "github.com/mt1976/crt/support"
 	"github.com/mt1976/crt/support/config"
 	page "github.com/mt1976/crt/support/page"
+	e "github.com/mt1976/mockterm/errors"
+	t "github.com/mt1976/mockterm/language"
 )
 
 var C config.Config
@@ -25,7 +25,7 @@ func Run(crt *support.Crt) {
 
 	w, err := owm.NewCurrent(C.OpenWeatherMapApiUnits, C.OpenWeatherMapApiLang, C.OpenWeatherMapApiKey)
 	if err != nil {
-		crt.Error(fmt.Sprintf(e.ErrOpenWeather, err), err)
+		crt.Error(e.ErrOpenWeather, err.Error())
 		os.Exit(1)
 		return
 	}
@@ -33,7 +33,7 @@ func Run(crt *support.Crt) {
 	w.CurrentByCoordinates(
 		&owm.Coordinates{Latitude: C.LocationLatitude, Longitude: C.LocationLogitude})
 	if err != nil {
-		crt.Error(fmt.Sprintf(e.ErrOpenWeather, err), err)
+		crt.Error(e.ErrOpenWeather, err.Error())
 		os.Exit(1)
 		return
 	}
@@ -74,7 +74,7 @@ func Run(crt *support.Crt) {
 			ok = true
 			return
 		default:
-			crt.InputError(e.ErrInvalidAction + t.SymSingleQuote + nextAction + t.SymSingleQuote)
+			crt.InputError(support.ErrInvalidAction, nextAction)
 		}
 	}
 

@@ -1,41 +1,36 @@
 package mainmenu
 
 import (
-	"os"
-
-	e "github.com/mt1976/crt/errors"
-	t "github.com/mt1976/crt/language"
-	"github.com/mt1976/crt/support"
-	"github.com/mt1976/crt/support/page"
-	"github.com/mt1976/mockterm/actions/dashboard"
-	plexmediaserver "github.com/mt1976/mockterm/actions/plexms"
-	"github.com/mt1976/mockterm/actions/skynews"
-	torrents "github.com/mt1976/mockterm/actions/torrents"
-	"github.com/mt1976/mockterm/actions/weather"
+	term "github.com/mt1976/crt/support"
+	page "github.com/mt1976/crt/support/page"
+	dash "github.com/mt1976/mockterm/actions/dashboard"
+	pxms "github.com/mt1976/mockterm/actions/plexms"
+	news "github.com/mt1976/mockterm/actions/skynews"
+	trts "github.com/mt1976/mockterm/actions/torrents"
+	wthr "github.com/mt1976/mockterm/actions/weather"
+	text "github.com/mt1976/mockterm/language"
 )
 
 // The Run function displays a main menu and allows the user to navigate through different sub-menus
 // and perform various actions.
-func Run(crt *support.Crt) {
+func Run(crt *term.Crt) {
 
-	m := page.New(t.TxtMainMenuTitle)
+	m := page.New(text.TxtMainMenuTitle)
 	//for i := range 11 {
 	//	m.AddMenuItem(i, fmt.Sprintf("Menu Item %v", i))
 	//}
 
-	m.AddOption(1, t.TxtDashboardTitle, "", "")
-	m.AddOption(2, t.TxtSkyNewsMenuTitle, "", "")
-	m.AddOption(3, t.TxtBBCNewsMenuTitle, "", "")
-	m.AddOption(4, t.TxtWeatherMenuTitle, "", "")
-	m.AddOption(5, t.TxtTorrentsMenuTitle, "", "")
-	m.AddOption(6, t.TxtPlexMediaServersMenuTitle, "", "")
-	m.AddOption(7, t.TxtRemoteSystemsAccessMenuTitle, "", "")
-	m.AddOption(8, t.TxtSystemsMaintenanceMenuTitle, "", "")
-	m.AddOption(9, t.SymBlank, "", "")
-	m.AddOption(10, t.SymBlank, "", "")
-	m.AddAction(t.SymActionQuit)
-
-	os.Exit(0)
+	m.AddOption(1, text.TxtDashboardTitle, "", "")
+	m.AddOption(2, text.TxtSkyNewsMenuTitle, "", "")
+	m.AddOption(3, text.TxtBBCNewsMenuTitle, "", "")
+	m.AddOption(4, text.TxtWeatherMenuTitle, "", "")
+	m.AddOption(5, text.TxtTorrentsMenuTitle, "", "")
+	m.AddOption(6, text.TxtPlexMediaServersMenuTitle, "", "")
+	m.AddOption(7, text.TxtRemoteSystemsAccessMenuTitle, "", "")
+	m.AddOption(8, text.TxtSystemsMaintenanceMenuTitle, "", "")
+	m.AddOption(9, text.SymBlank, "", "")
+	m.AddOption(10, text.SymBlank, "", "")
+	m.AddAction(text.SymActionQuit)
 
 	// loop while ok
 	ok := false
@@ -47,23 +42,23 @@ func Run(crt *support.Crt) {
 
 		action, _ := m.Display(crt)
 		switch action {
-		case t.SymActionQuit:
-			crt.InfoMessage(t.TxtQuittingMessage + t.SymNewline)
+		case text.SymActionQuit:
+			crt.InfoMessage(text.TxtQuittingMessage + text.SymNewline)
 			ok = true
 			continue
 		case "1":
-			dashboard.Run(crt)
+			dash.Run(crt)
 			//action, _ = y.Display(crt)
 		case "2":
-			skynews.Run(crt)
+			news.Run(crt)
 		case "4":
-			weather.Run(crt)
+			wthr.Run(crt)
 		case "5":
-			torrents.Run(crt)
+			trts.Run(crt)
 		case "6":
-			plexmediaserver.Run(crt)
+			pxms.Run(crt)
 		default:
-			crt.InputError(e.ErrInvalidAction + support.SQuote(action))
+			crt.InputError(term.ErrInvalidAction, action)
 		}
 	}
 }

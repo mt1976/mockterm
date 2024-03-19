@@ -5,11 +5,11 @@ import (
 	"os"
 
 	"github.com/jrudio/go-plex-client"
-	e "github.com/mt1976/crt/errors"
-	t "github.com/mt1976/crt/language"
 	"github.com/mt1976/crt/support"
 	"github.com/mt1976/crt/support/config"
 	page "github.com/mt1976/crt/support/page"
+	e "github.com/mt1976/mockterm/errors"
+	t "github.com/mt1976/mockterm/language"
 )
 
 var C = config.Configuration
@@ -18,7 +18,7 @@ func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	res, err := mediaVault.GetLibraryContent(wi.Key, "")
 	if err != nil {
-		crt.Error(e.ErrLibraryResponse, err)
+		crt.Error(e.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
 
@@ -40,7 +40,7 @@ func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 		if support.IsInt(nextAction) {
 			Detail(crt, res.MediaContainer.Metadata[support.ToInt(nextAction)-1], mediaVault)
 		} else {
-			crt.InputError(e.ErrInvalidAction + support.SQuote(nextAction))
+			crt.InputError(support.ErrInvalidAction, support.SQuote(nextAction))
 		}
 	}
 }
