@@ -3,11 +3,11 @@ package main
 import (
 	"time"
 
-	mainmenu "github.com/mt1976/crt/actions/mainmenu"
 	t "github.com/mt1976/crt/language"
-	startup "github.com/mt1976/crt/start"
 	terminal "github.com/mt1976/crt/support"
 	config "github.com/mt1976/crt/support/config"
+	mainmenu "github.com/mt1976/mockterm/actions/mainmenu"
+	startup "github.com/mt1976/mockterm/start"
 )
 
 // config is used to store configuration settings for the program, including terminal

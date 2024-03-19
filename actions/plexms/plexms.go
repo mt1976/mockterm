@@ -6,15 +6,15 @@ import (
 	"strconv"
 
 	"github.com/jrudio/go-plex-client"
-	"github.com/mt1976/crt/actions/plexms/library/movies"
-	"github.com/mt1976/crt/actions/plexms/library/music"
-	"github.com/mt1976/crt/actions/plexms/library/shows"
 	e "github.com/mt1976/crt/errors"
 	lang "github.com/mt1976/crt/language"
 	t "github.com/mt1976/crt/language"
 	support "github.com/mt1976/crt/support"
 	cfg "github.com/mt1976/crt/support/config"
 	"github.com/mt1976/crt/support/page"
+	"github.com/mt1976/mockterm/actions/plexms/library/movies"
+	"github.com/mt1976/mockterm/actions/plexms/library/music"
+	"github.com/mt1976/mockterm/actions/plexms/library/shows"
 )
 
 // The main function initializes and runs a terminal-based news reader application called StarTerm,

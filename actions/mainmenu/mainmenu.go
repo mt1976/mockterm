@@ -3,15 +3,15 @@ package mainmenu
 import (
 	"os"
 
-	"github.com/mt1976/crt/actions/dashboard"
-	plexmediaserver "github.com/mt1976/crt/actions/plexms"
-	"github.com/mt1976/crt/actions/skynews"
-	torrents "github.com/mt1976/crt/actions/torrents"
-	"github.com/mt1976/crt/actions/weather"
 	e "github.com/mt1976/crt/errors"
 	t "github.com/mt1976/crt/language"
 	"github.com/mt1976/crt/support"
 	"github.com/mt1976/crt/support/page"
+	"github.com/mt1976/mockterm/actions/dashboard"
+	plexmediaserver "github.com/mt1976/mockterm/actions/plexms"
+	"github.com/mt1976/mockterm/actions/skynews"
+	torrents "github.com/mt1976/mockterm/actions/torrents"
+	"github.com/mt1976/mockterm/actions/weather"
 )
 
 // The Run function displays a main menu and allows the user to navigate through different sub-menus
