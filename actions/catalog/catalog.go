@@ -2,12 +2,9 @@ package catalog
 
 import (
 	"fmt"
-	"os"
 
 	mnt "github.com/moby/sys/mountinfo"
 	term "github.com/mt1976/crt"
-	errs "github.com/mt1976/mockterm/errors"
-	lang "github.com/mt1976/mockterm/language"
 	supt "github.com/mt1976/mockterm/support"
 	mem "github.com/shirou/gopsutil/mem"
 	cpu "github.com/shirou/gopsutil/v3/cpu"
@@ -115,36 +112,14 @@ func Run(t term.Crt, debug bool, path string) {
 	}
 	if !debugMode {
 		// Open output file
-		file, err := openFile(outputFilename, t)
+		file, err := supt.OpenFile(t, outputFilename)
 		if err != nil {
 			return
 		}
 		defer file.Close()
-		err = writeStringSliceToFile(file, info.data, t)
+		err = supt.WriteStringSliceToFile(t, file, info.data)
 		if err != nil {
 			return
 		}
 	}
-}
-
-func openFile(filename string, t term.Crt) (*os.File, error) {
-	file, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		//fmt.Printf("%s Error opening file %s: %v\n", crt.CHnormal, filename, err)
-		t.Error(errs.ErrOpeningFile, t.Formatters.Bold(filename), err.Error())
-		return nil, err
-	}
-	return file, nil
-}
-
-func writeStringSliceToFile(file *os.File, info []string, t term.Crt) error {
-	for _, line := range info {
-		_, err := file.WriteString(line + lang.SymNewline)
-		if err != nil {
-			//fmt.Printf("%s Error writing to file %s: %v\n", crt.CHnormal, file.Name(), err)
-			t.Error(errs.ErrWritingFile, t.Formatters.Bold(file.Name()), err.Error())
-			return err
-		}
-	}
-	return nil
 }
