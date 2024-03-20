@@ -12,7 +12,7 @@ import (
 func Topic(crt *term.Crt, topic, title string) {
 
 	// Get the news for the topic
-	crt.InfoMessage(lang.TxtLoadingTopic + crt.Bold(title))
+	crt.InfoMessage(lang.TxtLoadingTopic + crt.Formatters.Bold(title))
 	// get the news for the topic from an rss feed
 	fp := gofeed.NewParser()
 	feed, _ := fp.ParseURL(topic)
@@ -26,7 +26,7 @@ func Topic(crt *term.Crt, topic, title string) {
 
 	for i := range noNewsItems {
 		//log.Println("Adding: ", feed.Items[i].Title, i)
-		dt := term.TimeAgo(feed.Items[i].Published)
+		dt := crt.Formatters.TimeAgo(feed.Items[i].Published)
 		p.AddOption(i+1, feed.Items[i].Title, feed.Items[i].Link, dt)
 		i++
 	}
@@ -37,7 +37,7 @@ func Topic(crt *term.Crt, topic, title string) {
 		//crt.Println("Quitting")
 		return
 	}
-	if term.IsInt(action) {
+	if crt.Helpers.IsInt(action) {
 		Story(crt, mi.AlternateID)
 		action = ""
 	}

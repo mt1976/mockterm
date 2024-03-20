@@ -17,6 +17,7 @@ import (
 )
 
 var C = conf.Configuration
+var dummy = term.New()
 
 // The main function initializes and runs a terminal-based news reader application called StarTerm,
 // which fetches news headlines from an RSS feed and allows the user to navigate and open the full news
@@ -34,7 +35,7 @@ func Run(crt *term.Crt) {
 		//p.Add(C.DashboardURIName[i], "", "")
 		crt.InfoMessage(fmt.Sprintf(lang.TxtDashboardCheckingService, C.DashboardURIName[i]))
 		result := CheckService(i)
-		p.AddFieldValuePair(crt, C.DashboardURIName[i], crt.Bold(result))
+		p.AddFieldValuePair(crt, C.DashboardURIName[i], dummy.Formatters.Bold(result))
 	}
 
 	p.AddAction(lang.SymActionQuit)
@@ -78,29 +79,29 @@ func CheckService(i int) string {
 	success := C.DashboardURISuccess[i]
 
 	// Check if the operation is a valid operation
-	if !slices.Contains(C.DashboardURIValidActions, term.Upcase(operation)) {
+	if !slices.Contains(C.DashboardURIValidActions, dummy.Formatters.Upcase(operation)) {
 		return term.ErrInvalidAction.Error()
 	}
 
 	// Ping the service
-	if term.Upcase(operation) == "PING" {
+	if dummy.Formatters.Upcase(operation) == "PING" {
 		pinger, err := probing.NewPinger(host)
 		if err != nil {
-			return lang.TxtStatusOffline + lang.Space + term.PQuote(err.Error())
+			return lang.TxtStatusOffline + lang.Space + dummy.Formatters.PQuote(err.Error())
 		}
 		pinger.Count = 3
 		err = pinger.Run() // Blocks until finished.
 		if err != nil {
-			return lang.TxtStatusOffline + lang.Space + term.PQuote(err.Error())
+			return lang.TxtStatusOffline + lang.Space + dummy.Formatters.PQuote(err.Error())
 		}
 		stats := pinger.Statistics() // get send/receive/duplicate/rtt stats
 		avgRtt := stats.AvgRtt
 
-		return lang.TxtStatusOnline + lang.Space + term.PQuote(fmt.Sprintf("%v", avgRtt))
+		return lang.TxtStatusOnline + lang.Space + dummy.Formatters.PQuote(fmt.Sprintf("%v", avgRtt))
 	}
 
 	// Perform an HTTP request to the service
-	if term.Upcase(operation) == "HTTP" {
+	if dummy.Formatters.Upcase(operation) == "HTTP" {
 		//fmt.Printf("GET %v://%v:%v%v - %v %v\n", protocol, host, port, query, operation, success)
 		var u url.URL
 
@@ -140,7 +141,7 @@ func StatusCode(PAGE string, AUTH string, SUCCESS string) (r string) {
 	// Execute the request.
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return lang.TxtStatusOffline + lang.Space + term.PQuote(lang.TxtNoResponseFromServer)
+		return lang.TxtStatusOffline + lang.Space + dummy.Formatters.PQuote(lang.TxtNoResponseFromServer)
 	}
 
 	// Close response body as required.
@@ -149,14 +150,14 @@ func StatusCode(PAGE string, AUTH string, SUCCESS string) (r string) {
 	//fmt.Println("HTTP Response Status:", resp.StatusCode, http.StatusText(resp.StatusCode))
 
 	if resp.StatusCode == 200 {
-		return lang.TxtStatusOnline + lang.Space + term.PQuote(resp.Status)
+		return lang.TxtStatusOnline + lang.Space + dummy.Formatters.PQuote(resp.Status)
 	}
 	//resp.StatusCode to string
 	scString := strconv.Itoa(resp.StatusCode)
 	if scString == SUCCESS {
-		return lang.TxtStatusOnline + lang.Space + term.PQuote(resp.Status)
+		return lang.TxtStatusOnline + lang.Space + dummy.Formatters.PQuote(resp.Status)
 	}
 
-	return lang.TxtStatusOffline + lang.Space + term.PQuote(resp.Status)
+	return lang.TxtStatusOffline + lang.Space + dummy.Formatters.PQuote(resp.Status)
 	// or fmt.Sprintf("%d %s", resp.StatusCode, http.StatusText(resp.StatusCode))
 }

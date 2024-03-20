@@ -45,7 +45,7 @@ func Trans(crt *term.Crt, uri, title string) {
 			ok = true
 			continue
 		}
-		if term.IsInt(action) {
+		if crt.Helpers.IsInt(action) {
 			//	Story(crt, mi.AlternateID)
 			ok = false
 			action = ""

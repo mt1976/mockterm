@@ -52,7 +52,7 @@ func Run(crt *term.Crt) {
 	if action == lang.SymActionQuit {
 		return
 	}
-	if term.IsInt(action) {
+	if crt.Helpers.IsInt(action) {
 		Topic(crt, nextLevel.AlternateID, nextLevel.Title)
 		action = ""
 	}

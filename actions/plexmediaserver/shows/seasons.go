@@ -28,10 +28,10 @@ func SeasonDetails(crt *term.Crt, mediaVault *plex.Plex, info plex.Metadata) {
 	case lang.SymActionQuit:
 		return
 	default:
-		if term.IsInt(na) {
-			Episodes(crt, mediaVault, info.Title, yy.MediaContainer.Metadata[term.ToInt(na)-1])
+		if crt.Helpers.IsInt(na) {
+			Episodes(crt, mediaVault, info.Title, yy.MediaContainer.Metadata[crt.Helpers.ToInt(na)-1])
 		} else {
-			crt.InputError(term.ErrInvalidAction, term.SQuote(na))
+			crt.InputError(term.ErrInvalidAction, crt.Formatters.SQuote(na))
 		}
 	}
 }

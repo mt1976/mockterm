@@ -82,14 +82,14 @@ func Run(crt *term.Crt) {
 	switch {
 	case nextAction == lang.SymActionQuit:
 		return
-	case term.IsInt(nextAction):
+	case crt.Helpers.IsInt(nextAction):
 		//crt.Error(lang.TxtYouSelected+nextAction, nil)
 		naInt, _ := strconv.Atoi(nextAction)
 		wi := mvLibraries.MediaContainer.Directory[naInt-1]
 		Action(crt, mediaVault, &wi)
 
 	default:
-		crt.InputError(term.ErrInvalidAction, term.SQuote(nextAction))
+		crt.InputError(term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 	}
 	//}
 

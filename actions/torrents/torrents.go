@@ -31,7 +31,7 @@ func Run(crt *term.Crt) {
 		return
 	}
 
-	if term.IsInt(action) {
+	if crt.Helpers.IsInt(action) {
 		switch action {
 		case "1":
 			Trans(crt, nextLevel.AlternateID, nextLevel.Title)

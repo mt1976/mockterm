@@ -39,8 +39,8 @@ func Run(crt *term.Crt) {
 
 	c := 0
 	c++
-	p.Add(fmt.Sprintf(lang.SymWeatherFormat2, lang.TxtLocationLabel, crt.Bold(w.Name)), "", "")
-	p.Add(fmt.Sprintf(lang.SymWeatherFormat2, lang.TxtConditionsLabel, crt.Bold(w.Weather[0].Main)), "", "")
+	p.Add(fmt.Sprintf(lang.SymWeatherFormat2, lang.TxtLocationLabel, crt.Formatters.Bold(w.Name)), "", "")
+	p.Add(fmt.Sprintf(lang.SymWeatherFormat2, lang.TxtConditionsLabel, crt.Formatters.Bold(w.Weather[0].Main)), "", "")
 	p.Add(hr(crt), "", "")
 	p.Add(fmt.Sprintf(lang.SymWeatherFormat4, lang.TxtTemperatureLabel, boldFloat(crt, w.Main.Temp)+lang.SymDegree, lang.TxtFeelsLikeLabel, boldFloat(crt, w.Main.FeelsLike)+lang.SymDegree), "", "")
 	p.Add(fmt.Sprintf(lang.SymWeatherFormat4, lang.TxtMinLabel, boldFloat(crt, w.Main.TempMin)+lang.SymDegree, lang.TxtMaxLabel, boldFloat(crt, w.Main.TempMax)+lang.SymDegree), "", "")
@@ -53,9 +53,9 @@ func Run(crt *term.Crt) {
 	p.Add(fmt.Sprintf(lang.SymWeatherFormat4, lang.TxtRain1Hr, boldFloat(crt, w.Rain.OneH), lang.TxtRain3Hr, boldFloat(crt, w.Rain.ThreeH)), "", "")
 	p.Add(fmt.Sprintf(lang.SymWeatherFormat4, lang.TxtSnow1Hr, boldFloat(crt, w.Snow.OneH), lang.TxtSnow3Hr, boldFloat(crt, w.Snow.ThreeH)), "", "")
 	p.Add(hr(crt), "", "")
-	p.Add(fmt.Sprintf(lang.SymWeatherFormat4, lang.TxtSunriseLabel, crt.Bold(outdate(w.Sys.Sunrise)), lang.TxtSunsetLabel, crt.Bold(outdate(w.Sys.Sunset))), "", "")
+	p.Add(fmt.Sprintf(lang.SymWeatherFormat4, lang.TxtSunriseLabel, crt.Formatters.Bold(outdate(crt, w.Sys.Sunrise)), lang.TxtSunsetLabel, crt.Formatters.Bold(outdate(crt, w.Sys.Sunset))), "", "")
 	p.Add(hr(crt), "", "")
-	p.Add(fmt.Sprintf(lang.SymWeatherFormat2, lang.TxtSourceLabel, crt.Bold(lang.TxtSourceService)), "", "")
+	p.Add(fmt.Sprintf(lang.SymWeatherFormat2, lang.TxtSourceLabel, crt.Formatters.Bold(lang.TxtSourceService)), "", "")
 	// INSERT CONTENT ABOVE
 	p.AddAction(lang.SymActionQuit)
 	p.AddAction(lang.SymActionForward)
@@ -79,10 +79,10 @@ func Run(crt *term.Crt) {
 
 }
 
-func outdate(t int) string {
+func outdate(crt *term.Crt, t int) string {
 	// int to int64
 	// unix date to human date
-	return term.HumanFromUnixDate(int64(t))
+	return crt.Formatters.HumanFromUnixDate(int64(t))
 }
 
 // The `hr` function returns a string consisting of a line of dashes.
@@ -91,9 +91,9 @@ func hr(crt *term.Crt) string {
 }
 
 func boldFloat(crt *term.Crt, in float64) string {
-	return crt.Bold(fmt.Sprintf("%v", in))
+	return crt.Formatters.Bold(fmt.Sprintf("%v", in))
 }
 
 func boldInt(crt *term.Crt, in int) string {
-	return crt.Bold(fmt.Sprintf("%v", in))
+	return crt.Formatters.Bold(fmt.Sprintf("%v", in))
 }

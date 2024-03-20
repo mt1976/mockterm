@@ -29,10 +29,10 @@ func Episodes(crt *term.Crt, mediaVault *plex.Plex, seriesTitle string, info ple
 	case lang.SymActionQuit:
 		return
 	default:
-		if term.IsInt(nextAction) {
-			EpisodeDetail(crt, res.MediaContainer.Metadata[term.ToInt(nextAction)-1])
+		if crt.Helpers.IsInt(nextAction) {
+			EpisodeDetail(crt, res.MediaContainer.Metadata[crt.Helpers.ToInt(nextAction)-1])
 		} else {
-			crt.InputError(term.ErrInvalidAction, term.SQuote(nextAction))
+			crt.InputError(term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 		}
 	}
 }

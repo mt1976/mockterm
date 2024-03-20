@@ -12,6 +12,7 @@ import (
 )
 
 var c = conf.Configuration
+var dummy = term.New()
 
 func PlexDateToDate(date string) time.Time {
 	t, err := time.Parse(c.PlexDateFormat, date)
@@ -41,9 +42,9 @@ func PlexDurationToTime(duration int) time.Duration {
 }
 
 func FormatPlexDate(t string) string {
-	return humanize.Time(PlexDateToDate(t)) + lang.Space + term.PQuote(term.FormatDate(PlexDateToDate(t)))
+	return humanize.Time(PlexDateToDate(t)) + lang.Space + dummy.Formatters.DQuote(dummy.Formatters.FormatDate(PlexDateToDate(t)))
 }
 
 func FormatPlexDuration(t int) string {
-	return term.FormatDuration(PlexDurationToTime(t))
+	return dummy.Formatters.FormatDuration(PlexDurationToTime(t))
 }
