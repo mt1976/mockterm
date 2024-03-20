@@ -79,7 +79,7 @@ func CheckService(i int) string {
 
 	// Check if the operation is a valid operation
 	if !slices.Contains(C.DashboardURIValidActions, term.Upcase(operation)) {
-		return terr.ErrInvalidAction.Error()
+		return term.ErrInvalidAction.Error()
 	}
 
 	// Ping the service

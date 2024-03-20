@@ -23,7 +23,6 @@ func main() {
 	crt := term.NewWithSize(C.TerminalWidth, C.TerminalHeight)
 	// set the terminal size
 	//crt.SetTerminalSize(config.term_width, config.term_height)
-
 	// start a timer
 	start := time.Now()
 
@@ -39,6 +38,6 @@ func main() {
 	// stop the timer
 	elapsed := time.Since(start)
 	// output the elapsed time
-	crt.Shout(crt.Bold(text.TxtDone) + text.Space + elapsed.String())
+	crt.Shout(crt.Helpers.Bold(text.TxtDone) + text.Space + elapsed.String())
 
 }
