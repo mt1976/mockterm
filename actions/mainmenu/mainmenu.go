@@ -1,10 +1,9 @@
 package mainmenu
 
 import (
-	term "github.com/mt1976/crt/support"
-	page "github.com/mt1976/crt/support/page"
+	support "github.com/mt1976/crt"
 	dash "github.com/mt1976/mockterm/actions/dashboard"
-	pxms "github.com/mt1976/mockterm/actions/plexms"
+	pxms "github.com/mt1976/mockterm/actions/plexmediaserver"
 	news "github.com/mt1976/mockterm/actions/skynews"
 	trts "github.com/mt1976/mockterm/actions/torrents"
 	wthr "github.com/mt1976/mockterm/actions/weather"
@@ -13,9 +12,9 @@ import (
 
 // The Run function displays a main menu and allows the user to navigate through different sub-menus
 // and perform various actions.
-func Run(crt *term.Crt) {
+func Run(crt *support.Crt) {
 
-	m := page.New(text.TxtMainMenuTitle)
+	m := support.NewPageWithName(text.TxtMainMenuTitle)
 	//for i := range 11 {
 	//	m.AddMenuItem(i, fmt.Sprintf("Menu Item %v", i))
 	//}
@@ -58,7 +57,7 @@ func Run(crt *term.Crt) {
 		case "6":
 			pxms.Run(crt)
 		default:
-			crt.InputError(term.ErrInvalidAction, action)
+			crt.InputError(support.ErrInvalidAction, action)
 		}
 	}
 }

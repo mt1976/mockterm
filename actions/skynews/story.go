@@ -2,9 +2,8 @@ package skynews
 
 import (
 	"github.com/gocolly/colly"
+	support "github.com/mt1976/crt"
 	t "github.com/mt1976/crt/language"
-	"github.com/mt1976/crt/support"
-	page "github.com/mt1976/crt/support/page"
 )
 
 // The function "Story" displays a story link and allows the user to interact with a menu until they
@@ -26,7 +25,7 @@ func Story(crt *support.Crt, storyLink string) {
 
 // buildPage creates a new page with the given title and adds a link to the given story to the page.
 // It uses the colly library to fetch the story content and extract the title.
-func buildPage(crt *support.Crt, storyLink string) *page.Page {
+func buildPage(crt *support.Crt, storyLink string) *support.Page {
 	// Get html from storyLink
 	// Parse html for story
 	// Create page with story
@@ -55,7 +54,7 @@ func buildPage(crt *support.Crt, storyLink string) *page.Page {
 	c.Visit(storyLink)
 
 	// Create a new page with the title
-	p := page.New(pageTitle)
+	p := support.NewPageWithName(pageTitle)
 
 	// Add the story content to the page
 	for _, content := range storyContent {

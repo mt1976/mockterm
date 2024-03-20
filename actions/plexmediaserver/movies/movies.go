@@ -5,12 +5,12 @@ import (
 	"os"
 
 	"github.com/jrudio/go-plex-client"
+	support "github.com/mt1976/crt"
 	x "github.com/mt1976/crt/errors"
 	e "github.com/mt1976/mockterm/errors"
 
-	"github.com/mt1976/crt/support"
-	page "github.com/mt1976/crt/support/page"
 	t "github.com/mt1976/mockterm/language"
+	plexSupport "github.com/mt1976/mockterm/plexmediaserver"
 )
 
 func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
@@ -23,7 +23,7 @@ func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
 
-	m := page.New(res.MediaContainer.LibrarySectionTitle + t.Space + support.PQuote(noItems))
+	m := support.NewPageWithName(res.MediaContainer.LibrarySectionTitle + t.Space + support.PQuote(noItems))
 	count := 0
 
 	for range res.MediaContainer.Metadata {
@@ -45,13 +45,13 @@ func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 }
 
 func Detail(crt *support.Crt, info plex.Metadata) {
-	p := page.New(info.Title)
+	p := support.NewPageWithName(info.Title)
 
 	p.AddFieldValuePair(crt, t.TxtPlexTitleLabel, info.Title)
 	p.AddFieldValuePair(crt, t.TxtPlexContentRatingLabel, info.ContentRating)
-	dur := support.FormatPlexDuration(info.Duration)
+	dur := plexSupport.FormatPlexDuration(info.Duration)
 	p.AddFieldValuePair(crt, t.TxtPlexDurationLabel, dur)
-	p.AddFieldValuePair(crt, t.TxtPlexReleasedLabel, support.FormatPlexDate(info.OriginallyAvailableAt))
+	p.AddFieldValuePair(crt, t.TxtPlexReleasedLabel, plexSupport.FormatPlexDate(info.OriginallyAvailableAt))
 	p.AddFieldValuePair(crt, t.TxtPlexSummaryLabel, info.Summary)
 	//unix time to hrs mins secs
 	p.BlankRow()

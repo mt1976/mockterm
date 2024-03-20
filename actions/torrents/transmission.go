@@ -1,9 +1,8 @@
 package skynews
 
 import (
+	support "github.com/mt1976/crt"
 	t "github.com/mt1976/crt/language"
-	"github.com/mt1976/crt/support"
-	page "github.com/mt1976/crt/support/page"
 )
 
 // The function "Trans" takes in a CRT object, a topic, and a title as parameters, and then retrieves
@@ -13,7 +12,7 @@ func Trans(crt *support.Crt, uri, title string) {
 	//crt.Println("Topic: " + topic + " - " + title)
 	// Get the news for the topic
 	crt.InfoMessage(t.TxtLoadingTorrentsTransmission)
-	p := page.New(t.TxtTransmission)
+	p := support.NewPageWithName(t.TxtTransmission)
 	// get the news for the topic from an rss feed
 	// endpoint, err := url.Parse(uri)
 	// if err != nil {

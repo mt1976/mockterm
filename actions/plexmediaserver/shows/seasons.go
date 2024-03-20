@@ -4,8 +4,7 @@ import (
 	"os"
 
 	"github.com/jrudio/go-plex-client"
-	"github.com/mt1976/crt/support"
-	page "github.com/mt1976/crt/support/page"
+	support "github.com/mt1976/crt"
 	e "github.com/mt1976/mockterm/errors"
 	notations "github.com/mt1976/mockterm/language"
 	t "github.com/mt1976/mockterm/language"
@@ -18,7 +17,7 @@ func SeasonDetails(crt *support.Crt, mediaVault *plex.Plex, info plex.Metadata) 
 		crt.Error(e.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
-	p := page.New(notations.TxtPlexSeasons + info.Title)
+	p := support.NewPageWithName(notations.TxtPlexSeasons + info.Title)
 	noResps := len(yy.MediaContainer.Metadata)
 	for i := 0; i < noResps; i++ {
 		season := yy.MediaContainer.Metadata[i]

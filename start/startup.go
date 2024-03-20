@@ -3,9 +3,9 @@ package start
 import (
 	"fmt"
 
+	support "github.com/mt1976/crt"
 	t "github.com/mt1976/crt/language"
-	"github.com/mt1976/crt/support"
-	"github.com/mt1976/crt/support/config"
+	"github.com/mt1976/mockterm/config"
 )
 
 // Run initializes the terminal and runs the main loop.

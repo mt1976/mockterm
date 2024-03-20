@@ -8,11 +8,10 @@ import (
 	"slices"
 	"strconv"
 
+	support "github.com/mt1976/crt"
 	e "github.com/mt1976/crt/errors"
 	t "github.com/mt1976/crt/language"
-	support "github.com/mt1976/crt/support"
-	"github.com/mt1976/crt/support/config"
-	page "github.com/mt1976/crt/support/page"
+	"github.com/mt1976/mockterm/config"
 	probing "github.com/prometheus-community/pro-bing"
 )
 
@@ -25,7 +24,7 @@ func Run(crt *support.Crt) {
 
 	// crt.Clear()
 	crt.InfoMessage(t.TxtDashboardChecking)
-	p := page.New(t.TxtDashboardTitle)
+	p := support.NewPageWithName(t.TxtDashboardTitle)
 
 	c := 0
 	c++

@@ -5,12 +5,11 @@ import (
 	"strconv"
 
 	"github.com/jrudio/go-plex-client"
-	support "github.com/mt1976/crt/support"
-	cfg "github.com/mt1976/crt/support/config"
-	"github.com/mt1976/crt/support/page"
-	"github.com/mt1976/mockterm/actions/plexms/library/movies"
-	"github.com/mt1976/mockterm/actions/plexms/library/music"
-	"github.com/mt1976/mockterm/actions/plexms/library/shows"
+	support "github.com/mt1976/crt"
+	movies "github.com/mt1976/mockterm/actions/plexmediaserver/movies"
+	music "github.com/mt1976/mockterm/actions/plexmediaserver/music"
+	shows "github.com/mt1976/mockterm/actions/plexmediaserver/shows"
+	cfg "github.com/mt1976/mockterm/config"
 	e "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
 	t "github.com/mt1976/mockterm/language"
@@ -68,7 +67,7 @@ func Run(crt *support.Crt) {
 		os.Exit(1)
 	}
 
-	p := page.New(lang.TxtPlexTitle + lang.SymDelimiter + mediaVaultProperties.Name)
+	p := support.NewPageWithName(lang.TxtPlexTitle + lang.SymDelimiter + mediaVaultProperties.Name)
 	count := 0
 	for mvLibrary := range mvLibraries.MediaContainer.Directory {
 		xx := mvLibraries.MediaContainer.Directory[mvLibrary]

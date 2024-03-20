@@ -1,9 +1,9 @@
 package skynews
 
 import (
-	"github.com/mt1976/crt/support"
-	config "github.com/mt1976/crt/support/config"
-	page "github.com/mt1976/crt/support/page"
+	support "github.com/mt1976/crt"
+
+	config "github.com/mt1976/mockterm/config"
 	t "github.com/mt1976/mockterm/language"
 )
 
@@ -16,7 +16,7 @@ func Run(crt *support.Crt) {
 	crt.Clear()
 	//crt.SetDelayInSec(0.25) // Set delay in milliseconds
 	//crt.Header("Main Menu")
-	m := page.New(t.TxtTorrentsMenuTitle)
+	m := support.NewPageWithName(t.TxtTorrentsMenuTitle)
 	c := 0
 	c++
 	m.AddOption(c, t.TxtTransmission, C.TransmissionURI, "")

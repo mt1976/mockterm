@@ -5,11 +5,11 @@ import (
 	"os"
 
 	"github.com/jrudio/go-plex-client"
-	"github.com/mt1976/crt/support"
-	"github.com/mt1976/crt/support/config"
-	page "github.com/mt1976/crt/support/page"
+	support "github.com/mt1976/crt"
+	"github.com/mt1976/mockterm/config"
 	e "github.com/mt1976/mockterm/errors"
 	t "github.com/mt1976/mockterm/language"
+	plexSupport "github.com/mt1976/mockterm/plexsupport"
 )
 
 var C = config.Configuration
@@ -24,7 +24,7 @@ func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
 
-	m := page.New(res.MediaContainer.LibrarySectionTitle + t.Space + support.PQuote(noItems))
+	m := support.NewPageWithName(res.MediaContainer.LibrarySectionTitle + t.Space + support.PQuote(noItems))
 	count := 0
 
 	for range res.MediaContainer.Metadata {
@@ -46,12 +46,12 @@ func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 }
 
 func Detail(crt *support.Crt, info plex.Metadata, mediaVault *plex.Plex) {
-	p := page.New(info.Title)
+	p := support.NewPageWithName(info.Title)
 
 	p.AddFieldValuePair(crt, t.TxtPlexTitleLabel, info.Title)
 	p.AddFieldValuePair(crt, t.TxtYear, support.ToString(info.Year))
 	p.AddFieldValuePair(crt, t.TxtPlexContentRatingLabel, info.ContentRating)
-	p.AddFieldValuePair(crt, t.TxtPlexReleasedLabel, support.FormatPlexDate(info.OriginallyAvailableAt))
+	p.AddFieldValuePair(crt, t.TxtPlexReleasedLabel, plexSupport.FormatPlexDate(info.OriginallyAvailableAt))
 	p.BlankRow()
 	p.AddFieldValuePair(crt, t.TxtPlexSummaryLabel, info.Summary)
 

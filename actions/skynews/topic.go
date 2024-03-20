@@ -2,9 +2,8 @@ package skynews
 
 import (
 	"github.com/mmcdole/gofeed"
+	support "github.com/mt1976/crt"
 	t "github.com/mt1976/crt/language"
-	"github.com/mt1976/crt/support"
-	page "github.com/mt1976/crt/support/page"
 )
 
 // The function "Topic" takes in a CRT object, a topic, and a title as parameters, and then retrieves
@@ -19,7 +18,7 @@ func Topic(crt *support.Crt, topic, title string) {
 	feed, _ := fp.ParseURL(topic)
 	crt.Clear()
 
-	p := page.New(feed.Title)
+	p := support.NewPageWithName(feed.Title)
 	noNewsItems := len(feed.Items)
 	if noNewsItems > C.MaxContentRows {
 		noNewsItems = C.MaxContentRows

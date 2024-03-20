@@ -3,10 +3,10 @@ package main
 import (
 	"time"
 
+	term "github.com/mt1976/crt"
 	text "github.com/mt1976/crt/language"
-	term "github.com/mt1976/crt/support"
-	cnfg "github.com/mt1976/crt/support/config"
 	menu "github.com/mt1976/mockterm/actions/mainmenu"
+	cnfg "github.com/mt1976/mockterm/config"
 	strt "github.com/mt1976/mockterm/start"
 )
 

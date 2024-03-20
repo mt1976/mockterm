@@ -6,14 +6,13 @@ import (
 
 	"github.com/jrudio/go-plex-client"
 
+	support "github.com/mt1976/crt"
 	t "github.com/mt1976/crt/language"
 	text "github.com/mt1976/crt/language"
-	s "github.com/mt1976/crt/support"
-	page "github.com/mt1976/crt/support/page"
 	e "github.com/mt1976/mockterm/errors"
 )
 
-func Run(crt *s.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
+func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	res, err := mediaVault.GetLibraryContent(wi.Key, "")
 	if err != nil {
@@ -23,7 +22,7 @@ func Run(crt *s.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
 
-	m := page.New(res.MediaContainer.LibrarySectionTitle + t.Space + s.PQuote(noItems))
+	m := support.NewPageWithName(res.MediaContainer.LibrarySectionTitle + t.Space + support.PQuote(noItems))
 	count := 0
 
 	for range res.MediaContainer.Metadata {
@@ -36,19 +35,19 @@ func Run(crt *s.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 	case t.SymActionQuit:
 		return
 	default:
-		if s.IsInt(nextAction) {
+		if support.IsInt(nextAction) {
 			//	Action(crt, mediaVault, res.MediaContainer.Metadata[support.ToInt(nextAction)-1])
-			Detail(crt, res.MediaContainer.Metadata[s.ToInt(nextAction)-1])
+			Detail(crt, res.MediaContainer.Metadata[support.ToInt(nextAction)-1])
 
 		} else {
-			crt.InputError(s.ErrInvalidAction, s.SQuote(nextAction))
+			crt.InputError(support.ErrInvalidAction, support.SQuote(nextAction))
 		}
 	}
 }
 
-func Detail(crt *s.Crt, info plex.Metadata) {
+func Detail(crt *support.Crt, info plex.Metadata) {
 
-	p := page.New(info.Title)
+	p := support.NewPageWithName(info.Title)
 
 	p.AddFieldValuePair(crt, text.TxtPlexTitleLabel, info.Title)
 	p.AddFieldValuePair(crt, text.TxtPlexSummaryLabel, info.Summary)
@@ -68,6 +67,6 @@ func Detail(crt *s.Crt, info plex.Metadata) {
 	case t.SymActionQuit:
 		return
 	default:
-		crt.InputError(s.ErrInvalidAction, s.SQuote(nextAction))
+		crt.InputError(support.ErrInvalidAction, support.SQuote(nextAction))
 	}
 }

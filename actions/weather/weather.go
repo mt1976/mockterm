@@ -6,9 +6,9 @@ import (
 	"strings"
 
 	owm "github.com/briandowns/openweathermap"
-	support "github.com/mt1976/crt/support"
-	"github.com/mt1976/crt/support/config"
-	page "github.com/mt1976/crt/support/page"
+	support "github.com/mt1976/crt"
+
+	"github.com/mt1976/mockterm/config"
 	e "github.com/mt1976/mockterm/errors"
 	t "github.com/mt1976/mockterm/language"
 )
@@ -21,7 +21,7 @@ var C config.Config
 func Run(crt *support.Crt) {
 
 	crt.Clear()
-	p := page.New(t.TxtWeatherTitle + t.Space + t.TxtSourceService)
+	p := support.NewPageWithName(t.TxtWeatherTitle + t.Space + t.TxtSourceService)
 
 	w, err := owm.NewCurrent(C.OpenWeatherMapApiUnits, C.OpenWeatherMapApiLang, C.OpenWeatherMapApiKey)
 	if err != nil {
