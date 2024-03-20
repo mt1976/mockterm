@@ -26,3 +26,9 @@ var (
 var (
 	ErrBaudRateError = errors.New("invalid baud rate")
 )
+
+var (
+	ErrReadingFolder = errors.New("error reading folder %v")
+	ErrOpeningFile   = errors.New("error opening file %v")
+	ErrWritingFile   = errors.New("error writing file %v")
+)
