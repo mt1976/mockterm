@@ -21,3 +21,25 @@ func GetFilesList(crt term.Crt, baseFolder string) []os.DirEntry {
 func GetTimeStamp() string {
 	return time.Now().Format("20060102")
 }
+
+func OpenFile(filename string, t term.Crt) (*os.File, error) {
+	file, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		//fmt.Printf("%s Error opening file %s: %v\n", crt.CHnormal, filename, err)
+		t.Error(errs.ErrOpeningFile, t.Formatters.Bold(filename), err.Error())
+		return nil, err
+	}
+	return file, nil
+}
+
+func WriteStringSliceToFile(file *os.File, info []string, t term.Crt) error {
+	for _, line := range info {
+		_, err := file.WriteString(line + lang.SymNewline)
+		if err != nil {
+			//fmt.Printf("%s Error writing to file %s: %v\n", crt.CHnormal, file.Name(), err)
+			t.Error(errs.ErrWritingFile, t.Formatters.Bold(file.Name()), err.Error())
+			return err
+		}
+	}
+	return nil
+}
