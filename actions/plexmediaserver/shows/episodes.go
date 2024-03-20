@@ -8,7 +8,7 @@ import (
 	e "github.com/mt1976/mockterm/errors"
 	notations "github.com/mt1976/mockterm/language"
 	t "github.com/mt1976/mockterm/language"
-	pms "github.com/mt1976/mockterm/plexmediaserver"
+	pms "github.com/mt1976/mockterm/plexsupport"
 )
 
 func Episodes(crt *support.Crt, mediaVault *plex.Plex, seriesTitle string, info plex.Metadata) {

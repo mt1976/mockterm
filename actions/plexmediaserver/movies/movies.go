@@ -10,7 +10,7 @@ import (
 	e "github.com/mt1976/mockterm/errors"
 
 	t "github.com/mt1976/mockterm/language"
-	plexSupport "github.com/mt1976/mockterm/plexmediaserver"
+	plexSupport "github.com/mt1976/mockterm/plexsupport"
 )
 
 func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
