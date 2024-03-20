@@ -1,18 +1,18 @@
 package skynews
 
 import (
-	support "github.com/mt1976/crt"
-	t "github.com/mt1976/crt/language"
+	term "github.com/mt1976/crt"
+	lang "github.com/mt1976/crt/language"
 )
 
 // The function "Trans" takes in a CRT object, a topic, and a title as parameters, and then retrieves
 // news items for that topic from an RSS feed, displays them in a menu, and allows the user to select a
 // news item to view.
-func Trans(crt *support.Crt, uri, title string) {
+func Trans(crt *term.Crt, uri, title string) {
 	//crt.Println("Topic: " + topic + " - " + title)
 	// Get the news for the topic
-	crt.InfoMessage(t.TxtLoadingTorrentsTransmission)
-	p := support.NewPageWithName(t.TxtTransmission)
+	crt.InfoMessage(lang.TxtLoadingTorrentsTransmission)
+	p := crt.NewTitledPage(lang.TxtTransmission)
 	// get the news for the topic from an rss feed
 	// endpoint, err := url.Parse(uri)
 	// if err != nil {
@@ -40,12 +40,12 @@ func Trans(crt *support.Crt, uri, title string) {
 	for !ok {
 		action, _ := p.Display(crt)
 
-		if action == t.SymActionQuit {
+		if action == lang.SymActionQuit {
 			//crt.Println("Quitting")
 			ok = true
 			continue
 		}
-		if support.IsInt(action) {
+		if term.IsInt(action) {
 			//	Story(crt, mi.AlternateID)
 			ok = false
 			action = ""

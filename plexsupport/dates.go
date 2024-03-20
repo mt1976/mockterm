@@ -6,12 +6,12 @@ import (
 	"time"
 
 	"github.com/dustin/go-humanize"
-	support "github.com/mt1976/crt"
-	"github.com/mt1976/mockterm/config"
-	l "github.com/mt1976/mockterm/language"
+	term "github.com/mt1976/crt"
+	conf "github.com/mt1976/mockterm/config"
+	lang "github.com/mt1976/mockterm/language"
 )
 
-var c = config.Configuration
+var c = conf.Configuration
 
 func PlexDateToDate(date string) time.Time {
 	t, err := time.Parse(c.PlexDateFormat, date)
@@ -30,10 +30,10 @@ func PlexDurationToTime(duration int) time.Duration {
 		fmt.Println(err)
 	}
 	if i != duration {
-		fmt.Println(ErrDurationMismatch, i, l.Space, duration)
+		fmt.Println(ErrDurationMismatch, i, lang.Space, duration)
 	}
 	//return time.Duration(i) * time.Second
-	t, err := time.ParseDuration(d + l.TxtMillisecondsShort)
+	t, err := time.ParseDuration(d + lang.TxtMillisecondsShort)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -41,9 +41,9 @@ func PlexDurationToTime(duration int) time.Duration {
 }
 
 func FormatPlexDate(t string) string {
-	return humanize.Time(PlexDateToDate(t)) + l.Space + support.PQuote(support.FormatDate(PlexDateToDate(t)))
+	return humanize.Time(PlexDateToDate(t)) + lang.Space + term.PQuote(term.FormatDate(PlexDateToDate(t)))
 }
 
 func FormatPlexDuration(t int) string {
-	return support.FormatDuration(PlexDurationToTime(t))
+	return term.FormatDuration(PlexDurationToTime(t))
 }

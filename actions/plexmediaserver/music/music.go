@@ -6,23 +6,22 @@ import (
 
 	"github.com/jrudio/go-plex-client"
 
-	support "github.com/mt1976/crt"
-	t "github.com/mt1976/crt/language"
-	text "github.com/mt1976/crt/language"
-	e "github.com/mt1976/mockterm/errors"
+	term "github.com/mt1976/crt"
+	lang "github.com/mt1976/crt/language"
+	errs "github.com/mt1976/mockterm/errors"
 )
 
-func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
+func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	res, err := mediaVault.GetLibraryContent(wi.Key, "")
 	if err != nil {
-		crt.Error(e.ErrLibraryResponse, err.Error())
+		crt.Error(errs.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
 
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
 
-	m := support.NewPageWithName(res.MediaContainer.LibrarySectionTitle + t.Space + support.PQuote(noItems))
+	m := crt.NewTitledPage(res.MediaContainer.LibrarySectionTitle + lang.Space + term.PQuote(noItems))
 	count := 0
 
 	for range res.MediaContainer.Metadata {
@@ -32,29 +31,29 @@ func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	nextAction, _ := m.Display(crt)
 	switch nextAction {
-	case t.SymActionQuit:
+	case lang.SymActionQuit:
 		return
 	default:
-		if support.IsInt(nextAction) {
+		if term.IsInt(nextAction) {
 			//	Action(crt, mediaVault, res.MediaContainer.Metadata[support.ToInt(nextAction)-1])
-			Detail(crt, res.MediaContainer.Metadata[support.ToInt(nextAction)-1])
+			Detail(crt, res.MediaContainer.Metadata[term.ToInt(nextAction)-1])
 
 		} else {
-			crt.InputError(support.ErrInvalidAction, support.SQuote(nextAction))
+			crt.InputError(term.ErrInvalidAction, term.SQuote(nextAction))
 		}
 	}
 }
 
-func Detail(crt *support.Crt, info plex.Metadata) {
+func Detail(crt *term.Crt, info plex.Metadata) {
 
-	p := support.NewPageWithName(info.Title)
+	p := crt.NewTitledPage(info.Title)
 
-	p.AddFieldValuePair(crt, text.TxtPlexTitleLabel, info.Title)
-	p.AddFieldValuePair(crt, text.TxtPlexSummaryLabel, info.Summary)
+	p.AddFieldValuePair(crt, lang.TxtPlexTitleLabel, info.Title)
+	p.AddFieldValuePair(crt, lang.TxtPlexSummaryLabel, info.Summary)
 
 	count := 0
 	p.BlankRow()
-	p.AddColumnsTitle(crt, text.TxtPlexContainerLabel, text.TxtPlexResolutionLabel, text.TxtPlexCodecLabel, text.TxtPlexAspectRatioLabel, text.TxtPlexFrameRateLabel)
+	p.AddColumnsTitle(crt, lang.TxtPlexContainerLabel, lang.TxtPlexResolutionLabel, lang.TxtPlexCodecLabel, lang.TxtPlexAspectRatioLabel, lang.TxtPlexFrameRateLabel)
 
 	for range info.Media {
 		med := info.Media[count]
@@ -64,9 +63,9 @@ func Detail(crt *support.Crt, info plex.Metadata) {
 
 	nextAction, _ := p.Display(crt)
 	switch nextAction {
-	case t.SymActionQuit:
+	case lang.SymActionQuit:
 		return
 	default:
-		crt.InputError(support.ErrInvalidAction, support.SQuote(nextAction))
+		crt.InputError(term.ErrInvalidAction, term.SQuote(nextAction))
 	}
 }

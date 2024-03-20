@@ -4,20 +4,19 @@ import (
 	"os"
 
 	"github.com/jrudio/go-plex-client"
-	support "github.com/mt1976/crt"
-	e "github.com/mt1976/mockterm/errors"
-	notations "github.com/mt1976/mockterm/language"
-	t "github.com/mt1976/mockterm/language"
+	term "github.com/mt1976/crt"
+	errs "github.com/mt1976/mockterm/errors"
+	lang "github.com/mt1976/mockterm/language"
 )
 
-func SeasonDetails(crt *support.Crt, mediaVault *plex.Plex, info plex.Metadata) {
+func SeasonDetails(crt *term.Crt, mediaVault *plex.Plex, info plex.Metadata) {
 
 	yy, err := mediaVault.GetEpisodes(info.RatingKey)
 	if err != nil {
-		crt.Error(e.ErrLibraryResponse, err.Error())
+		crt.Error(errs.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
-	p := support.NewPageWithName(notations.TxtPlexSeasons + info.Title)
+	p := crt.NewTitledPage(lang.TxtPlexSeasons + info.Title)
 	noResps := len(yy.MediaContainer.Metadata)
 	for i := 0; i < noResps; i++ {
 		season := yy.MediaContainer.Metadata[i]
@@ -26,13 +25,13 @@ func SeasonDetails(crt *support.Crt, mediaVault *plex.Plex, info plex.Metadata) 
 
 	na, _ := p.Display(crt)
 	switch na {
-	case t.SymActionQuit:
+	case lang.SymActionQuit:
 		return
 	default:
-		if support.IsInt(na) {
-			Episodes(crt, mediaVault, info.Title, yy.MediaContainer.Metadata[support.ToInt(na)-1])
+		if term.IsInt(na) {
+			Episodes(crt, mediaVault, info.Title, yy.MediaContainer.Metadata[term.ToInt(na)-1])
 		} else {
-			crt.InputError(support.ErrInvalidAction, support.SQuote(na))
+			crt.InputError(term.ErrInvalidAction, term.SQuote(na))
 		}
 	}
 }

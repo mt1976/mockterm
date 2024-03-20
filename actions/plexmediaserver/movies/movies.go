@@ -5,25 +5,24 @@ import (
 	"os"
 
 	"github.com/jrudio/go-plex-client"
-	support "github.com/mt1976/crt"
-	x "github.com/mt1976/crt/errors"
-	e "github.com/mt1976/mockterm/errors"
-
-	t "github.com/mt1976/mockterm/language"
-	plexSupport "github.com/mt1976/mockterm/plexsupport"
+	term "github.com/mt1976/crt"
+	terr "github.com/mt1976/crt/errors"
+	errs "github.com/mt1976/mockterm/errors"
+	lang "github.com/mt1976/mockterm/language"
+	pmms "github.com/mt1976/mockterm/plexsupport"
 )
 
-func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
+func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	res, err := mediaVault.GetLibraryContent(wi.Key, "")
 	if err != nil {
-		crt.Error(e.ErrLibraryResponse, err.Error())
+		crt.Error(errs.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
 
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
 
-	m := support.NewPageWithName(res.MediaContainer.LibrarySectionTitle + t.Space + support.PQuote(noItems))
+	m := crt.NewTitledPage(res.MediaContainer.LibrarySectionTitle + lang.Space + term.PQuote(noItems))
 	count := 0
 
 	for range res.MediaContainer.Metadata {
@@ -33,31 +32,31 @@ func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	nextAction, _ := m.Display(crt)
 	switch nextAction {
-	case t.SymActionQuit:
+	case lang.SymActionQuit:
 		return
 	default:
-		if support.IsInt(nextAction) {
-			Detail(crt, res.MediaContainer.Metadata[support.ToInt(nextAction)-1])
+		if term.IsInt(nextAction) {
+			Detail(crt, res.MediaContainer.Metadata[term.ToInt(nextAction)-1])
 		} else {
-			crt.InputError(x.ErrInvalidAction, support.SQuote(nextAction))
+			crt.InputError(terr.ErrInvalidAction, term.SQuote(nextAction))
 		}
 	}
 }
 
-func Detail(crt *support.Crt, info plex.Metadata) {
-	p := support.NewPageWithName(info.Title)
+func Detail(crt *term.Crt, info plex.Metadata) {
+	p := crt.NewTitledPage(info.Title)
 
-	p.AddFieldValuePair(crt, t.TxtPlexTitleLabel, info.Title)
-	p.AddFieldValuePair(crt, t.TxtPlexContentRatingLabel, info.ContentRating)
-	dur := plexSupport.FormatPlexDuration(info.Duration)
-	p.AddFieldValuePair(crt, t.TxtPlexDurationLabel, dur)
-	p.AddFieldValuePair(crt, t.TxtPlexReleasedLabel, plexSupport.FormatPlexDate(info.OriginallyAvailableAt))
-	p.AddFieldValuePair(crt, t.TxtPlexSummaryLabel, info.Summary)
+	p.AddFieldValuePair(crt, lang.TxtPlexTitleLabel, info.Title)
+	p.AddFieldValuePair(crt, lang.TxtPlexContentRatingLabel, info.ContentRating)
+	dur := pmms.FormatPlexDuration(info.Duration)
+	p.AddFieldValuePair(crt, lang.TxtPlexDurationLabel, dur)
+	p.AddFieldValuePair(crt, lang.TxtPlexReleasedLabel, pmms.FormatPlexDate(info.OriginallyAvailableAt))
+	p.AddFieldValuePair(crt, lang.TxtPlexSummaryLabel, info.Summary)
 	//unix time to hrs mins secs
 	p.BlankRow()
 	for i := 0; i < len(info.Director); i++ {
 		data := info.Director[i]
-		lbl := t.TxtPlexDirectorLabel
+		lbl := lang.TxtPlexDirectorLabel
 		if i > 0 {
 			lbl = ""
 		}
@@ -66,7 +65,7 @@ func Detail(crt *support.Crt, info plex.Metadata) {
 
 	for i := 0; i < len(info.Writer); i++ {
 		poobum := info.Writer[i]
-		lbl := t.TxtPlexWriterLabel
+		lbl := lang.TxtPlexWriterLabel
 		if i > 0 {
 			lbl = ""
 		}
@@ -75,7 +74,7 @@ func Detail(crt *support.Crt, info plex.Metadata) {
 
 	count := 0
 	p.BlankRow()
-	p.AddColumnsTitle(crt, t.TxtPlexContainerLabel, t.TxtPlexResolutionLabel, t.TxtPlexCodecLabel, t.TxtPlexAspectRatioLabel, t.TxtPlexFrameRateLabel)
+	p.AddColumnsTitle(crt, lang.TxtPlexContainerLabel, lang.TxtPlexResolutionLabel, lang.TxtPlexCodecLabel, lang.TxtPlexAspectRatioLabel, lang.TxtPlexFrameRateLabel)
 
 	for range info.Media {
 		med := info.Media[count]
@@ -85,17 +84,17 @@ func Detail(crt *support.Crt, info plex.Metadata) {
 
 	//range trhough parts
 	p.BlankRow()
-	p.AddColumnsTitle(crt, t.TxtPlexMediaLabel)
+	p.AddColumnsTitle(crt, lang.TxtPlexMediaLabel)
 	for _, v := range info.Media {
 		p.AddColumns(crt, v.Part[0].File)
 	}
 
 	nextAction, _ := p.Display(crt)
 	switch nextAction {
-	case t.SymActionQuit:
+	case lang.SymActionQuit:
 		return
 	default:
-		crt.InputError(x.ErrInvalidAction, support.SQuote(nextAction))
+		crt.InputError(terr.ErrInvalidAction, term.SQuote(nextAction))
 	}
 
 }

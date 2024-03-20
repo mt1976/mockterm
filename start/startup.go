@@ -3,7 +3,7 @@ package start
 import (
 	"fmt"
 
-	support "github.com/mt1976/crt"
+	term "github.com/mt1976/crt"
 	t "github.com/mt1976/crt/language"
 	"github.com/mt1976/mockterm/config"
 )
@@ -13,7 +13,7 @@ import (
 var C = config.Configuration
 
 // Run initializes the terminal and runs the main loop.
-func Run(crt *support.Crt) {
+func Run(crt *term.Crt) {
 	// Clear the terminal screen.
 	crt.Clear()
 
@@ -31,8 +31,8 @@ func Run(crt *support.Crt) {
 	crt.Print(t.TxtSelfTesting + t.TxtComplete + t.SymNewline)
 	// Print the current date and time.
 	crt.SetDelayInMs(oldDelay)
-	crt.Print(t.TxtCurrentDate + support.DateString() + t.SymNewline)
-	crt.Print(t.TxtCurrentTime + support.TimeString() + t.SymNewline)
+	crt.Print(t.TxtCurrentDate + term.DateString() + t.SymNewline)
+	crt.Print(t.TxtCurrentTime + term.TimeString() + t.SymNewline)
 
 	// Print a message.
 	crt.Print(t.TxtPleaseWait + t.SymNewline)
@@ -48,18 +48,18 @@ func Run(crt *support.Crt) {
 	crt.Print(t.TxtConnecting + t.SymNewline)
 
 	// Print a message with the IP address and port number.
-	msg := fmt.Sprintf(t.TxtDialing, support.RandomIP(), support.RandomPort())
+	msg := fmt.Sprintf(t.TxtDialing, term.RandomIP(), term.RandomPort())
 	crt.Print(msg + t.SymNewline)
 	if !C.Debug {
-		crt.SetDelayInSec(support.RandomFloat(1, 5))
+		crt.SetDelayInSec(term.RandomFloat(1, 5))
 	}
-	if support.CoinToss() && !C.Debug {
+	if term.CoinToss() && !C.Debug {
 		crt.Print(t.ErrorMessageConnectionFailed + t.SymNewline)
 		// Print a message with the IP address and port number.
 		crt.ResetDelay()
-		msg := fmt.Sprintf(t.TxtDialing, support.RandomIP(), support.RandomPort())
+		msg := fmt.Sprintf(t.TxtDialing, term.RandomIP(), term.RandomPort())
 		crt.Print(msg + t.SymNewline)
-		crt.SetDelayInSec(support.RandomFloat(1, 5))
+		crt.SetDelayInSec(term.RandomFloat(1, 5))
 	}
 
 	// Print a message.

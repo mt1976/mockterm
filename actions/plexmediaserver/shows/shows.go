@@ -5,26 +5,26 @@ import (
 	"os"
 
 	"github.com/jrudio/go-plex-client"
-	support "github.com/mt1976/crt"
-	"github.com/mt1976/mockterm/config"
-	e "github.com/mt1976/mockterm/errors"
-	t "github.com/mt1976/mockterm/language"
-	plexSupport "github.com/mt1976/mockterm/plexsupport"
+	term "github.com/mt1976/crt"
+	conf "github.com/mt1976/mockterm/config"
+	errs "github.com/mt1976/mockterm/errors"
+	lang "github.com/mt1976/mockterm/language"
+	pmss "github.com/mt1976/mockterm/plexsupport"
 )
 
-var C = config.Configuration
+var C = conf.Configuration
 
-func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
+func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	res, err := mediaVault.GetLibraryContent(wi.Key, "")
 	if err != nil {
-		crt.Error(e.ErrLibraryResponse, err.Error())
+		crt.Error(errs.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
 
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
 
-	m := support.NewPageWithName(res.MediaContainer.LibrarySectionTitle + t.Space + support.PQuote(noItems))
+	m := crt.NewTitledPage(res.MediaContainer.LibrarySectionTitle + lang.Space + term.PQuote(noItems))
 	count := 0
 
 	for range res.MediaContainer.Metadata {
@@ -34,35 +34,35 @@ func Run(crt *support.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	nextAction, _ := m.Display(crt)
 	switch nextAction {
-	case t.SymActionQuit:
+	case lang.SymActionQuit:
 		return
 	default:
-		if support.IsInt(nextAction) {
-			Detail(crt, res.MediaContainer.Metadata[support.ToInt(nextAction)-1], mediaVault)
+		if term.IsInt(nextAction) {
+			Detail(crt, res.MediaContainer.Metadata[term.ToInt(nextAction)-1], mediaVault)
 		} else {
-			crt.InputError(support.ErrInvalidAction, support.SQuote(nextAction))
+			crt.InputError(term.ErrInvalidAction, term.SQuote(nextAction))
 		}
 	}
 }
 
-func Detail(crt *support.Crt, info plex.Metadata, mediaVault *plex.Plex) {
-	p := support.NewPageWithName(info.Title)
+func Detail(crt *term.Crt, info plex.Metadata, mediaVault *plex.Plex) {
+	p := crt.NewTitledPage(info.Title)
 
-	p.AddFieldValuePair(crt, t.TxtPlexTitleLabel, info.Title)
-	p.AddFieldValuePair(crt, t.TxtYear, support.ToString(info.Year))
-	p.AddFieldValuePair(crt, t.TxtPlexContentRatingLabel, info.ContentRating)
-	p.AddFieldValuePair(crt, t.TxtPlexReleasedLabel, plexSupport.FormatPlexDate(info.OriginallyAvailableAt))
+	p.AddFieldValuePair(crt, lang.TxtPlexTitleLabel, info.Title)
+	p.AddFieldValuePair(crt, lang.TxtYear, term.ToString(info.Year))
+	p.AddFieldValuePair(crt, lang.TxtPlexContentRatingLabel, info.ContentRating)
+	p.AddFieldValuePair(crt, lang.TxtPlexReleasedLabel, pmss.FormatPlexDate(info.OriginallyAvailableAt))
 	p.BlankRow()
-	p.AddFieldValuePair(crt, t.TxtPlexSummaryLabel, info.Summary)
+	p.AddFieldValuePair(crt, lang.TxtPlexSummaryLabel, info.Summary)
 
-	p.AddAction(t.SymActionSeasons) //Drilldown to episodes
-	p.SetPrompt(t.TxtPlexSeasonsPrompt)
+	p.AddAction(lang.SymActionSeasons) //Drilldown to episodes
+	p.SetPrompt(lang.TxtPlexSeasonsPrompt)
 
 	nextAction, _ := p.Display(crt)
 	switch nextAction {
-	case t.SymActionQuit:
+	case lang.SymActionQuit:
 		return
-	case t.SymActionSeasons:
+	case lang.SymActionSeasons:
 		SeasonDetails(crt, mediaVault, info)
 	}
 }

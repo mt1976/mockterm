@@ -1,38 +1,37 @@
 package skynews
 
 import (
-	support "github.com/mt1976/crt"
-
-	config "github.com/mt1976/mockterm/config"
-	t "github.com/mt1976/mockterm/language"
+	term "github.com/mt1976/crt"
+	conf "github.com/mt1976/mockterm/config"
+	lang "github.com/mt1976/mockterm/language"
 )
 
 // The Run function displays a menu of news topics and allows the user to select a topic to view the
 // news articles related to that topic.
-func Run(crt *support.Crt) {
+func Run(crt *term.Crt) {
 
-	C := config.Configuration
+	C := conf.Configuration
 
 	crt.Clear()
 	//crt.SetDelayInSec(0.25) // Set delay in milliseconds
 	//crt.Header("Main Menu")
-	m := support.NewPageWithName(t.TxtTorrentsMenuTitle)
+	m := crt.NewTitledPage(lang.TxtTorrentsMenuTitle)
 	c := 0
 	c++
-	m.AddOption(c, t.TxtTransmission, C.TransmissionURI, "")
+	m.AddOption(c, lang.TxtTransmission, C.TransmissionURI, "")
 	c++
-	m.AddOption(c, t.TxtQTorrent, C.QTorrentURI, "")
+	m.AddOption(c, lang.TxtQTorrent, C.QTorrentURI, "")
 	c++
 
-	m.AddAction(t.SymActionQuit)
+	m.AddAction(lang.SymActionQuit)
 
 	action, nextLevel := m.Display(crt)
 
-	if action == t.SymActionQuit {
+	if action == lang.SymActionQuit {
 		return
 	}
 
-	if support.IsInt(action) {
+	if term.IsInt(action) {
 		switch action {
 		case "1":
 			Trans(crt, nextLevel.AlternateID, nextLevel.Title)
@@ -41,7 +40,7 @@ func Run(crt *support.Crt) {
 			//QTor(crt, nextLevel.AlternateID, nextLevel.Title)
 			action = ""
 		default:
-			crt.InputError(support.ErrInvalidAction, action)
+			crt.InputError(term.ErrInvalidAction, action)
 			action = ""
 		}
 	}

@@ -8,51 +8,52 @@ import (
 	"slices"
 	"strconv"
 
-	support "github.com/mt1976/crt"
-	e "github.com/mt1976/crt/errors"
-	t "github.com/mt1976/crt/language"
-	"github.com/mt1976/mockterm/config"
+	term "github.com/mt1976/crt"
+	terr "github.com/mt1976/crt/errors"
+	conf "github.com/mt1976/mockterm/config"
+	errs "github.com/mt1976/mockterm/errors"
+	lang "github.com/mt1976/mockterm/language"
 	probing "github.com/prometheus-community/pro-bing"
 )
 
-var C = config.Configuration
+var C = conf.Configuration
 
 // The main function initializes and runs a terminal-based news reader application called StarTerm,
 // which fetches news headlines from an RSS feed and allows the user to navigate and open the full news
 // articles.
-func Run(crt *support.Crt) {
+func Run(crt *term.Crt) {
 
 	// crt.Clear()
-	crt.InfoMessage(t.TxtDashboardChecking)
-	p := support.NewPageWithName(t.TxtDashboardTitle)
+	crt.InfoMessage(lang.TxtDashboardChecking)
+	p := crt.NewTitledPage(lang.TxtDashboardTitle)
 
 	c := 0
 	c++
 	//p.Add("Testing Server/Service Dashboard", "", time.Now().Format("2006-01-02"))
 	for i := 0; i < C.DashboardURINoEntries; i++ {
 		//p.Add(C.DashboardURIName[i], "", "")
-		crt.InfoMessage(fmt.Sprintf(t.TxtDashboardCheckingService, C.DashboardURIName[i]))
+		crt.InfoMessage(fmt.Sprintf(lang.TxtDashboardCheckingService, C.DashboardURIName[i]))
 		result := CheckService(i)
 		p.AddFieldValuePair(crt, C.DashboardURIName[i], crt.Bold(result))
 	}
 
-	p.AddAction(t.SymActionQuit)
-	p.AddAction(t.SymActionForward)
-	p.AddAction(t.SymActionBack)
+	p.AddAction(lang.SymActionQuit)
+	p.AddAction(lang.SymActionForward)
+	p.AddAction(lang.SymActionBack)
 	ok := false
 	for !ok {
 
 		nextAction, _ := p.Display(crt)
 		switch nextAction {
-		case t.SymActionForward:
+		case lang.SymActionForward:
 			p.NextPage(crt)
-		case t.SymActionBack:
+		case lang.SymActionBack:
 			p.PreviousPage(crt)
-		case t.SymActionQuit:
+		case lang.SymActionQuit:
 			ok = true
 			return
 		default:
-			crt.InputError(e.ErrInvalidAction, nextAction)
+			crt.InputError(terr.ErrInvalidAction, nextAction)
 		}
 	}
 }
@@ -66,7 +67,7 @@ func CheckService(i int) string {
 		host = C.DashboardDefaultHost
 	}
 	if host == "" {
-		panic(e.ErrDashboardNoHost)
+		panic(errs.ErrDashboardNoHost)
 	}
 	port := C.DashboardURIPort[i]
 	if port == "" {
@@ -77,29 +78,29 @@ func CheckService(i int) string {
 	success := C.DashboardURISuccess[i]
 
 	// Check if the operation is a valid operation
-	if !slices.Contains(C.DashboardURIValidActions, support.Upcase(operation)) {
-		return e.ErrInvalidAction.Error()
+	if !slices.Contains(C.DashboardURIValidActions, term.Upcase(operation)) {
+		return terr.ErrInvalidAction.Error()
 	}
 
 	// Ping the service
-	if support.Upcase(operation) == "PING" {
+	if term.Upcase(operation) == "PING" {
 		pinger, err := probing.NewPinger(host)
 		if err != nil {
-			return t.TxtStatusOffline + t.Space + support.PQuote(err.Error())
+			return lang.TxtStatusOffline + lang.Space + term.PQuote(err.Error())
 		}
 		pinger.Count = 3
 		err = pinger.Run() // Blocks until finished.
 		if err != nil {
-			return t.TxtStatusOffline + t.Space + support.PQuote(err.Error())
+			return lang.TxtStatusOffline + lang.Space + term.PQuote(err.Error())
 		}
 		stats := pinger.Statistics() // get send/receive/duplicate/rtt stats
 		avgRtt := stats.AvgRtt
 
-		return t.TxtStatusOnline + t.Space + support.PQuote(fmt.Sprintf("%v", avgRtt))
+		return lang.TxtStatusOnline + lang.Space + term.PQuote(fmt.Sprintf("%v", avgRtt))
 	}
 
 	// Perform an HTTP request to the service
-	if support.Upcase(operation) == "HTTP" {
+	if term.Upcase(operation) == "HTTP" {
 		//fmt.Printf("GET %v://%v:%v%v - %v %v\n", protocol, host, port, query, operation, success)
 		var u url.URL
 
@@ -139,7 +140,7 @@ func StatusCode(PAGE string, AUTH string, SUCCESS string) (r string) {
 	// Execute the request.
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return t.TxtStatusOffline + t.Space + support.PQuote(t.TxtNoResponseFromServer)
+		return lang.TxtStatusOffline + lang.Space + term.PQuote(lang.TxtNoResponseFromServer)
 	}
 
 	// Close response body as required.
@@ -148,14 +149,14 @@ func StatusCode(PAGE string, AUTH string, SUCCESS string) (r string) {
 	//fmt.Println("HTTP Response Status:", resp.StatusCode, http.StatusText(resp.StatusCode))
 
 	if resp.StatusCode == 200 {
-		return t.TxtStatusOnline + t.Space + support.PQuote(resp.Status)
+		return lang.TxtStatusOnline + lang.Space + term.PQuote(resp.Status)
 	}
 	//resp.StatusCode to string
 	scString := strconv.Itoa(resp.StatusCode)
 	if scString == SUCCESS {
-		return t.TxtStatusOnline + t.Space + support.PQuote(resp.Status)
+		return lang.TxtStatusOnline + lang.Space + term.PQuote(resp.Status)
 	}
 
-	return t.TxtStatusOffline + t.Space + support.PQuote(resp.Status)
+	return lang.TxtStatusOffline + lang.Space + term.PQuote(resp.Status)
 	// or fmt.Sprintf("%d %s", resp.StatusCode, http.StatusText(resp.StatusCode))
 }
