@@ -85,6 +85,7 @@ type Config struct {
 	DashboardURINoEntries    int
 	DashboardOrdering        []int
 	TimeStampFormat          string
+	OnlyFansDateTimeFormat   string
 }
 
 var Configuration = Config{}
@@ -153,6 +154,7 @@ func init() {
 	}
 	Configuration.DashboardDefaultPort = "80"
 	Configuration.TimeStampFormat = "20060102"
+	Configuration.OnlyFansDateTimeFormat = "060102150405"
 	//spew.Dump(Configuration)
 	//os.Exit(1)
 }

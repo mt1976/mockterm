@@ -208,4 +208,15 @@ const (
 	DUOutputConstructor  string = "%5d b | %5.2f kb | %5.2f mb | %5.2f gb | %5.2f tb | %s"
 )
 
-// Plex Media Server
+// CleanFileNames
+const (
+	TxtStartingCleanFileNames string = "Starting file name cleanse"
+	TxtNoFilesFoundInFolder   string = "No files found in folder %s\n"
+	TxtProcessingNFilesIn     string = "Processing %d files in %v"
+	TxtProcessedNFilesIn      string = "Cleaned %d filenames in %s"
+	TxtNoFilesProcessed       string = "No files cleaned in %s"
+	TxtOnlyFans               string = "OnlyFans"
+	FileExtensionMP4          string = ".mp4"
+	TxtOnlyFansFilename       string = TxtOnlyFans + FileExtensionMP4
+	TxtRemamedFile            string = "Renamed file [%s -> %s]"
+)

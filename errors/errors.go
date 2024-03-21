@@ -36,3 +36,10 @@ var (
 	ErrDiskSizeUsage    string = "Prints file sizes in bytes, kilobytes, megabytes, and gigabytes\n\nUsage: sz <file> <file> <file>"
 	ErrNoFilesSpecified string = "No files specified"
 )
+
+// CleanFileNames
+var (
+	ErrProcessingFiles  = errors.New("error processing files")
+	ErrCleaningFileName = errors.New("error cleaning file name")
+	ErrRenamingFile     = errors.New("failed to rename file %v")
+)
