@@ -247,4 +247,6 @@ const (
 	TxtTidyFilesDeletingDirectories          string = "Deleting empty directories"
 	TxtTidyFilesDeletingDirectoriesCompleted string = "Deleting empty directories completed in %v seconds"
 	TxtCommandRun                            string = "Command run: %v"
+	TxtLiveRun                               string = "This is a live run. Files will be deleted."
+	TxtTrailRun                              string = "This is a trial run. Files & Folders will not be deleted."
 )

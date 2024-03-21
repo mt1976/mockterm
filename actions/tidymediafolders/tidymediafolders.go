@@ -47,9 +47,9 @@ func Run(t term.Crt, debugModeIn bool, pathIn string) {
 	}
 
 	if !debugMode {
-		t.Special(t.Formatters.Bold(t.Underline("This is a live run. Files will be deleted.")))
+		t.Special(t.Formatters.Bold(t.Underline(lang.TxtLiveRun)))
 	} else {
-		t.Print(t.Underline("This is a trial run. Files & Folders will not be deleted."))
+		t.Print(t.Underline(lang.TxtTrailRun))
 	}
 
 	t.Print(lang.TxtResolvedPath + realpath(t, pathIn))
