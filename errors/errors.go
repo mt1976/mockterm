@@ -43,3 +43,15 @@ var (
 	ErrCleaningFileName = errors.New("error cleaning file name")
 	ErrRenamingFile     = errors.New("failed to rename file %v")
 )
+
+// TidyFiles
+var (
+	ErrNoEmptyDirectories          = errors.New("unable to find empty directories %v")
+	ErrUnableToRemoveDirectories   = errors.New("unable to remove empty directories %v")
+	ErrUnableToFindFiles           = errors.New("unable to find files %v")
+	ErrUnableToResolvePath         = errors.New("unable to resolve path %v")
+	ErrNoPathSpecified             = errors.New("no path specification specified %v")
+	ErrInvalidPath                 = errors.New("the path provided is not valid %v")
+	ErrInvalidPathSpecialDirectory = errors.New("the path provided is the root or home directory")
+	ErrFailedToChangeDirectory     = errors.New("failed to change directory to %v %v")
+)

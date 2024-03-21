@@ -220,3 +220,31 @@ const (
 	TxtOnlyFansFilename       string = TxtOnlyFans + FileExtensionMP4
 	TxtRemamedFile            string = "Renamed file [%s -> %s]"
 )
+
+// TidyFiles
+const (
+	TxtTidyFilesTitle                        string = "Media Management - Tidy Folders"
+	TxtStorageReportTitle                    string = "STORAGE REPORT"
+	TxtTidyFilesBefore                       string = "BEFORE  : %v available out of %v total (%vperc used)"
+	TxtTidyFilesAfter                        string = "AFTER   : %v available out of %v total (%vperc used)"
+	TxtTidyFilesMachine                      string = "MACHINE : %v"
+	TxtTidyFilesHost                         string = "HOST    : %v"
+	TxtTidyFilesUser                         string = "USER    : %v"
+	TxtTidyFilesMode                         string = "MODE    : %v"
+	TxtTidyFilesTypes                        string = "TYPES   : %v"
+	TxtTidyFilesEnd                          string = "END     : %v"
+	TxtResolvedPath                          string = "Resolved path: %v"
+	TxtDebugMode                             string = "DEBUG"
+	TxtLiveMode                              string = "LIVE"
+	TxtTidyFilesWouldHaveRemoved             string = TxtDebugMode + ": Would have removed empty directories"
+	TxtRemovingFilesWithExt                  string = "Removing all files with extension .%v"
+	TxtFindingFilesWithExt                   string = "Finding all files with extension .%v"
+	TxtOperationComplete                     string = "Operation on .%v files completed in %v"
+	TxtTidyFilesStart                        string = "Starting file removal process for %v"
+	TxtAreYouSureYouWantToProceed            string = "Are you sure you want to proceed"
+	OptAreYouSureYouWantToProceed            string = "y/n"
+	TxtChangingDirectory                     string = "Changing directory to %v"
+	TxtTidyFilesDeletingDirectories          string = "Deleting empty directories"
+	TxtTidyFilesDeletingDirectoriesCompleted string = "Deleting empty directories completed in %v seconds"
+	TxtCommandRun                            string = "Command run: %v"
+)
