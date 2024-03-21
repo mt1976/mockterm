@@ -199,3 +199,13 @@ const (
 	TxtDashboardCheckingService string = "Checking %v..."
 	TxtNoResponseFromServer     string = "No response from server"
 )
+
+// Disksize
+const (
+	TxtDiskSizeTitle     string = "Disk Size"
+	TxtDiskSizePrompt    string = "Enter (Q)uit"
+	TxtFileSizesOfNFiles string = "File Sizes of %v files"
+	DUOutputConstructor  string = "%5d b | %5.2f kb | %5.2f mb | %5.2f gb | %5.2f tb | %s"
+)
+
+// Plex Media Server

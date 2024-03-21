@@ -28,7 +28,11 @@ var (
 )
 
 var (
-	ErrReadingFolder = errors.New("error reading folder %v")
-	ErrOpeningFile   = errors.New("error opening file %v")
-	ErrWritingFile   = errors.New("error writing file %v")
+	ErrReadingFolder           = errors.New("error reading folder %v")
+	ErrOpeningFile             = errors.New("error opening file %v")
+	ErrWritingFile             = errors.New("error writing file %v")
+	ErrFileInfo                = errors.New("error getting file info")
+	ErrFileDoesNotExist        = errors.New("error file does not exist %v") //
+	ErrDiskSizeUsage    string = "Prints file sizes in bytes, kilobytes, megabytes, and gigabytes\n\nUsage: sz <file> <file> <file>"
+	ErrNoFilesSpecified string = "No files specified"
 )
