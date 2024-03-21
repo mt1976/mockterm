@@ -10,27 +10,31 @@ import (
 
 	uuid "github.com/lithammer/shortuuid/v3"
 	term "github.com/mt1976/crt"
-	"github.com/mt1976/mockterm/config"
+	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
-	support "github.com/mt1976/mockterm/support"
+	sppt "github.com/mt1976/mockterm/support"
 )
 
 var itemCount int = 0
 var debugMode bool = false
-var cfg = config.Configuration
+var cfg = conf.Configuration
 
 func Run(t term.Crt, debugModeIn bool, cleanPathIn, messageIn string) {
+	//TODO add Input to get path to clean
+	//TODO add Check to see if path exists, if not ask for input again
+	//TODO add Input to select Mode, debug or normal
+	//TODO re-present the path and mode selected, ask for permission to proceed
+	//TODO if no permission go back, otherwise proceed.
 
 	debugMode = debugModeIn
-	//crt = crtIn
 
 	t.Print(lang.TxtStartingCleanFileNames + t.Formatters.DQuote(t.Formatters.Bold(cleanPathIn)))
 	t.Blank()
 
 	baseFolder := "."
 
-	fileList := support.GetFilesList(t, baseFolder)
+	fileList := sppt.GetFilesList(t, baseFolder)
 	if len(fileList) == 0 {
 		t.Shout(fmt.Sprintf(lang.TxtNoFilesFoundInFolder, baseFolder))
 		return
@@ -40,9 +44,7 @@ func Run(t term.Crt, debugModeIn bool, cleanPathIn, messageIn string) {
 	t.Blank()
 
 	for _, file := range fileList {
-
 		err := cleanFileName(t, file, baseFolder)
-
 		if err != nil {
 			t.Error(errs.ErrProcessingFiles, err.Error())
 			return
