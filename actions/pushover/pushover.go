@@ -50,7 +50,6 @@ func newPushoverMessage(C cConfig, title string, body string, priority int) *pus
 // library in Go.
 func buildPushoverMessage(messageBody string, messageTitle string, priority int) (*pushover.Pushover, *pushover.Recipient, *pushover.Message) {
 	C := newPushoverConfiguration()
-	//spew.Dump(C)
 	app := pushover.New(C.PushoverKey)
 
 	recipient := pushover.NewRecipient(C.PushoverToken)
@@ -63,10 +62,14 @@ func buildPushoverMessage(messageBody string, messageTitle string, priority int)
 
 // The function sends a Pushover message using the provided app, message, and recipient.
 func sendNotification(app *pushover.Pushover, message *pushover.Message, recipient *pushover.Recipient) {
-	//C := setup()
-	//xlogs.Info("Sending Pushover Message")
 	_, err := app.SendMessage(message, recipient)
 	if err != nil {
 		panic(err)
 	}
 }
+
+//TODO create a menu to select the type of notification to send
+//TODO create a menu to offer a series of default notifications, or a custom notification
+//TODO add input box to enter the message to send
+//TODO add a Preview page, with the message type, title, body etc.
+//TODO add a confirmation box to confirm the message to send
