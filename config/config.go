@@ -84,6 +84,7 @@ type Config struct {
 	DashboardURIValidActions []string
 	DashboardURINoEntries    int
 	DashboardOrdering        []int
+	TimeStampFormat          string
 }
 
 var Configuration = Config{}
@@ -151,6 +152,7 @@ func init() {
 		panic(fmt.Sprintf(errs.ErrConfigurationColumnMismatch.Error(), len(Configuration.DashboardOrdering), NoEntries, "DashboardOrdering"))
 	}
 	Configuration.DashboardDefaultPort = "80"
+	Configuration.TimeStampFormat = "20060102"
 	//spew.Dump(Configuration)
 	//os.Exit(1)
 }

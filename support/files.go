@@ -5,9 +5,12 @@ import (
 	"time"
 
 	term "github.com/mt1976/crt"
+	cfgr "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
 )
+
+var config = cfgr.Configuration
 
 // GetFilesList returns a list of files in the specified base folder.
 // If an error occurs, an error message is displayed using the provided terminal.
@@ -22,7 +25,7 @@ func GetFilesList(crt term.Crt, baseFolder string) []os.DirEntry {
 
 // GetTimeStamp returns the current date in the format "20060102".
 func GetTimeStamp() string {
-	return time.Now().Format("20060102")
+	return time.Now().Format(config.TimeStampFormat)
 }
 
 // OpenFile opens a file for writing.
