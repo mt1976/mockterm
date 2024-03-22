@@ -21,7 +21,7 @@ func newPushoverConfiguration() cConfig {
 
 	cTokens := cConfig{}
 	cTokens.HostName = term.New().Helpers.GetHostName()
-	cTokens.AppName = "admin_me"
+	cTokens.AppName = "mockterm"
 	cTokens.AppPort = "8080"
 	cTokens.PushoverKey = "acxw2ety975n7ux83wkzpp47jzq42q"
 	cTokens.PushoverToken = "uyosdopsu9wxxo7b264bmnnhbfz8nj"

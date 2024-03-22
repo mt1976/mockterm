@@ -2,8 +2,10 @@ package pushover
 
 import (
 	flags "flag"
+	"fmt"
 	"time"
 
+	"github.com/gregdel/pushover"
 	term "github.com/mt1976/crt"
 	lang "github.com/mt1976/mockterm/language"
 )
@@ -99,18 +101,30 @@ func RunOld(t term.Crt, debug bool, messageType, messageTitle, messageBody strin
 
 func Run(t *term.Crt) {
 	optionsScreen := t.NewTitledPage(lang.TxtPushoverTitle)
-	optionsScreen.AddOption(1, lang.TxtPushoverTitle, "", "")
+	optionsScreen.Paragraph(lang.TxtPushoverDescription)
+	optionsScreen.BlankRow()
+	optionsScreen.AddOption(1, lang.TxtPushoverMsgPriorityNormal, "", "")
+	optionsScreen.AddOption(2, lang.TxtPushoverMsgPriorityHigh, "", "")
+	optionsScreen.AddOption(3, lang.TxtPushoverMsgPriorityLow, "", "")
+	optionsScreen.AddOption(4, lang.TxtPushoverMsgPriorityEmergancy, "", "")
+	optionsScreen.SetPrompt(lang.TxtPushoverPrompt)
 	optionsScreen.AddAction(lang.SymActionQuit)
 	action, _ := optionsScreen.Display(t)
 	if action == lang.SymActionQuit {
 		return
 	}
 	if t.Helpers.IsInt(action) {
-		switch action {
-		case "1":
-			//push.Run(t)
-		default:
-			t.InputError(term.ErrInvalidAction, action)
+
+		po, recp, msg, err := processMessage(t, action)
+		if err != nil {
+			t.Error(err, "")
+			return
+		}
+		return
+		_, err = po.SendMessage(msg, recp)
+		if err != nil {
+			t.Error(err, "")
+			return
 		}
 	}
 }
@@ -122,4 +136,60 @@ func sendMessage(inMessage, inTitle string) {
 	crt.Print("Title: " + inTitle)
 	Normal(inMessage, inTitle)
 	crt.Print("Message Sent")
+}
+
+func processMessage(t *term.Crt, action string) (*pushover.Pushover, *pushover.Recipient, *pushover.Message, error) {
+
+	var priority int
+	switch action {
+	case "1":
+		priority = pushover.PriorityNormal
+	case "2":
+		priority = pushover.PriorityHigh
+	case "3":
+		priority = pushover.PriorityLow
+	case "4":
+		priority = pushover.PriorityEmergency
+	default:
+		priority = pushover.PriorityNormal
+	}
+
+	messageBody := "Message Body"
+	messageTitle := fmt.Sprintf("%v Priority Message Title", poPriorityToString(priority))
+
+	app, recipient, message := buildPushoverMessage(messageBody, messageTitle, priority)
+
+	p := t.NewTitledPage("Pushover Message Preview")
+	p.AddFieldValuePair(t, "Title", message.Title)
+	p.AddFieldValuePair(t, "Message", message.Message)
+	p.BlankRow()
+	p.AddFieldValuePair(t, "Priority", t.Formatters.Upcase(poPriorityToString(message.Priority)))
+	p.AddFieldValuePair(t, "Device Name", message.DeviceName)
+	ts := t.Formatters.HumanFromUnixDate(message.Timestamp)
+	p.AddFieldValuePair(t, "Timestamp", ts)
+	p.AddFieldValuePair(t, "Expires at", message.Expire.String())
+	p.AddFieldValuePair(t, "Retry every", message.Retry.String())
+	p.AddFieldValuePair(t, "URLTitle", message.URLTitle)
+	p.AddFieldValuePair(t, "URL", message.URL)
+	p.AddFieldValuePair(t, "CallbackURL", message.CallbackURL)
+	p.AddFieldValuePair(t, "Sound", message.Sound)
+	p.AddAction("S")
+	p.AddAction("Q")
+	p.Display(t)
+	return app, recipient, message, nil
+}
+
+func poPriorityToString(in int) string {
+	switch in {
+	case pushover.PriorityNormal:
+		return "Normal"
+	case pushover.PriorityHigh:
+		return "High"
+	case pushover.PriorityLow:
+		return "Low"
+	case pushover.PriorityEmergency:
+		return "Emergency"
+	default:
+		return "Unknown"
+	}
 }

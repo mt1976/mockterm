@@ -254,3 +254,13 @@ const (
 const (
 	TxtPushoverTitle string = "Pushover Messaging Service"
 )
+
+var (
+	TxtServiceMenuDescription       []string = []string{"This menu shows the list of services available for maintenance.", "Select the service you wish to use. PLEASE BE CAREFUL!"}
+	TxtPushoverDescription          []string = []string{"Pushover is a service to receive instant push notifications on your phone or tablet from a variety of sources."}
+	TxtPushoverMsgPriorityEmergancy string   = "Emergancy Message"
+	TxtPushoverMsgPriorityNormal    string   = "Normal Priority"
+	TxtPushoverMsgPriorityHigh      string   = "High Priority"
+	TxtPushoverMsgPriorityLow       string   = "Low Priority"
+	TxtPushoverPrompt               string   = "Select a message type to send"
+)

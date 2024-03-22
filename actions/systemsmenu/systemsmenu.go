@@ -11,7 +11,8 @@ import (
 func Run(crt *support.Crt) {
 
 	m := crt.NewTitledPage(lang.TxtSystemsMaintenanceMenuTitle)
-
+	m.Paragraph(lang.TxtServiceMenuDescription)
+	m.BlankRow()
 	m.AddOption(1, lang.TxtPushoverTitle, "", "")
 	m.AddAction(lang.SymActionQuit)
 
