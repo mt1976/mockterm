@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/gregdel/pushover"
 	term "github.com/mt1976/crt"
 	lang "github.com/mt1976/mockterm/language"
@@ -175,6 +176,8 @@ func processMessage(t *term.Crt, action string) (*pushover.Pushover, *pushover.R
 	p.AddFieldValuePair(t, "Sound", message.Sound)
 	p.AddAction("S")
 	p.AddAction("Q")
+	p.SetPrompt(lang.TxtPushoverConfirmation)
+	spew.Dump(p, t)
 	p.Display(t)
 	return app, recipient, message, nil
 }

@@ -125,7 +125,7 @@ var TxtSnow3Hr string = TxtSnowLabel + TxtThreeHour
 
 // Page - Paging
 
-const TxtPagingPrompt string = "Enter (F)orward, (B)ack or (Q)uit"
+const TxtPagingPrompt string = "Choose (F)orward, (B)ack or (Q)uit"
 
 const (
 	SymActionQuit    string = "Q"
@@ -140,7 +140,7 @@ const (
 
 const (
 	SymActionSeasons     string = "S"
-	TxtPlexSeasonsPrompt string = "Enter (S)easons, (F)orward, (B)ack or (Q)uit"
+	TxtPlexSeasonsPrompt string = "Choose (S)easons, (F)orward, (B)ack or (Q)uit"
 )
 
 // Support
@@ -203,7 +203,7 @@ const (
 // Disksize
 const (
 	TxtDiskSizeTitle     string = "Disk Size"
-	TxtDiskSizePrompt    string = "Enter (Q)uit"
+	TxtDiskSizePrompt    string = "Choose (Q)uit"
 	TxtFileSizesOfNFiles string = "File Sizes of %v files"
 	DUOutputConstructor  string = "%5d b | %5.2f kb | %5.2f mb | %5.2f gb | %5.2f tb | %s"
 )
@@ -262,5 +262,6 @@ var (
 	TxtPushoverMsgPriorityNormal    string   = "Normal Priority"
 	TxtPushoverMsgPriorityHigh      string   = "High Priority"
 	TxtPushoverMsgPriorityLow       string   = "Low Priority"
-	TxtPushoverPrompt               string   = "Select a message type to send"
+	TxtPushoverPrompt               string   = "Choose a message type to send"
+	TxtPushoverConfirmation         string   = "Choose (S)end or (Q)uit"
 )
