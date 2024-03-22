@@ -250,3 +250,7 @@ const (
 	TxtLiveRun                               string = "This is a live run. Files will be deleted."
 	TxtTrailRun                              string = "This is a trial run. Files & Folders will not be deleted."
 )
+
+const (
+	TxtPushoverTitle string = "Pushover Messaging Service"
+)

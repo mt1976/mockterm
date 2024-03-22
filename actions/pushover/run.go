@@ -5,6 +5,7 @@ import (
 	"time"
 
 	term "github.com/mt1976/crt"
+	lang "github.com/mt1976/mockterm/language"
 )
 
 // Init Objects
@@ -52,7 +53,7 @@ func init() {
 	titles[types.Message] = "This Message"
 }
 
-func Run(t term.Crt, debug bool, messageType, messageTitle, messageBody string) {
+func RunOld(t term.Crt, debug bool, messageType, messageTitle, messageBody string) {
 
 	//crt = t
 	//debugMode = debug
@@ -86,6 +87,30 @@ func Run(t term.Crt, debug bool, messageType, messageTitle, messageBody string) 
 		default:
 			//xlg.Info("ACTION=RAW")
 			sendMessage(messageTitle, messageBody)
+		}
+	}
+}
+
+//TODO create a menu to select the type of notification to send
+//TODO create a menu to offer a series of default notifications, or a custom notification
+//TODO add input box to enter the message to send
+//TODO add a Preview page, with the message type, title, body etc.
+//TODO add a confirmation box to confirm the message to send
+
+func Run(t *term.Crt) {
+	optionsScreen := t.NewTitledPage(lang.TxtPushoverTitle)
+	optionsScreen.AddOption(1, lang.TxtPushoverTitle, "", "")
+	optionsScreen.AddAction(lang.SymActionQuit)
+	action, _ := optionsScreen.Display(t)
+	if action == lang.SymActionQuit {
+		return
+	}
+	if t.Helpers.IsInt(action) {
+		switch action {
+		case "1":
+			//push.Run(t)
+		default:
+			t.InputError(term.ErrInvalidAction, action)
 		}
 	}
 }

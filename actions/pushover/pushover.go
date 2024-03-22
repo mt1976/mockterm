@@ -67,9 +67,3 @@ func sendNotification(app *pushover.Pushover, message *pushover.Message, recipie
 		panic(err)
 	}
 }
-
-//TODO create a menu to select the type of notification to send
-//TODO create a menu to offer a series of default notifications, or a custom notification
-//TODO add input box to enter the message to send
-//TODO add a Preview page, with the message type, title, body etc.
-//TODO add a confirmation box to confirm the message to send

@@ -5,6 +5,7 @@ import (
 	dash "github.com/mt1976/mockterm/actions/dashboard"
 	plex "github.com/mt1976/mockterm/actions/plexmediaserver"
 	news "github.com/mt1976/mockterm/actions/skynews"
+	syst "github.com/mt1976/mockterm/actions/systemsmenu"
 	trts "github.com/mt1976/mockterm/actions/torrents"
 	wthr "github.com/mt1976/mockterm/actions/weather"
 	lang "github.com/mt1976/mockterm/language"
@@ -56,6 +57,8 @@ func Run(crt *support.Crt) {
 			trts.Run(crt)
 		case "6":
 			plex.Run(crt)
+		case "8":
+			syst.Run(crt)
 		default:
 			crt.InputError(support.ErrInvalidAction, action)
 		}
