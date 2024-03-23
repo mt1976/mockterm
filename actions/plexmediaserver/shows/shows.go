@@ -32,7 +32,7 @@ func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 		m.AddOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
 	}
 
-	nextAction, _ := m.DisplayWithActions(crt)
+	nextAction, _ := m.DisplayWithActions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return
@@ -40,7 +40,7 @@ func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 		if crt.Helpers.IsInt(nextAction) {
 			Detail(crt, res.MediaContainer.Metadata[crt.Helpers.ToInt(nextAction)-1], mediaVault)
 		} else {
-			m.Error(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+			m.Error(term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 		}
 	}
 }
@@ -48,17 +48,17 @@ func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 func Detail(crt *term.Crt, info plex.Metadata, mediaVault *plex.Plex) {
 	p := crt.NewTitledPage(info.Title)
 
-	p.AddFieldValuePair(crt, lang.TxtPlexTitleLabel, info.Title)
-	p.AddFieldValuePair(crt, lang.TxtYear, crt.Helpers.ToString(info.Year))
-	p.AddFieldValuePair(crt, lang.TxtPlexContentRatingLabel, info.ContentRating)
-	p.AddFieldValuePair(crt, lang.TxtPlexReleasedLabel, pmss.FormatPlexDate(info.OriginallyAvailableAt))
+	p.AddFieldValuePair(lang.TxtPlexTitleLabel, info.Title)
+	p.AddFieldValuePair(lang.TxtYear, crt.Helpers.ToString(info.Year))
+	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
+	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, pmss.FormatPlexDate(info.OriginallyAvailableAt))
 	p.BlankRow()
-	p.AddFieldValuePair(crt, lang.TxtPlexSummaryLabel, info.Summary)
+	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
 
 	p.AddAction(lang.SymActionSeasons) //Drilldown to episodes
 	p.SetPrompt(lang.TxtPlexSeasonsPrompt)
 
-	nextAction, _ := p.DisplayWithActions(crt)
+	nextAction, _ := p.DisplayWithActions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return

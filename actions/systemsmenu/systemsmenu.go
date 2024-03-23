@@ -24,7 +24,7 @@ func Run(crt *support.Crt) {
 		//crt.SetDelayInSec(0.25) // Set delay in milliseconds
 		//crt.Header("Main Menu")
 
-		action, _ := m.DisplayWithActions(crt)
+		action, _ := m.DisplayWithActions()
 		switch action {
 		case lang.SymActionQuit:
 			crt.InfoMessage(lang.TxtQuittingMessage + lang.SymNewline)
@@ -33,7 +33,7 @@ func Run(crt *support.Crt) {
 		case "1":
 			push.Run(crt)
 		default:
-			m.Error(crt, support.ErrInvalidAction, action)
+			m.Error(support.ErrInvalidAction, action)
 		}
 	}
 }

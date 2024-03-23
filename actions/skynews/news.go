@@ -47,7 +47,7 @@ func Run(crt *term.Crt) {
 	m.AddOption(c, lang.TxtTopicStrange, C.URISkyNews+C.URISkyNewsStrange, "")
 	m.AddAction(lang.SymActionQuit)
 
-	action, nextLevel := m.DisplayWithActions(crt)
+	action, nextLevel := m.DisplayWithActions()
 
 	if action == lang.SymActionQuit {
 		return

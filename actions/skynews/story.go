@@ -15,7 +15,7 @@ func Story(crt *term.Crt, storyLink string) {
 	s := buildPage(crt, storyLink)
 	s.ActivePageIndex = 0
 
-	x, _ := s.DisplayWithActions(crt)
+	x, _ := s.DisplayWithActions()
 
 	if x == lang.SymActionQuit {
 		return

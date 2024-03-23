@@ -31,7 +31,7 @@ func Topic(crt *term.Crt, topic, title string) {
 		i++
 	}
 
-	action, mi := p.DisplayWithActions(crt)
+	action, mi := p.DisplayWithActions()
 
 	if action == lang.SymActionQuit {
 		//crt.Println("Quitting")

@@ -35,7 +35,7 @@ func Run(crt *term.Crt) {
 		//p.Add(C.DashboardURIName[i], "", "")
 		crt.InfoMessage(fmt.Sprintf(lang.TxtDashboardCheckingService, C.DashboardURIName[i]))
 		result := CheckService(i)
-		p.AddFieldValuePair(crt, C.DashboardURIName[i], dummy.Formatters.Bold(result))
+		p.AddFieldValuePair(C.DashboardURIName[i], dummy.Formatters.Bold(result))
 	}
 
 	p.AddAction(lang.SymActionQuit)
@@ -44,17 +44,17 @@ func Run(crt *term.Crt) {
 	ok := false
 	for !ok {
 
-		nextAction, _ := p.DisplayWithActions(crt)
+		nextAction, _ := p.DisplayWithActions()
 		switch nextAction {
 		case lang.SymActionForward:
-			p.NextPage(crt)
+			p.NextPage()
 		case lang.SymActionBack:
-			p.PreviousPage(crt)
+			p.PreviousPage()
 		case lang.SymActionQuit:
 			ok = true
 			return
 		default:
-			p.Error(crt, terr.ErrInvalidAction, nextAction)
+			p.Error(terr.ErrInvalidAction, nextAction)
 		}
 	}
 }

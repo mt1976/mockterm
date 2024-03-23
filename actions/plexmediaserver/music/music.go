@@ -29,7 +29,7 @@ func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 		m.AddOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
 	}
 
-	nextAction, _ := m.DisplayWithActions(crt)
+	nextAction, _ := m.DisplayWithActions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return
@@ -39,7 +39,7 @@ func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 			Detail(crt, res.MediaContainer.Metadata[crt.Helpers.ToInt(nextAction)-1])
 
 		} else {
-			m.Error(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+			m.Error(term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 		}
 	}
 }
@@ -48,24 +48,24 @@ func Detail(crt *term.Crt, info plex.Metadata) {
 
 	p := crt.NewTitledPage(info.Title)
 
-	p.AddFieldValuePair(crt, lang.TxtPlexTitleLabel, info.Title)
-	p.AddFieldValuePair(crt, lang.TxtPlexSummaryLabel, info.Summary)
+	p.AddFieldValuePair(lang.TxtPlexTitleLabel, info.Title)
+	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
 
 	count := 0
 	p.BlankRow()
-	p.AddColumnsTitle(crt, lang.TxtPlexContainerLabel, lang.TxtPlexResolutionLabel, lang.TxtPlexCodecLabel, lang.TxtPlexAspectRatioLabel, lang.TxtPlexFrameRateLabel)
+	p.AddColumnsTitle(lang.TxtPlexContainerLabel, lang.TxtPlexResolutionLabel, lang.TxtPlexCodecLabel, lang.TxtPlexAspectRatioLabel, lang.TxtPlexFrameRateLabel)
 
 	for range info.Media {
 		med := info.Media[count]
-		p.AddColumns(crt, med.Container, med.VideoResolution, med.VideoCodec, med.AspectRatio.String(), med.VideoFrameRate)
+		p.AddColumns(med.Container, med.VideoResolution, med.VideoCodec, med.AspectRatio.String(), med.VideoFrameRate)
 		count++
 	}
 
-	nextAction, _ := p.DisplayWithActions(crt)
+	nextAction, _ := p.DisplayWithActions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return
 	default:
-		p.Error(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+		p.Error(term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 	}
 }

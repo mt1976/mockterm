@@ -111,7 +111,7 @@ func Run(t *term.Crt) {
 	optionsScreen.AddOption(4, lang.TxtPushoverMsgPriorityEmergancy, "", "")
 	optionsScreen.SetPrompt(lang.TxtPushoverPrompt)
 	optionsScreen.AddAction(lang.SymActionQuit)
-	action, _ := optionsScreen.DisplayWithActions(t)
+	action, _ := optionsScreen.DisplayWithActions()
 	if action == lang.SymActionQuit {
 		return
 	}
@@ -179,31 +179,31 @@ func processMessage(t *term.Crt, action string) (*pushover.Pushover, *pushover.R
 
 	p := t.NewTitledPage(lang.TxtPushoverTitle)
 	p.BlankRow()
-	p.AddFieldValuePair(t, "Title", message.Title)
-	p.AddFieldValuePair(t, "Message", message.Message)
+	p.AddFieldValuePair("Title", message.Title)
+	p.AddFieldValuePair("Message", message.Message)
 	p.BlankRow()
-	p.AddFieldValuePair(t, "Priority", t.Formatters.Upcase(poPriorityToString(message.Priority)))
-	p.AddFieldValuePair(t, "Device Name", message.DeviceName)
+	p.AddFieldValuePair("Priority", t.Formatters.Upcase(poPriorityToString(message.Priority)))
+	p.AddFieldValuePair("Device Name", message.DeviceName)
 	ts := t.Formatters.HumanFromUnixDate(message.Timestamp)
-	p.AddFieldValuePair(t, "Timestamp", ts)
-	p.AddFieldValuePair(t, "Expires at", message.Expire.String())
-	p.AddFieldValuePair(t, "Retry every", message.Retry.String())
-	p.AddFieldValuePair(t, "URLTitle", message.URLTitle)
-	p.AddFieldValuePair(t, "URL", message.URL)
-	p.AddFieldValuePair(t, "CallbackURL", message.CallbackURL)
-	p.AddFieldValuePair(t, "Sound", message.Sound)
+	p.AddFieldValuePair("Timestamp", ts)
+	p.AddFieldValuePair("Expires at", message.Expire.String())
+	p.AddFieldValuePair("Retry every", message.Retry.String())
+	p.AddFieldValuePair("URLTitle", message.URLTitle)
+	p.AddFieldValuePair("URL", message.URL)
+	p.AddFieldValuePair("CallbackURL", message.CallbackURL)
+	p.AddFieldValuePair("Sound", message.Sound)
 	p.AddAction("S")
 	p.AddAction("Q")
 	p.SetPrompt(lang.TxtPushoverConfirmation)
 	spew.Dump(p, t)
-	p.DisplayWithActions(t)
+	p.DisplayWithActions()
 	return app, recipient, message, nil
 }
 
 func getMessageTitle(t *term.Crt) (string, string, error) {
 	p := t.NewTitledPage(lang.TxtPushoverTitle)
 	p.BlankRow()
-	p.AddFieldValuePair(t, "Title", "")
+	p.AddFieldValuePair("Title", "")
 	p.BlankRow()
 	xx := []string{lang.SymBlank, "Enter the title of the message to be sent to pushover", lang.SymBlank, "Enter the title of the message, or (Q)uit"}
 	p.Paragraph(xx)
@@ -211,7 +211,7 @@ func getMessageTitle(t *term.Crt) (string, string, error) {
 
 	//p.SetPrompt("Enter the title of the message, or (Q)uit")
 	for {
-		op, _ := p.DisplayAndInput(t, 3, 15)
+		op, _ := p.DisplayAndInput(3, 15)
 		//op := t.Input("", "")
 		if op == lang.SymActionQuit {
 			return "", lang.SymActionQuit, nil
@@ -231,8 +231,8 @@ func getMessageBody(t *term.Crt, title string) (string, string, error) {
 
 	p := t.NewTitledPage(lang.TxtPushoverTitle)
 	p.BlankRow()
-	p.AddFieldValuePair(t, "Title", title)
-	p.AddFieldValuePair(t, "Message", "")
+	p.AddFieldValuePair("Title", title)
+	p.AddFieldValuePair("Message", "")
 	p.BlankRow()
 	xx := []string{lang.SymBlank, "Enter the message to be sent to pushover", lang.SymBlank, "Enter message, or (Q)uit"}
 	p.Paragraph(xx)
@@ -240,7 +240,7 @@ func getMessageBody(t *term.Crt, title string) (string, string, error) {
 
 	//p.SetPrompt("Enter the title of the message, or (Q)uit")
 	for {
-		op, _ := p.DisplayAndInput(t, 3, 15)
+		op, _ := p.DisplayAndInput(3, 15)
 		//op := t.Input("", "")
 		if op == lang.SymActionQuit {
 			return "", lang.SymActionQuit, nil

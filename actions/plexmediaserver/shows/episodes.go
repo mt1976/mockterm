@@ -24,7 +24,7 @@ func Episodes(crt *term.Crt, mediaVault *plex.Plex, seriesTitle string, info ple
 		m.AddOption(i+1, ep.Title, "", "")
 	}
 
-	nextAction, _ := m.DisplayWithActions(crt)
+	nextAction, _ := m.DisplayWithActions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return
@@ -32,7 +32,7 @@ func Episodes(crt *term.Crt, mediaVault *plex.Plex, seriesTitle string, info ple
 		if crt.Helpers.IsInt(nextAction) {
 			EpisodeDetail(crt, res.MediaContainer.Metadata[crt.Helpers.ToInt(nextAction)-1])
 		} else {
-			m.Error(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+			m.Error(term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 		}
 	}
 }
@@ -41,13 +41,13 @@ func EpisodeDetail(crt *term.Crt, info plex.Metadata) {
 
 	title := info.GrandparentTitle + lang.Space + info.ParentTitle + lang.Space + info.Title
 	p := crt.NewTitledPage(title)
-	p.AddFieldValuePair(crt, lang.TxtPlexShow, info.GrandparentTitle)
-	p.AddFieldValuePair(crt, lang.TxtPlexSeason, info.ParentTitle)
-	p.AddFieldValuePair(crt, lang.TxtPlexEpisode, info.Title)
-	p.AddFieldValuePair(crt, lang.TxtPlexSummaryLabel, info.Summary)
-	p.AddFieldValuePair(crt, lang.TxtPlexDurationLabel, pmss.FormatPlexDuration(info.Duration))
-	p.AddFieldValuePair(crt, lang.TxtPlexReleasedLabel, pmss.FormatPlexDate(info.OriginallyAvailableAt))
-	p.AddFieldValuePair(crt, lang.TxtPlexContentRatingLabel, info.ContentRating)
+	p.AddFieldValuePair(lang.TxtPlexShow, info.GrandparentTitle)
+	p.AddFieldValuePair(lang.TxtPlexSeason, info.ParentTitle)
+	p.AddFieldValuePair(lang.TxtPlexEpisode, info.Title)
+	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
+	p.AddFieldValuePair(lang.TxtPlexDurationLabel, pmss.FormatPlexDuration(info.Duration))
+	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, pmss.FormatPlexDate(info.OriginallyAvailableAt))
+	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
 	videoCodec := info.Media[0].VideoCodec
 	videoFrameRate := info.Media[0].VideoFrameRate
 	videoResolution := info.Media[0].VideoResolution
@@ -55,15 +55,15 @@ func EpisodeDetail(crt *term.Crt, info plex.Metadata) {
 	aspectRatio := info.Media[0].AspectRatio
 
 	p.BlankRow()
-	p.AddColumnsTitle(crt, lang.TxtPlexCodecLabel, lang.TxtPlexFrameRateLabel, lang.TxtPlexResolutionLabel, lang.TxtPlexContainerLabel, lang.TxtPlexAspectRatioLabel)
-	p.AddColumns(crt, videoCodec, videoFrameRate, videoResolution, videoContainer, aspectRatio.String())
+	p.AddColumnsTitle(lang.TxtPlexCodecLabel, lang.TxtPlexFrameRateLabel, lang.TxtPlexResolutionLabel, lang.TxtPlexContainerLabel, lang.TxtPlexAspectRatioLabel)
+	p.AddColumns(videoCodec, videoFrameRate, videoResolution, videoContainer, aspectRatio.String())
 	p.BlankRow()
-	p.AddColumnsTitle(crt, lang.TxtPlexMediaLabel)
+	p.AddColumnsTitle(lang.TxtPlexMediaLabel)
 	for _, v := range info.Media {
-		p.AddColumns(crt, v.Part[0].File)
+		p.AddColumns(v.Part[0].File)
 	}
 
-	nextAction, _ := p.DisplayWithActions(crt)
+	nextAction, _ := p.DisplayWithActions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return

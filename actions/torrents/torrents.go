@@ -25,7 +25,7 @@ func Run(crt *term.Crt) {
 
 	m.AddAction(lang.SymActionQuit)
 
-	action, nextLevel := m.DisplayWithActions(crt)
+	action, nextLevel := m.DisplayWithActions()
 
 	if action == lang.SymActionQuit {
 		return
@@ -40,7 +40,7 @@ func Run(crt *term.Crt) {
 			//QTor(crt, nextLevel.AlternateID, nextLevel.Title)
 			action = ""
 		default:
-			m.Error(crt, term.ErrInvalidAction, action)
+			m.Error(term.ErrInvalidAction, action)
 			action = ""
 		}
 	}
