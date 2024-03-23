@@ -23,7 +23,7 @@ func SeasonDetails(crt *term.Crt, mediaVault *plex.Plex, info plex.Metadata) {
 		p.AddOption(i+1, season.Title, "", "")
 	}
 
-	na, _ := p.Display(crt)
+	na, _ := p.DisplayWithActions(crt)
 	switch na {
 	case lang.SymActionQuit:
 		return
@@ -31,7 +31,7 @@ func SeasonDetails(crt *term.Crt, mediaVault *plex.Plex, info plex.Metadata) {
 		if crt.Helpers.IsInt(na) {
 			Episodes(crt, mediaVault, info.Title, yy.MediaContainer.Metadata[crt.Helpers.ToInt(na)-1])
 		} else {
-			p.PageError(crt, term.ErrInvalidAction, crt.Formatters.SQuote(na))
+			p.Error(crt, term.ErrInvalidAction, crt.Formatters.SQuote(na))
 		}
 	}
 }

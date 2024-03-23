@@ -32,7 +32,7 @@ func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 		m.AddOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
 	}
 
-	nextAction, _ := m.Display(crt)
+	nextAction, _ := m.DisplayWithActions(crt)
 	switch nextAction {
 	case lang.SymActionQuit:
 		return
@@ -40,7 +40,7 @@ func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 		if crt.Helpers.IsInt(nextAction) {
 			Detail(crt, res.MediaContainer.Metadata[crt.Helpers.ToInt(nextAction)-1], mediaVault)
 		} else {
-			m.PageError(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+			m.Error(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 		}
 	}
 }
@@ -58,7 +58,7 @@ func Detail(crt *term.Crt, info plex.Metadata, mediaVault *plex.Plex) {
 	p.AddAction(lang.SymActionSeasons) //Drilldown to episodes
 	p.SetPrompt(lang.TxtPlexSeasonsPrompt)
 
-	nextAction, _ := p.Display(crt)
+	nextAction, _ := p.DisplayWithActions(crt)
 	switch nextAction {
 	case lang.SymActionQuit:
 		return

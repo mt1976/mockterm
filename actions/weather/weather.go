@@ -63,7 +63,7 @@ func Run(crt *term.Crt) {
 	ok := false
 	for !ok {
 
-		nextAction, _ := p.Display(crt)
+		nextAction, _ := p.DisplayWithActions(crt)
 		switch nextAction {
 		case lang.SymActionForward:
 			p.NextPage(crt)
@@ -73,7 +73,7 @@ func Run(crt *term.Crt) {
 			ok = true
 			return
 		default:
-			p.PageError(crt, term.ErrInvalidAction, nextAction)
+			p.Error(crt, term.ErrInvalidAction, nextAction)
 		}
 	}
 

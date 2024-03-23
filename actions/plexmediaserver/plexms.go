@@ -78,7 +78,7 @@ func Run(crt *term.Crt) {
 	p.AddAction(lang.SymActionForward)
 	p.AddAction(lang.SymActionBack)
 
-	nextAction, _ := p.Display(crt)
+	nextAction, _ := p.DisplayWithActions(crt)
 	switch {
 	case nextAction == lang.SymActionQuit:
 		return
@@ -89,7 +89,7 @@ func Run(crt *term.Crt) {
 		Action(crt, mediaVault, &wi)
 
 	default:
-		p.PageError(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+		p.Error(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 	}
 	//}
 

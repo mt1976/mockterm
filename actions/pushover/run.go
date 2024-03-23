@@ -3,6 +3,7 @@ package pushover
 import (
 	"errors"
 	flags "flag"
+	"fmt"
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
@@ -110,7 +111,7 @@ func Run(t *term.Crt) {
 	optionsScreen.AddOption(4, lang.TxtPushoverMsgPriorityEmergancy, "", "")
 	optionsScreen.SetPrompt(lang.TxtPushoverPrompt)
 	optionsScreen.AddAction(lang.SymActionQuit)
-	action, _ := optionsScreen.Display(t)
+	action, _ := optionsScreen.DisplayWithActions(t)
 	if action == lang.SymActionQuit {
 		return
 	}
@@ -155,19 +156,29 @@ func processMessage(t *term.Crt, action string) (*pushover.Pushover, *pushover.R
 		priority = pushover.PriorityNormal
 	}
 
-	messageBody := "Message Body"
+	//messageBody := "Message Body"
 	messageTitle, action, err := getMessageTitle(t)
 	if err != nil {
 		t.InputError(err)
 		return nil, nil, nil, err
 	}
-	if t.Formatters.Upcase(action) == lang.SymActionQuit {
+	if t.Helpers.IsActionIn(action, lang.SymActionQuit) {
+		return nil, nil, nil, nil
+	}
+
+	messageBody, action, err := getMessageBody(t, messageTitle)
+	if err != nil {
+		t.InputError(err)
+		return nil, nil, nil, err
+	}
+	if t.Helpers.IsActionIn(action, lang.SymActionQuit) {
 		return nil, nil, nil, nil
 	}
 
 	app, recipient, message := buildPushoverMessage(messageBody, messageTitle, priority)
 
-	p := t.NewTitledPage("Pushover Message Preview")
+	p := t.NewTitledPage(lang.TxtPushoverTitle)
+	p.BlankRow()
 	p.AddFieldValuePair(t, "Title", message.Title)
 	p.AddFieldValuePair(t, "Message", message.Message)
 	p.BlankRow()
@@ -185,18 +196,23 @@ func processMessage(t *term.Crt, action string) (*pushover.Pushover, *pushover.R
 	p.AddAction("Q")
 	p.SetPrompt(lang.TxtPushoverConfirmation)
 	spew.Dump(p, t)
-	p.Display(t)
+	p.DisplayWithActions(t)
 	return app, recipient, message, nil
 }
 
 func getMessageTitle(t *term.Crt) (string, string, error) {
-	p := t.NewTitledPage("Message Title")
-	xx := []string{"Enter the title of the message to be sent to pushover"}
+	p := t.NewTitledPage(lang.TxtPushoverTitle)
+	p.BlankRow()
+	p.AddFieldValuePair(t, "Title", "")
+	p.BlankRow()
+	xx := []string{lang.SymBlank, "Enter the title of the message to be sent to pushover", lang.SymBlank, "Enter the title of the message, or (Q)uit"}
 	p.Paragraph(xx)
 	p.BlankRow()
-	p.SetPrompt("Enter the title of the message, or (Q)uit")
+
+	//p.SetPrompt("Enter the title of the message, or (Q)uit")
 	for {
-		op := t.Input("", "")
+		op, _ := p.DisplayAndInput(t, 3, 15)
+		//op := t.Input("", "")
 		if op == lang.SymActionQuit {
 			return "", lang.SymActionQuit, nil
 		}
@@ -206,9 +222,36 @@ func getMessageTitle(t *term.Crt) (string, string, error) {
 	}
 
 	return "", "", errors.New("Failed to get message title")
-
 }
 
+func getMessageBody(t *term.Crt, title string) (string, string, error) {
+	fmt.Printf("getMessageBody\n")
+	fmt.Printf("getMessageBody\n")
+	fmt.Printf("getMessageBody\n")
+
+	p := t.NewTitledPage(lang.TxtPushoverTitle)
+	p.BlankRow()
+	p.AddFieldValuePair(t, "Title", title)
+	p.AddFieldValuePair(t, "Message", "")
+	p.BlankRow()
+	xx := []string{lang.SymBlank, "Enter the message to be sent to pushover", lang.SymBlank, "Enter message, or (Q)uit"}
+	p.Paragraph(xx)
+	p.BlankRow()
+
+	//p.SetPrompt("Enter the title of the message, or (Q)uit")
+	for {
+		op, _ := p.DisplayAndInput(t, 3, 15)
+		//op := t.Input("", "")
+		if op == lang.SymActionQuit {
+			return "", lang.SymActionQuit, nil
+		}
+		if op != "" {
+			return op, "", nil
+		}
+	}
+
+	return "", "", errors.New("Failed to get message title")
+}
 func poPriorityToString(in int) string {
 	switch in {
 	case pushover.PriorityNormal:

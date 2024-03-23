@@ -29,7 +29,7 @@ func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 		m.AddOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
 	}
 
-	nextAction, _ := m.Display(crt)
+	nextAction, _ := m.DisplayWithActions(crt)
 	switch nextAction {
 	case lang.SymActionQuit:
 		return
@@ -39,7 +39,7 @@ func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 			Detail(crt, res.MediaContainer.Metadata[crt.Helpers.ToInt(nextAction)-1])
 
 		} else {
-			m.PageError(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+			m.Error(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 		}
 	}
 }
@@ -61,11 +61,11 @@ func Detail(crt *term.Crt, info plex.Metadata) {
 		count++
 	}
 
-	nextAction, _ := p.Display(crt)
+	nextAction, _ := p.DisplayWithActions(crt)
 	switch nextAction {
 	case lang.SymActionQuit:
 		return
 	default:
-		p.PageError(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+		p.Error(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 	}
 }

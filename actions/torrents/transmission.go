@@ -38,7 +38,7 @@ func Trans(crt *term.Crt, uri, title string) {
 	// }
 	ok := false
 	for !ok {
-		action, _ := p.Display(crt)
+		action, _ := p.DisplayWithActions(crt)
 
 		if action == lang.SymActionQuit {
 			//crt.Println("Quitting")
