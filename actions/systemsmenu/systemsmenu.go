@@ -1,14 +1,14 @@
 package systemsmenu
 
 import (
-	support "github.com/mt1976/crt"
+	term "github.com/mt1976/crt"
 	push "github.com/mt1976/mockterm/actions/pushover"
 	lang "github.com/mt1976/mockterm/language"
 )
 
 // The Run function displays a main menu and allows the user to navigate through different sub-menus
 // and perform various actions.
-func Run(crt *support.ViewPort) {
+func Run(crt *term.ViewPort) {
 
 	m := crt.NewTitledPage(lang.TxtSystemsMaintenanceMenuTitle)
 	m.Paragraph(lang.TxtServiceMenuDescription)
@@ -33,7 +33,7 @@ func Run(crt *support.ViewPort) {
 		case "1":
 			push.Run(crt)
 		default:
-			m.Error(support.ErrInvalidAction, action)
+			m.Error(term.ErrInvalidAction, action)
 		}
 	}
 }
