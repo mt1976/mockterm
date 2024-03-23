@@ -33,7 +33,7 @@ func Run(crt *support.Crt) {
 		case "1":
 			push.Run(crt)
 		default:
-			crt.InputError(support.ErrInvalidAction, action)
+			m.PageError(crt, support.ErrInvalidAction, action)
 		}
 	}
 }

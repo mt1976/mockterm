@@ -89,7 +89,7 @@ func Run(crt *term.Crt) {
 		Action(crt, mediaVault, &wi)
 
 	default:
-		crt.InputError(term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+		p.PageError(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 	}
 	//}
 

@@ -32,7 +32,7 @@ func Episodes(crt *term.Crt, mediaVault *plex.Plex, seriesTitle string, info ple
 		if crt.Helpers.IsInt(nextAction) {
 			EpisodeDetail(crt, res.MediaContainer.Metadata[crt.Helpers.ToInt(nextAction)-1])
 		} else {
-			crt.InputError(term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+			m.PageError(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 		}
 	}
 }

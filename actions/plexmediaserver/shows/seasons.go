@@ -31,7 +31,7 @@ func SeasonDetails(crt *term.Crt, mediaVault *plex.Plex, info plex.Metadata) {
 		if crt.Helpers.IsInt(na) {
 			Episodes(crt, mediaVault, info.Title, yy.MediaContainer.Metadata[crt.Helpers.ToInt(na)-1])
 		} else {
-			crt.InputError(term.ErrInvalidAction, crt.Formatters.SQuote(na))
+			p.PageError(crt, term.ErrInvalidAction, crt.Formatters.SQuote(na))
 		}
 	}
 }

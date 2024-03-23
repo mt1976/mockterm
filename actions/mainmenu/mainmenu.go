@@ -60,7 +60,7 @@ func Run(crt *support.Crt) {
 		case "8":
 			syst.Run(crt)
 		default:
-			crt.InputError(support.ErrInvalidAction, action)
+			m.PageError(crt, support.ErrInvalidAction, action)
 		}
 	}
 }

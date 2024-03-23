@@ -40,7 +40,7 @@ func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 		if crt.Helpers.IsInt(nextAction) {
 			Detail(crt, res.MediaContainer.Metadata[crt.Helpers.ToInt(nextAction)-1], mediaVault)
 		} else {
-			crt.InputError(term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+			m.PageError(crt, term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 		}
 	}
 }

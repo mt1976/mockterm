@@ -38,7 +38,7 @@ func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 		if crt.Helpers.IsInt(nextAction) {
 			Detail(crt, res.MediaContainer.Metadata[crt.Helpers.ToInt(nextAction)-1])
 		} else {
-			crt.InputError(terr.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+			m.PageError(crt, terr.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 		}
 	}
 }
@@ -94,7 +94,7 @@ func Detail(crt *term.Crt, info plex.Metadata) {
 	case lang.SymActionQuit:
 		return
 	default:
-		crt.InputError(terr.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+		p.PageError(crt, terr.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
 	}
 
 }

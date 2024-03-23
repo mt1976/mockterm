@@ -40,7 +40,7 @@ func Run(crt *term.Crt) {
 			//QTor(crt, nextLevel.AlternateID, nextLevel.Title)
 			action = ""
 		default:
-			crt.InputError(term.ErrInvalidAction, action)
+			m.PageError(crt, term.ErrInvalidAction, action)
 			action = ""
 		}
 	}

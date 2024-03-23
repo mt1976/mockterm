@@ -54,7 +54,7 @@ func Run(crt *term.Crt) {
 			ok = true
 			return
 		default:
-			crt.InputError(terr.ErrInvalidAction, nextAction)
+			p.PageError(crt, terr.ErrInvalidAction, nextAction)
 		}
 	}
 }
