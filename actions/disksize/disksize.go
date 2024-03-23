@@ -9,7 +9,7 @@ import (
 	lang "github.com/mt1976/mockterm/language"
 )
 
-func Run(t term.Crt, debug bool, args []string) {
+func Run(t term.ViewPort, debug bool, args []string) {
 	//crt = crtIn
 	if len(args) < 2 {
 		t.Shout(errs.ErrNoFilesSpecified)
@@ -23,7 +23,7 @@ func Run(t term.Crt, debug bool, args []string) {
 	}
 }
 
-func printFileSize(t term.Crt, path string) {
+func printFileSize(t term.ViewPort, path string) {
 	fi, err := os.Stat(path)
 	if os.IsNotExist(err) {
 		//msg := fmt.Sprintf("File %s does not exist", path)

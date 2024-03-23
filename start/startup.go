@@ -13,7 +13,7 @@ import (
 var C = conf.Configuration
 
 // Run initializes the terminal and runs the main loop.
-func Run(crt *term.Crt) {
+func Run(crt *term.ViewPort) {
 	// Clear the terminal screen.
 	crt.Clear()
 

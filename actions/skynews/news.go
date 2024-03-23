@@ -10,7 +10,7 @@ var C = conf.Configuration
 
 // The Run function displays a menu of news topics and allows the user to select a topic to view the
 // news articles related to that topic.
-func Run(crt *term.Crt) {
+func Run(crt *term.ViewPort) {
 
 	// Home
 	// UK

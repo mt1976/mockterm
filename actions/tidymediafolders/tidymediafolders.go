@@ -24,7 +24,7 @@ var cfg = conf.Configuration
 
 //var crt support.Crt
 
-func Run(t term.Crt, debugModeIn bool, pathIn string) {
+func Run(t term.ViewPort, debugModeIn bool, pathIn string) {
 	debugMode = debugModeIn
 
 	t.Print(lang.TxtTidyFilesTitle)
@@ -105,7 +105,7 @@ func Run(t term.Crt, debugModeIn bool, pathIn string) {
 	printStorageReport(t, diskSizeTotalBefore, diskSizeFreeBefore, diskPercentUsedBefore, diskSizeTotalAfter, diskSizeFreeAfter, diskPercentUsedAfter)
 }
 
-func processFileTypes(t term.Crt, fileExtension string) {
+func processFileTypes(t term.ViewPort, fileExtension string) {
 	startTime := time.Now()
 
 	if !debugMode {
@@ -122,7 +122,7 @@ func processFileTypes(t term.Crt, fileExtension string) {
 
 }
 
-func realpath(t term.Crt, path string) string {
+func realpath(t term.ViewPort, path string) string {
 
 	realPathCmd := exec.Command("realpath", path)
 	output, err := realPathCmd.Output()
@@ -136,7 +136,7 @@ func realpath(t term.Crt, path string) string {
 
 // The function "getDiskInfo" returns the total disk size, free disk space, and percentage of disk
 // space used for a given path.
-func getDiskInfo(t term.Crt, path string) (total, free, percentUsed string) {
+func getDiskInfo(t term.ViewPort, path string) (total, free, percentUsed string) {
 	info := du.NewDiskUsage(path)
 	total = t.Formatters.HumanDiskSize(info.Size())
 	free = t.Formatters.HumanDiskSize(info.Available())
@@ -144,7 +144,7 @@ func getDiskInfo(t term.Crt, path string) (total, free, percentUsed string) {
 	return total, free, percentUsed
 }
 
-func removeFiles(t term.Crt, fileExtension string) {
+func removeFiles(t term.ViewPort, fileExtension string) {
 	if debugMode {
 		t.Print(lang.TxtTidyFilesWouldHaveRemoved)
 		return
@@ -158,7 +158,7 @@ func removeFiles(t term.Crt, fileExtension string) {
 	t.Println(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
 }
 
-func findFiles(t term.Crt, fileExt string) {
+func findFiles(t term.ViewPort, fileExt string) {
 	findCmd := exec.Command("find", ".", "-type", "f", "-name", "*."+fileExt)
 
 	output, err := findCmd.Output()
@@ -170,7 +170,7 @@ func findFiles(t term.Crt, fileExt string) {
 	t.Spool(output)
 }
 
-func removeEmptyDirectories(t term.Crt) {
+func removeEmptyDirectories(t term.ViewPort) {
 	if debugMode {
 		t.Print(lang.TxtTidyFilesWouldHaveRemoved)
 		return
@@ -185,7 +185,7 @@ func removeEmptyDirectories(t term.Crt) {
 	t.Println(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
 }
 
-func findEmptyDirectories(t term.Crt) {
+func findEmptyDirectories(t term.ViewPort) {
 	findCmd := exec.Command("find", ".", "-type", "d", "-empty", "-print")
 	output, err := findCmd.Output()
 	if err != nil {
@@ -197,7 +197,7 @@ func findEmptyDirectories(t term.Crt) {
 	t.Spool(output)
 }
 
-func printStorageReport(t term.Crt, beforeDiskSizeTotal, beforeDiskSizeFree, beforeDiskPercentUsed, afterDiskSizeTotal, afterDiskSizeFree, afterDiskPercentUsed string) {
+func printStorageReport(t term.ViewPort, beforeDiskSizeTotal, beforeDiskSizeFree, beforeDiskPercentUsed, afterDiskSizeTotal, afterDiskSizeFree, afterDiskPercentUsed string) {
 
 	mode := lang.TxtDebugMode
 	if !debugMode {

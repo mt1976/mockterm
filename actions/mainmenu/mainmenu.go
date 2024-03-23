@@ -13,7 +13,7 @@ import (
 
 // The Run function displays a main menu and allows the user to navigate through different sub-menus
 // and perform various actions.
-func Run(crt *support.Crt) {
+func Run(crt *support.ViewPort) {
 
 	m := crt.NewTitledPage(lang.TxtMainMenuTitle)
 	//for i := range 11 {

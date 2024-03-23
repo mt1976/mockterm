@@ -9,7 +9,7 @@ import (
 	lang "github.com/mt1976/mockterm/language"
 )
 
-func SeasonDetails(crt *term.Crt, mediaVault *plex.Plex, info plex.Metadata) {
+func SeasonDetails(crt *term.ViewPort, mediaVault *plex.Plex, info plex.Metadata) {
 
 	yy, err := mediaVault.GetEpisodes(info.RatingKey)
 	if err != nil {

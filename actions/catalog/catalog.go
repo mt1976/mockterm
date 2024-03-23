@@ -16,9 +16,9 @@ import (
 
 var debugMode bool = false
 
-//var crt term.Crt
+//var crt term.ViewPort
 
-func Run(t term.Crt, debug bool, path string) {
+func Run(t term.ViewPort, debug bool, path string) {
 
 	debugMode = debug
 	//crt = t

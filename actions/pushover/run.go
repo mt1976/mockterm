@@ -24,7 +24,7 @@ import (
 var messages = make(map[string]string)
 var titles = make(map[string]string)
 var hostName string
-var crt term.Crt
+var crt term.ViewPort
 
 //var debugMode bool
 
@@ -57,7 +57,7 @@ func init() {
 	titles[types.Message] = "This Message"
 }
 
-func RunOld(t term.Crt, debug bool, messageType, messageTitle, messageBody string) {
+func RunOld(t term.ViewPort, debug bool, messageType, messageTitle, messageBody string) {
 
 	//crt = t
 	//debugMode = debug
@@ -101,7 +101,7 @@ func RunOld(t term.Crt, debug bool, messageType, messageTitle, messageBody strin
 //TODO add a Preview page, with the message type, title, body etc.
 //TODO add a confirmation box to confirm the message to send
 
-func Run(t *term.Crt) {
+func Run(t *term.ViewPort) {
 	optionsScreen := t.NewTitledPage(lang.TxtPushoverTitle)
 	optionsScreen.Paragraph(lang.TxtPushoverDescription)
 	optionsScreen.BlankRow()
@@ -140,7 +140,7 @@ func sendMessage(inMessage, inTitle string) {
 	crt.Print("Message Sent")
 }
 
-func processMessage(t *term.Crt, action string) (*pushover.Pushover, *pushover.Recipient, *pushover.Message, error) {
+func processMessage(t *term.ViewPort, action string) (*pushover.Pushover, *pushover.Recipient, *pushover.Message, error) {
 
 	var priority int
 	switch action {
@@ -200,7 +200,7 @@ func processMessage(t *term.Crt, action string) (*pushover.Pushover, *pushover.R
 	return app, recipient, message, nil
 }
 
-func getMessageTitle(t *term.Crt) (string, string, error) {
+func getMessageTitle(t *term.ViewPort) (string, string, error) {
 	p := t.NewTitledPage(lang.TxtPushoverTitle)
 	p.BlankRow()
 	p.AddFieldValuePair("Title", "")
@@ -224,7 +224,7 @@ func getMessageTitle(t *term.Crt) (string, string, error) {
 	return "", "", errors.New("Failed to get message title")
 }
 
-func getMessageBody(t *term.Crt, title string) (string, string, error) {
+func getMessageBody(t *term.ViewPort, title string) (string, string, error) {
 	fmt.Printf("getMessageBody\n")
 	fmt.Printf("getMessageBody\n")
 	fmt.Printf("getMessageBody\n")

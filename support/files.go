@@ -14,7 +14,7 @@ var config = cfgr.Configuration
 
 // GetFilesList returns a list of files in the specified base folder.
 // If an error occurs, an error message is displayed using the provided terminal.
-func GetFilesList(crt term.Crt, baseFolder string) []os.DirEntry {
+func GetFilesList(crt term.ViewPort, baseFolder string) []os.DirEntry {
 	files, err := os.ReadDir(baseFolder)
 	if err != nil {
 		crt.Error(errs.ErrReadingFolder, baseFolder, err.Error())
@@ -36,7 +36,7 @@ func GetTimeStamp() string {
 //
 // Returns:
 // a file pointer, or an error if any occurred while opening the file.
-func OpenFile(t term.Crt, filename string) (*os.File, error) {
+func OpenFile(t term.ViewPort, filename string) (*os.File, error) {
 	file, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		t.Error(errs.ErrOpeningFile, t.Formatters.Bold(filename), err.Error())
@@ -54,7 +54,7 @@ func OpenFile(t term.Crt, filename string) (*os.File, error) {
 //
 // Returns:
 // an error if any occurred while writing to the file.
-func WriteStringSliceToFile(t term.Crt, file *os.File, content []string) error {
+func WriteStringSliceToFile(t term.ViewPort, file *os.File, content []string) error {
 	for _, line := range content {
 		_, err := file.WriteString(line + lang.SymNewline)
 		if err != nil {

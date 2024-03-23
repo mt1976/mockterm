@@ -9,7 +9,7 @@ import (
 // The function "Topic" takes in a CRT object, a topic, and a title as parameters, and then retrieves
 // news items for that topic from an RSS feed, displays them in a menu, and allows the user to select a
 // news item to view.
-func Topic(crt *term.Crt, topic, title string) {
+func Topic(crt *term.ViewPort, topic, title string) {
 
 	// Get the news for the topic
 	crt.InfoMessage(lang.TxtLoadingTopic + crt.Formatters.Bold(title))

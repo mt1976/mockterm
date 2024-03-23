@@ -17,7 +17,7 @@ import (
 // The main function initializes and runs a terminal-based news reader application called StarTerm,
 // which fetches news headlines from an RSS feed and allows the user to navigate and open the full news
 // articles.
-func Run(crt *term.Crt) {
+func Run(crt *term.ViewPort) {
 
 	crt.Clear()
 
@@ -95,7 +95,7 @@ func Run(crt *term.Crt) {
 
 }
 
-func Action(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
+func Action(crt *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	switch wi.Type {
 	case "movie":

@@ -22,7 +22,7 @@ var dummy = term.New()
 // The main function initializes and runs a terminal-based news reader application called StarTerm,
 // which fetches news headlines from an RSS feed and allows the user to navigate and open the full news
 // articles.
-func Run(crt *term.Crt) {
+func Run(crt *term.ViewPort) {
 
 	// crt.Clear()
 	crt.InfoMessage(lang.TxtDashboardChecking)

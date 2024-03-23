@@ -16,7 +16,7 @@ func New() info {
 }
 
 // breakData adds a new section to the info struct with the given title and adds a line break
-func (i *info) breakData(t term.Crt, title string) {
+func (i *info) breakData(t term.ViewPort, title string) {
 	// add a new section to the info struct
 	i.data = append(i.data, t.Format("", ""))
 	i.data = append(i.data, t.Format(title, ""))
@@ -28,7 +28,7 @@ func (i *info) breakData(t term.Crt, title string) {
 }
 
 // storeData adds a new key-value pair to the info struct as a new section with the given title and data
-func (i *info) storeData(t term.Crt, title string, data string) {
+func (i *info) storeData(t term.ViewPort, title string, data string) {
 	// Padd title to 15 characters
 	title = fmt.Sprintf("%-30s", title)
 	// add a new section to the info struct

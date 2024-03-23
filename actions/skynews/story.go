@@ -8,7 +8,7 @@ import (
 
 // The function "Story" displays a story link and allows the user to interact with a menu until they
 // choose to quit.
-func Story(crt *term.Crt, storyLink string) {
+func Story(crt *term.ViewPort, storyLink string) {
 
 	crt.InfoMessage(lang.TxtLoadingStory)
 
@@ -25,7 +25,7 @@ func Story(crt *term.Crt, storyLink string) {
 
 // buildPage creates a new page with the given title and adds a link to the given story to the page.
 // It uses the colly library to fetch the story content and extract the title.
-func buildPage(crt *term.Crt, storyLink string) *term.Page {
+func buildPage(crt *term.ViewPort, storyLink string) *term.Page {
 	// Get html from storyLink
 	// Parse html for story
 	// Create page with story

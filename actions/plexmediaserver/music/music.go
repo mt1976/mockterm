@@ -11,7 +11,7 @@ import (
 	errs "github.com/mt1976/mockterm/errors"
 )
 
-func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
+func Run(crt *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	res, err := mediaVault.GetLibraryContent(wi.Key, "")
 	if err != nil {
@@ -44,7 +44,7 @@ func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 	}
 }
 
-func Detail(crt *term.Crt, info plex.Metadata) {
+func Detail(crt *term.ViewPort, info plex.Metadata) {
 
 	p := crt.NewTitledPage(info.Title)
 

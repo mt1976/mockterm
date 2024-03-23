@@ -20,7 +20,7 @@ var itemCount int = 0
 var debugMode bool = false
 var cfg = conf.Configuration
 
-func Run(t term.Crt, debugModeIn bool, cleanPathIn, messageIn string) {
+func Run(t term.ViewPort, debugModeIn bool, cleanPathIn, messageIn string) {
 	//TODO add Input to get path to clean
 	//TODO add Check to see if path exists, if not ask for input again
 	//TODO add Input to select Mode, debug or normal
@@ -60,7 +60,7 @@ func Run(t term.Crt, debugModeIn bool, cleanPathIn, messageIn string) {
 	}
 }
 
-func cleanFileName(t term.Crt, info fs.DirEntry, path string) error {
+func cleanFileName(t term.ViewPort, info fs.DirEntry, path string) error {
 
 	cleanName, err := getCleanName(t, info.Name())
 	if err != nil {
@@ -81,7 +81,7 @@ func cleanFileName(t term.Crt, info fs.DirEntry, path string) error {
 	return nil
 }
 
-func getCleanName(t term.Crt, fileName string) (string, error) {
+func getCleanName(t term.ViewPort, fileName string) (string, error) {
 	//fmt.Printf("%s Cleaning file name '%s'\n", support.PFX, name)
 	newFileName := fileName
 
@@ -107,7 +107,7 @@ func getCleanName(t term.Crt, fileName string) (string, error) {
 	return newFileName, nil
 }
 
-func renameFile(t term.Crt, path string, newFileName string, oldFileName string) {
+func renameFile(t term.ViewPort, path string, newFileName string, oldFileName string) {
 	newPath := filepath.Join(filepath.Dir(path), newFileName)
 	oldPath := filepath.Join(filepath.Dir(path), oldFileName)
 	err := error(nil)

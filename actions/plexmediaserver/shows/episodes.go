@@ -10,7 +10,7 @@ import (
 	pmss "github.com/mt1976/mockterm/plexsupport"
 )
 
-func Episodes(crt *term.Crt, mediaVault *plex.Plex, seriesTitle string, info plex.Metadata) {
+func Episodes(crt *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, info plex.Metadata) {
 	res, err := mediaVault.GetEpisodes(info.RatingKey)
 	if err != nil {
 		crt.Error(errs.ErrLibraryResponse, err.Error())
@@ -37,7 +37,7 @@ func Episodes(crt *term.Crt, mediaVault *plex.Plex, seriesTitle string, info ple
 	}
 }
 
-func EpisodeDetail(crt *term.Crt, info plex.Metadata) {
+func EpisodeDetail(crt *term.ViewPort, info plex.Metadata) {
 
 	title := info.GrandparentTitle + lang.Space + info.ParentTitle + lang.Space + info.Title
 	p := crt.NewTitledPage(title)

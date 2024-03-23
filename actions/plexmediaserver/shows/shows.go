@@ -14,7 +14,7 @@ import (
 
 var C = conf.Configuration
 
-func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
+func Run(crt *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	res, err := mediaVault.GetLibraryContent(wi.Key, "")
 	if err != nil {
@@ -45,7 +45,7 @@ func Run(crt *term.Crt, mediaVault *plex.Plex, wi *plex.Directory) {
 	}
 }
 
-func Detail(crt *term.Crt, info plex.Metadata, mediaVault *plex.Plex) {
+func Detail(crt *term.ViewPort, info plex.Metadata, mediaVault *plex.Plex) {
 	p := crt.NewTitledPage(info.Title)
 
 	p.AddFieldValuePair(lang.TxtPlexTitleLabel, info.Title)

@@ -8,7 +8,7 @@ import (
 // The function "Trans" takes in a CRT object, a topic, and a title as parameters, and then retrieves
 // news items for that topic from an RSS feed, displays them in a menu, and allows the user to select a
 // news item to view.
-func Trans(crt *term.Crt, uri, title string) {
+func Trans(crt *term.ViewPort, uri, title string) {
 	//crt.Println("Topic: " + topic + " - " + title)
 	// Get the news for the topic
 	crt.InfoMessage(lang.TxtLoadingTorrentsTransmission)

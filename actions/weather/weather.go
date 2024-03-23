@@ -17,7 +17,7 @@ var C conf.Config
 // The main function initializes and runs a terminal-based news reader application called StarTerm,
 // which fetches news headlines from an RSS feed and allows the user to navigate and open the full news
 // articles.
-func Run(crt *term.Crt) {
+func Run(crt *term.ViewPort) {
 
 	crt.Clear()
 	p := crt.NewTitledPage(lang.TxtWeatherTitle + lang.Space + lang.TxtSourceService)
@@ -79,21 +79,21 @@ func Run(crt *term.Crt) {
 
 }
 
-func outdate(crt *term.Crt, t int) string {
+func outdate(crt *term.ViewPort, t int) string {
 	// int to int64
 	// unix date to human date
 	return crt.Formatters.HumanFromUnixDate(int64(t))
 }
 
 // The `hr` function returns a string consisting of a line of dashes.
-func hr(crt *term.Crt) string {
+func hr(crt *term.ViewPort) string {
 	return strings.Repeat(lang.SymBreak, 3)
 }
 
-func boldFloat(crt *term.Crt, in float64) string {
+func boldFloat(crt *term.ViewPort, in float64) string {
 	return crt.Formatters.Bold(fmt.Sprintf("%v", in))
 }
 
-func boldInt(crt *term.Crt, in int) string {
+func boldInt(crt *term.ViewPort, in int) string {
 	return crt.Formatters.Bold(fmt.Sprintf("%v", in))
 }
