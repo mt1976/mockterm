@@ -19,25 +19,25 @@ func main() {
 
 	C := cnfg.Configuration
 
-	// create a new instance of the Crt
-	crt := term.NewWithSize(C.TerminalWidth, C.TerminalHeight)
+	// create a new instance of the ViewPort
+	t := term.NewWithSize(C.TerminalWidth, C.TerminalHeight)
 	// set the terminal size
-	//crt.SetTerminalSize(config.term_width, config.term_height)
+	//t.SetTerminalSize(config.term_width, config.term_height)
 	// start a timer
 	start := time.Now()
 
 	// run the startup sequence
-	crt.SetDelayInSec(C.Delay)
-	strt.Run(&crt)
-	crt.ResetDelay()
-	//godump.Dump(crt)
+	t.SetDelayInSec(C.Delay)
+	strt.Run(&t)
+	t.ResetDelay()
+
 	//os.Exit(0)
 	// run the main menu
-	menu.Run(&crt)
+	menu.Run(&t)
 
 	// stop the timer
 	elapsed := time.Since(start)
 	// output the elapsed time
-	crt.Shout(crt.Formatters.Bold(text.TxtDone) + text.Space + elapsed.String())
+	t.Shout(t.Formatters.Bold(text.TxtDone) + text.Space + elapsed.String())
 
 }

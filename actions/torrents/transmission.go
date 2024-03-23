@@ -5,14 +5,13 @@ import (
 	lang "github.com/mt1976/crt/language"
 )
 
-// The function "Trans" takes in a CRT object, a topic, and a title as parameters, and then retrieves
+// The function "Trans" takes in a ViewPort object, a topic, and a title as parameters, and then retrieves
 // news items for that topic from an RSS feed, displays them in a menu, and allows the user to select a
 // news item to view.
-func Trans(crt *term.ViewPort, uri, title string) {
-	//crt.Println("Topic: " + topic + " - " + title)
+func Trans(t *term.ViewPort, uri, title string) {
 	// Get the news for the topic
-	crt.InfoMessage(lang.TxtLoadingTorrentsTransmission)
-	p := crt.NewTitledPage(lang.TxtTransmission)
+	t.InfoMessage(lang.TxtLoadingTorrentsTransmission)
+	p := t.NewTitledPage(lang.TxtTransmission)
 	// get the news for the topic from an rss feed
 	// endpoint, err := url.Parse(uri)
 	// if err != nil {
@@ -41,12 +40,10 @@ func Trans(crt *term.ViewPort, uri, title string) {
 		action, _ := p.DisplayWithActions()
 
 		if action == lang.SymActionQuit {
-			//crt.Println("Quitting")
 			ok = true
 			continue
 		}
-		if crt.Helpers.IsInt(action) {
-			//	Story(crt, mi.AlternateID)
+		if t.Helpers.IsInt(action) {
 			ok = false
 			action = ""
 		}

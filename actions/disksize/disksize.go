@@ -10,7 +10,6 @@ import (
 )
 
 func Run(t term.ViewPort, debug bool, args []string) {
-	//crt = crtIn
 	if len(args) < 2 {
 		t.Shout(errs.ErrNoFilesSpecified)
 		t.Print(errs.ErrDiskSizeUsage)

@@ -22,18 +22,17 @@ var dummy = term.New()
 // The main function initializes and runs a terminal-based news reader application called StarTerm,
 // which fetches news headlines from an RSS feed and allows the user to navigate and open the full news
 // articles.
-func Run(crt *term.ViewPort) {
+func Run(t *term.ViewPort) {
 
-	// crt.Clear()
-	crt.InfoMessage(lang.TxtDashboardChecking)
-	p := crt.NewTitledPage(lang.TxtDashboardTitle)
+	t.InfoMessage(lang.TxtDashboardChecking)
+	p := t.NewTitledPage(lang.TxtDashboardTitle)
 
 	c := 0
 	c++
 	//p.Add("Testing Server/Service Dashboard", "", time.Now().Format("2006-01-02"))
 	for i := 0; i < C.DashboardURINoEntries; i++ {
 		//p.Add(C.DashboardURIName[i], "", "")
-		crt.InfoMessage(fmt.Sprintf(lang.TxtDashboardCheckingService, C.DashboardURIName[i]))
+		t.InfoMessage(fmt.Sprintf(lang.TxtDashboardCheckingService, C.DashboardURIName[i]))
 		result := CheckService(i)
 		p.AddFieldValuePair(C.DashboardURIName[i], dummy.Formatters.Bold(result))
 	}

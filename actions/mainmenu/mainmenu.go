@@ -1,7 +1,7 @@
 package mainmenu
 
 import (
-	support "github.com/mt1976/crt"
+	term "github.com/mt1976/crt"
 	dash "github.com/mt1976/mockterm/actions/dashboard"
 	plex "github.com/mt1976/mockterm/actions/plexmediaserver"
 	news "github.com/mt1976/mockterm/actions/skynews"
@@ -13,54 +13,51 @@ import (
 
 // The Run function displays a main menu and allows the user to navigate through different sub-menus
 // and perform various actions.
-func Run(crt *support.ViewPort) {
+func Run(t *term.ViewPort) {
 
-	m := crt.NewTitledPage(lang.TxtMainMenuTitle)
+	p := t.NewTitledPage(lang.TxtMainMenuTitle)
 	//for i := range 11 {
 	//	m.AddMenuItem(i, fmt.Sprintf("Menu Item %v", i))
 	//}
 
-	m.AddOption(1, lang.TxtDashboardTitle, "", "")
-	m.AddOption(2, lang.TxtSkyNewsMenuTitle, "", "")
-	m.AddOption(3, lang.TxtBBCNewsMenuTitle, "", "")
-	m.AddOption(4, lang.TxtWeatherMenuTitle, "", "")
-	m.AddOption(5, lang.TxtTorrentsMenuTitle, "", "")
-	m.AddOption(6, lang.TxtPlexMediaServersMenuTitle, "", "")
-	m.AddOption(7, lang.TxtRemoteSystemsAccessMenuTitle, "", "")
-	m.AddOption(8, lang.TxtSystemsMaintenanceMenuTitle, "", "")
-	m.AddOption(9, lang.SymBlank, "", "")
-	m.AddOption(10, lang.SymBlank, "", "")
-	m.AddAction(lang.SymActionQuit)
+	p.AddOption(1, lang.TxtDashboardTitle, "", "")
+	p.AddOption(2, lang.TxtSkyNewsMenuTitle, "", "")
+	p.AddOption(3, lang.TxtBBCNewsMenuTitle, "", "")
+	p.AddOption(4, lang.TxtWeatherMenuTitle, "", "")
+	p.AddOption(5, lang.TxtTorrentsMenuTitle, "", "")
+	p.AddOption(6, lang.TxtPlexMediaServersMenuTitle, "", "")
+	p.AddOption(7, lang.TxtRemoteSystemsAccessMenuTitle, "", "")
+	p.AddOption(8, lang.TxtSystemsMaintenanceMenuTitle, "", "")
+	p.AddOption(9, lang.SymBlank, "", "")
+	p.AddOption(10, lang.SymBlank, "", "")
+	p.AddAction(lang.SymActionQuit)
 
 	// loop while ok
 	ok := false
 	for !ok {
 
-		crt.Clear()
-		//crt.SetDelayInSec(0.25) // Set delay in milliseconds
-		//crt.Header("Main Menu")
+		t.Clear()
 
-		action, _ := m.DisplayWithActions()
+		action, _ := p.DisplayWithActions()
 		switch action {
 		case lang.SymActionQuit:
-			crt.InfoMessage(lang.TxtQuittingMessage + lang.SymNewline)
+			t.InfoMessage(lang.TxtQuittingMessage + lang.SymNewline)
 			ok = true
 			continue
 		case "1":
-			dash.Run(crt)
-			//action, _ = y.Display(crt)
+			dash.Run(t)
 		case "2":
-			news.Run(crt)
+			news.Run(t)
 		case "4":
-			wthr.Run(crt)
+			wthr.Run(t)
 		case "5":
-			trts.Run(crt)
+			trts.Run(t)
 		case "6":
-			plex.Run(crt)
+			plex.Run(t)
 		case "8":
-			syst.Run(crt)
+			syst.Run(t)
 		default:
-			m.Error(support.ErrInvalidAction, action)
+			p.Error(term.ErrInvalidAction, action)
 		}
 	}
 }

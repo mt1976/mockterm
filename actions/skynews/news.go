@@ -10,7 +10,7 @@ var C = conf.Configuration
 
 // The Run function displays a menu of news topics and allows the user to select a topic to view the
 // news articles related to that topic.
-func Run(crt *term.ViewPort) {
+func Run(t *term.ViewPort) {
 
 	// Home
 	// UK
@@ -22,10 +22,8 @@ func Run(crt *term.ViewPort) {
 	// Entertainment
 	// Strange News
 
-	crt.Clear()
-	//crt.SetDelayInSec(0.25) // Set delay in milliseconds
-	//crt.Header("Main Menu")
-	m := crt.NewTitledPage(lang.TxtMenuTitle)
+	t.Clear()
+	m := t.NewTitledPage(lang.TxtMenuTitle)
 	c := 0
 	c++
 	m.AddOption(c, lang.TxtTopicHome, C.URISkyNews+C.URISkyNewsHome, "")
@@ -52,8 +50,8 @@ func Run(crt *term.ViewPort) {
 	if action == lang.SymActionQuit {
 		return
 	}
-	if crt.Helpers.IsInt(action) {
-		Topic(crt, nextLevel.AlternateID, nextLevel.Title)
+	if t.Helpers.IsInt(action) {
+		Topic(t, nextLevel.AlternateID, nextLevel.Title)
 		action = ""
 	}
 

@@ -8,9 +8,9 @@ import (
 
 // The Run function displays a main menu and allows the user to navigate through different sub-menus
 // and perform various actions.
-func Run(crt *term.ViewPort) {
+func Run(t *term.ViewPort) {
 
-	m := crt.NewTitledPage(lang.TxtSystemsMaintenanceMenuTitle)
+	m := t.NewTitledPage(lang.TxtSystemsMaintenanceMenuTitle)
 	m.Paragraph(lang.TxtServiceMenuDescription)
 	m.BlankRow()
 	m.AddOption(1, lang.TxtPushoverTitle, "", "")
@@ -20,18 +20,16 @@ func Run(crt *term.ViewPort) {
 	ok := false
 	for !ok {
 
-		crt.Clear()
-		//crt.SetDelayInSec(0.25) // Set delay in milliseconds
-		//crt.Header("Main Menu")
+		t.Clear()
 
 		action, _ := m.DisplayWithActions()
 		switch action {
 		case lang.SymActionQuit:
-			crt.InfoMessage(lang.TxtQuittingMessage + lang.SymNewline)
+			t.InfoMessage(lang.TxtQuittingMessage + lang.SymNewline)
 			ok = true
 			continue
 		case "1":
-			push.Run(crt)
+			push.Run(t)
 		default:
 			m.Error(term.ErrInvalidAction, action)
 		}

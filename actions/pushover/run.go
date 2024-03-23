@@ -24,7 +24,7 @@ import (
 var messages = make(map[string]string)
 var titles = make(map[string]string)
 var hostName string
-var crt term.ViewPort
+var t term.ViewPort
 
 //var debugMode bool
 
@@ -59,7 +59,6 @@ func init() {
 
 func RunOld(t term.ViewPort, debug bool, messageType, messageTitle, messageBody string) {
 
-	//crt = t
 	//debugMode = debug
 
 	flags.Parse()
@@ -133,11 +132,11 @@ func Run(t *term.ViewPort) {
 
 func sendMessage(inMessage, inTitle string) {
 	//L.WithFields(xlg.Fields{"Message": inMessage, "Title": inTitle}).Info("Sending Message")
-	crt.Print("Sending Message")
-	crt.Print("Message: " + inMessage)
-	crt.Print("Title: " + inTitle)
+	t.Print("Sending Message")
+	t.Print("Message: " + inMessage)
+	t.Print("Title: " + inTitle)
 	Normal(inMessage, inTitle)
-	crt.Print("Message Sent")
+	t.Print("Message Sent")
 }
 
 func processMessage(t *term.ViewPort, action string) (*pushover.Pushover, *pushover.Recipient, *pushover.Message, error) {

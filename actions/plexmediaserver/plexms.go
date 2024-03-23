@@ -17,29 +17,29 @@ import (
 // The main function initializes and runs a terminal-based news reader application called StarTerm,
 // which fetches news headlines from an RSS feed and allows the user to navigate and open the full news
 // articles.
-func Run(crt *term.ViewPort) {
+func Run(t *term.ViewPort) {
 
-	crt.Clear()
+	t.Clear()
 
 	//spew.Dump(cfg.Configuration)
 	//os.Exit(1)
 
 	plexConnection, err := plex.New(conf.Configuration.PlexURI+":"+conf.Configuration.PlexPort, conf.Configuration.PlexToken)
 	if err != nil {
-		crt.Error(errs.ErrPlexInit, err.Error())
+		t.Error(errs.ErrPlexInit, err.Error())
 		os.Exit(1)
 	}
 
 	// Test your connection to your Plex server
 	result, err := plexConnection.Test()
 	if err != nil || !result {
-		crt.Error(errs.ErrPlexConnectionTest, err.Error())
+		t.Error(errs.ErrPlexConnectionTest, err.Error())
 		os.Exit(1)
 	}
 
 	devices, err := plexConnection.GetServers()
 	if err != nil {
-		crt.Error(errs.ErrPlexInit, err.Error())
+		t.Error(errs.ErrPlexInit, err.Error())
 		os.Exit(1)
 	}
 	//spew.Dump(devices)
@@ -56,17 +56,17 @@ func Run(crt *term.ViewPort) {
 
 	mediaVault, err := plex.New(mediaVaultProperties.Connection[0].URI, conf.Configuration.PlexToken)
 	if err != nil {
-		crt.Error(errs.ErrPlexConnect, mediaVaultProperties.Name)
+		t.Error(errs.ErrPlexConnect, mediaVaultProperties.Name)
 		os.Exit(1)
 	}
 
 	mvLibraries, err := mediaVault.GetLibraries()
 	if err != nil {
-		crt.Error(errs.ErrLibraryResponse, mediaVaultProperties.Name)
+		t.Error(errs.ErrLibraryResponse, mediaVaultProperties.Name)
 		os.Exit(1)
 	}
 
-	p := crt.NewTitledPage(lang.TxtPlexTitle + lang.SymDelimiter + mediaVaultProperties.Name)
+	p := t.NewTitledPage(lang.TxtPlexTitle + lang.SymDelimiter + mediaVaultProperties.Name)
 	count := 0
 	for mvLibrary := range mvLibraries.MediaContainer.Directory {
 		xx := mvLibraries.MediaContainer.Directory[mvLibrary]
@@ -82,32 +82,31 @@ func Run(crt *term.ViewPort) {
 	switch {
 	case nextAction == lang.SymActionQuit:
 		return
-	case crt.Helpers.IsInt(nextAction):
-		//crt.Error(lang.TxtYouSelected+nextAction, nil)
+	case t.Helpers.IsInt(nextAction):
 		naInt, _ := strconv.Atoi(nextAction)
 		wi := mvLibraries.MediaContainer.Directory[naInt-1]
-		Action(crt, mediaVault, &wi)
+		Action(t, mediaVault, &wi)
 
 	default:
-		p.Error(term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+		p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
 	}
 	//}
 
 }
 
-func Action(crt *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
+func Action(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	switch wi.Type {
 	case "movie":
-		crt.Shout(wi.Title)
-		movies.Run(crt, mediaVault, wi)
+		t.Shout(wi.Title)
+		movies.Run(t, mediaVault, wi)
 	case "show":
-		crt.Shout(wi.Title)
-		shows.Run(crt, mediaVault, wi)
+		t.Shout(wi.Title)
+		shows.Run(t, mediaVault, wi)
 	case "artist":
-		crt.Shout(wi.Title)
-		music.Run(crt, mediaVault, wi)
+		t.Shout(wi.Title)
+		music.Run(t, mediaVault, wi)
 	default:
-		crt.Shout(wi.Title)
+		t.Shout(wi.Title)
 	}
 }

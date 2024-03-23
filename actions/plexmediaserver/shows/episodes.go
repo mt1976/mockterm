@@ -10,13 +10,13 @@ import (
 	pmss "github.com/mt1976/mockterm/plexsupport"
 )
 
-func Episodes(crt *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, info plex.Metadata) {
+func Episodes(t *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, info plex.Metadata) {
 	res, err := mediaVault.GetEpisodes(info.RatingKey)
 	if err != nil {
-		crt.Error(errs.ErrLibraryResponse, err.Error())
+		t.Error(errs.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
-	m := crt.NewTitledPage(seriesTitle + lang.Space + info.Title)
+	m := t.NewTitledPage(seriesTitle + lang.Space + info.Title)
 
 	noEps := len(res.MediaContainer.Metadata)
 	for i := 0; i < noEps; i++ {
@@ -29,18 +29,18 @@ func Episodes(crt *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, inf
 	case lang.SymActionQuit:
 		return
 	default:
-		if crt.Helpers.IsInt(nextAction) {
-			EpisodeDetail(crt, res.MediaContainer.Metadata[crt.Helpers.ToInt(nextAction)-1])
+		if t.Helpers.IsInt(nextAction) {
+			EpisodeDetail(t, res.MediaContainer.Metadata[t.Helpers.ToInt(nextAction)-1])
 		} else {
-			m.Error(term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+			m.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
 		}
 	}
 }
 
-func EpisodeDetail(crt *term.ViewPort, info plex.Metadata) {
+func EpisodeDetail(t *term.ViewPort, info plex.Metadata) {
 
 	title := info.GrandparentTitle + lang.Space + info.ParentTitle + lang.Space + info.Title
-	p := crt.NewTitledPage(title)
+	p := t.NewTitledPage(title)
 	p.AddFieldValuePair(lang.TxtPlexShow, info.GrandparentTitle)
 	p.AddFieldValuePair(lang.TxtPlexSeason, info.ParentTitle)
 	p.AddFieldValuePair(lang.TxtPlexEpisode, info.Title)

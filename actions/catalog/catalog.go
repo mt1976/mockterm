@@ -16,12 +16,9 @@ import (
 
 var debugMode bool = false
 
-//var crt term.ViewPort
-
 func Run(t term.ViewPort, debug bool, path string) {
 
 	debugMode = debug
-	//crt = t
 	hostname := t.Helpers.GetHostName()
 	outputFilename := "catalog_" + hostname + "_" + supt.GetTimeStamp() + ".info"
 
@@ -29,7 +26,6 @@ func Run(t term.ViewPort, debug bool, path string) {
 	//X := T
 
 	info.breakData(t, "Cataloging system resources")
-	//fmt.Println(crt.PR("Output file = "+outputFilename, T))
 	t.Print("Output file : " + outputFilename)
 	t.Break()
 	info.storeData(t, "Hostname", t.Helpers.GetHostName())

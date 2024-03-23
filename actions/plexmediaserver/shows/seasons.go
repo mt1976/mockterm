@@ -9,14 +9,14 @@ import (
 	lang "github.com/mt1976/mockterm/language"
 )
 
-func SeasonDetails(crt *term.ViewPort, mediaVault *plex.Plex, info plex.Metadata) {
+func SeasonDetails(t *term.ViewPort, mediaVault *plex.Plex, info plex.Metadata) {
 
 	yy, err := mediaVault.GetEpisodes(info.RatingKey)
 	if err != nil {
-		crt.Error(errs.ErrLibraryResponse, err.Error())
+		t.Error(errs.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
-	p := crt.NewTitledPage(lang.TxtPlexSeasons + info.Title)
+	p := t.NewTitledPage(lang.TxtPlexSeasons + info.Title)
 	noResps := len(yy.MediaContainer.Metadata)
 	for i := 0; i < noResps; i++ {
 		season := yy.MediaContainer.Metadata[i]
@@ -28,10 +28,10 @@ func SeasonDetails(crt *term.ViewPort, mediaVault *plex.Plex, info plex.Metadata
 	case lang.SymActionQuit:
 		return
 	default:
-		if crt.Helpers.IsInt(na) {
-			Episodes(crt, mediaVault, info.Title, yy.MediaContainer.Metadata[crt.Helpers.ToInt(na)-1])
+		if t.Helpers.IsInt(na) {
+			Episodes(t, mediaVault, info.Title, yy.MediaContainer.Metadata[t.Helpers.ToInt(na)-1])
 		} else {
-			p.Error(term.ErrInvalidAction, crt.Formatters.SQuote(na))
+			p.Error(term.ErrInvalidAction, t.Formatters.SQuote(na))
 		}
 	}
 }

@@ -22,8 +22,6 @@ var (
 var debugMode bool = true
 var cfg = conf.Configuration
 
-//var crt support.Crt
-
 func Run(t term.ViewPort, debugModeIn bool, pathIn string) {
 	debugMode = debugModeIn
 

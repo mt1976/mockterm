@@ -13,56 +13,56 @@ import (
 var C = conf.Configuration
 
 // Run initializes the terminal and runs the main loop.
-func Run(crt *term.ViewPort) {
+func Run(t *term.ViewPort) {
 	// Clear the terminal screen.
-	crt.Clear()
+	t.Clear()
 
 	// Display the banner.
-	crt.Banner(lang.TxtStarting)
+	t.Banner(lang.TxtStarting)
 
 	// Print a message.
-	crt.Print(lang.TxtStartingTerminal + lang.SymNewline)
+	t.Print(lang.TxtStartingTerminal + lang.SymNewline)
 
 	// Print a message.
-	crt.Print(lang.TxtSelfTesting + lang.SymNewline)
-	oldDelay := crt.Delay()
+	t.Print(lang.TxtSelfTesting + lang.SymNewline)
+	oldDelay := t.Delay()
 	//fmt.Println("Old Delay: ", oldDelay)
-	crt.SetDelayInSec(0.25)
-	crt.Print(lang.TxtSelfTesting + lang.TxtComplete + lang.SymNewline)
+	t.SetDelayInSec(0.25)
+	t.Print(lang.TxtSelfTesting + lang.TxtComplete + lang.SymNewline)
 	// Print the current date and time.
-	crt.SetDelayInMs(oldDelay)
-	crt.Print(lang.TxtCurrentDate + crt.Formatters.DateString() + lang.SymNewline)
-	crt.Print(lang.TxtCurrentTime + crt.Formatters.TimeString() + lang.SymNewline)
+	t.SetDelayInMs(oldDelay)
+	t.Print(lang.TxtCurrentDate + t.Formatters.DateString() + lang.SymNewline)
+	t.Print(lang.TxtCurrentTime + t.Formatters.TimeString() + lang.SymNewline)
 
 	// Print a message.
-	crt.Print(lang.TxtPleaseWait + lang.SymNewline)
+	t.Print(lang.TxtPleaseWait + lang.SymNewline)
 
 	// Check if the terminal has a baud rate set.
-	if !crt.NoBaudRate() {
+	if !t.NoBaudRate() {
 		// Print a message with the current baud rate.
-		msg := fmt.Sprintf(lang.TxtBaudRate, crt.Baud())
-		crt.Print(msg + lang.SymNewline)
+		msg := fmt.Sprintf(lang.TxtBaudRate, t.Baud())
+		t.Print(msg + lang.SymNewline)
 	}
 
 	// Print a message.
-	crt.Print(lang.TxtConnecting + lang.SymNewline)
+	t.Print(lang.TxtConnecting + lang.SymNewline)
 
 	// Print a message with the IP address and port number.
-	msg := fmt.Sprintf(lang.TxtDialing, crt.Helpers.RandomIP(), crt.Helpers.RandomPort())
-	crt.Print(msg + lang.SymNewline)
+	msg := fmt.Sprintf(lang.TxtDialing, t.Helpers.RandomIP(), t.Helpers.RandomPort())
+	t.Print(msg + lang.SymNewline)
 	if !C.Debug {
-		crt.SetDelayInSec(crt.Helpers.RandomFloat(1, 5))
+		t.SetDelayInSec(t.Helpers.RandomFloat(1, 5))
 	}
-	if crt.Helpers.CoinToss() && !C.Debug {
-		crt.Print(lang.ErrorMessageConnectionFailed + lang.SymNewline)
+	if t.Helpers.CoinToss() && !C.Debug {
+		t.Print(lang.ErrorMessageConnectionFailed + lang.SymNewline)
 		// Print a message with the IP address and port number.
-		crt.ResetDelay()
-		msg := fmt.Sprintf(lang.TxtDialing, crt.Helpers.RandomIP(), crt.Helpers.RandomPort())
-		crt.Print(msg + lang.SymNewline)
-		crt.SetDelayInSec(crt.Helpers.RandomFloat(1, 5))
+		t.ResetDelay()
+		msg := fmt.Sprintf(lang.TxtDialing, t.Helpers.RandomIP(), t.Helpers.RandomPort())
+		t.Print(msg + lang.SymNewline)
+		t.SetDelayInSec(t.Helpers.RandomFloat(1, 5))
 	}
 
 	// Print a message.
-	crt.Print(lang.TxtConnected + lang.SymNewline)
-	crt.SetDelayInMs(oldDelay)
+	t.Print(lang.TxtConnected + lang.SymNewline)
+	t.SetDelayInMs(oldDelay)
 }

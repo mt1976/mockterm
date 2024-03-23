@@ -14,10 +14,10 @@ var config = cfgr.Configuration
 
 // GetFilesList returns a list of files in the specified base folder.
 // If an error occurs, an error message is displayed using the provided terminal.
-func GetFilesList(crt term.ViewPort, baseFolder string) []os.DirEntry {
+func GetFilesList(t term.ViewPort, baseFolder string) []os.DirEntry {
 	files, err := os.ReadDir(baseFolder)
 	if err != nil {
-		crt.Error(errs.ErrReadingFolder, baseFolder, err.Error())
+		t.Error(errs.ErrReadingFolder, baseFolder, err.Error())
 		return nil
 	}
 	return files

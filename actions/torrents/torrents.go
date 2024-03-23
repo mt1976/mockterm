@@ -8,14 +8,13 @@ import (
 
 // The Run function displays a menu of news topics and allows the user to select a topic to view the
 // news articles related to that topic.
-func Run(crt *term.ViewPort) {
+func Run(t *term.ViewPort) {
 
 	C := conf.Configuration
 
-	crt.Clear()
-	//crt.SetDelayInSec(0.25) // Set delay in milliseconds
-	//crt.Header("Main Menu")
-	m := crt.NewTitledPage(lang.TxtTorrentsMenuTitle)
+	t.Clear()
+
+	m := t.NewTitledPage(lang.TxtTorrentsMenuTitle)
 	c := 0
 	c++
 	m.AddOption(c, lang.TxtTransmission, C.TransmissionURI, "")
@@ -31,13 +30,13 @@ func Run(crt *term.ViewPort) {
 		return
 	}
 
-	if crt.Helpers.IsInt(action) {
+	if t.Helpers.IsInt(action) {
 		switch action {
 		case "1":
-			Trans(crt, nextLevel.AlternateID, nextLevel.Title)
+			Trans(t, nextLevel.AlternateID, nextLevel.Title)
 			action = ""
 		case "2":
-			//QTor(crt, nextLevel.AlternateID, nextLevel.Title)
+			//QTor(t, nextLevel.AlternateID, nextLevel.Title)
 			action = ""
 		default:
 			m.Error(term.ErrInvalidAction, action)

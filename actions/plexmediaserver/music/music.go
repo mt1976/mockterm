@@ -11,17 +11,17 @@ import (
 	errs "github.com/mt1976/mockterm/errors"
 )
 
-func Run(crt *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
+func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	res, err := mediaVault.GetLibraryContent(wi.Key, "")
 	if err != nil {
-		crt.Error(errs.ErrLibraryResponse, err.Error())
+		t.Error(errs.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
 
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
 
-	m := crt.NewTitledPage(res.MediaContainer.LibrarySectionTitle + lang.Space + crt.Formatters.PQuote(noItems))
+	m := t.NewTitledPage(res.MediaContainer.LibrarySectionTitle + lang.Space + t.Formatters.PQuote(noItems))
 	count := 0
 
 	for range res.MediaContainer.Metadata {
@@ -34,19 +34,17 @@ func Run(crt *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 	case lang.SymActionQuit:
 		return
 	default:
-		if crt.Helpers.IsInt(nextAction) {
-			//	Action(crt, mediaVault, res.MediaContainer.Metadata[support.ToInt(nextAction)-1])
-			Detail(crt, res.MediaContainer.Metadata[crt.Helpers.ToInt(nextAction)-1])
-
+		if t.Helpers.IsInt(nextAction) {
+			Detail(t, res.MediaContainer.Metadata[t.Helpers.ToInt(nextAction)-1])
 		} else {
-			m.Error(term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+			m.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
 		}
 	}
 }
 
-func Detail(crt *term.ViewPort, info plex.Metadata) {
+func Detail(t *term.ViewPort, info plex.Metadata) {
 
-	p := crt.NewTitledPage(info.Title)
+	p := t.NewTitledPage(info.Title)
 
 	p.AddFieldValuePair(lang.TxtPlexTitleLabel, info.Title)
 	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
@@ -66,6 +64,6 @@ func Detail(crt *term.ViewPort, info plex.Metadata) {
 	case lang.SymActionQuit:
 		return
 	default:
-		p.Error(term.ErrInvalidAction, crt.Formatters.SQuote(nextAction))
+		p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
 	}
 }
