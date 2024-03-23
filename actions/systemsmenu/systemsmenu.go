@@ -10,11 +10,11 @@ import (
 // and perform various actions.
 func Run(t *term.ViewPort) {
 
-	m := t.NewTitledPage(lang.TxtSystemsMaintenanceMenuTitle)
-	m.Paragraph(lang.TxtServiceMenuDescription)
-	m.BlankRow()
-	m.AddOption(1, lang.TxtPushoverTitle, "", "")
-	m.AddAction(lang.SymActionQuit)
+	p := t.NewTitledPage(lang.TxtSystemsMaintenanceMenuTitle)
+	p.Paragraph(lang.TxtServiceMenuDescription)
+	p.BlankRow()
+	p.AddOption(1, lang.TxtPushoverTitle, "", "")
+	p.AddAction(lang.SymActionQuit)
 
 	// loop while ok
 	ok := false
@@ -22,7 +22,7 @@ func Run(t *term.ViewPort) {
 
 		t.Clear()
 
-		action, _ := m.DisplayWithActions()
+		action, _ := p.DisplayWithActions()
 		switch action {
 		case lang.SymActionQuit:
 			t.InfoMessage(lang.TxtQuittingMessage + lang.SymNewline)
@@ -31,7 +31,7 @@ func Run(t *term.ViewPort) {
 		case "1":
 			push.Run(t)
 		default:
-			m.Error(term.ErrInvalidAction, action)
+			p.Error(term.ErrInvalidAction, action)
 		}
 	}
 }

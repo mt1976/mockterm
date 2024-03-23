@@ -22,15 +22,15 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
 
-	m := t.NewTitledPage(res.MediaContainer.LibrarySectionTitle + lang.Space + t.Formatters.PQuote(noItems))
+	p := t.NewTitledPage(res.MediaContainer.LibrarySectionTitle + lang.Space + t.Formatters.PQuote(noItems))
 	count := 0
 
 	for range res.MediaContainer.Metadata {
 		count++
-		m.AddOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
+		p.AddOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
 	}
 
-	nextAction, _ := m.DisplayWithActions()
+	nextAction, _ := p.DisplayWithActions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return
@@ -38,7 +38,7 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 		if t.Helpers.IsInt(nextAction) {
 			Detail(t, res.MediaContainer.Metadata[t.Helpers.ToInt(nextAction)-1])
 		} else {
-			m.Error(terr.ErrInvalidAction, t.Formatters.SQuote(nextAction))
+			p.Error(terr.ErrInvalidAction, t.Formatters.SQuote(nextAction))
 		}
 	}
 }

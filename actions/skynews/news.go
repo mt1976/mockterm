@@ -23,29 +23,29 @@ func Run(t *term.ViewPort) {
 	// Strange News
 
 	t.Clear()
-	m := t.NewTitledPage(lang.TxtMenuTitle)
+	p := t.NewTitledPage(lang.TxtMenuTitle)
 	c := 0
 	c++
-	m.AddOption(c, lang.TxtTopicHome, C.URISkyNews+C.URISkyNewsHome, "")
+	p.AddOption(c, lang.TxtTopicHome, C.URISkyNews+C.URISkyNewsHome, "")
 	c++
-	m.AddOption(c, lang.TxtTopicUK, C.URISkyNews+C.URISkyNewsUK, "")
+	p.AddOption(c, lang.TxtTopicUK, C.URISkyNews+C.URISkyNewsUK, "")
 	c++
-	m.AddOption(c, lang.TxtTopicWorld, C.URISkyNews+C.URISkyNewsWorld, "")
+	p.AddOption(c, lang.TxtTopicWorld, C.URISkyNews+C.URISkyNewsWorld, "")
 	c++
-	m.AddOption(c, lang.TxtTopicUS, C.URISkyNews+C.URISkyNewsUS, "")
+	p.AddOption(c, lang.TxtTopicUS, C.URISkyNews+C.URISkyNewsUS, "")
 	c++
-	m.AddOption(c, lang.TxtTopicBusiness, C.URISkyNews+C.URISkyNewsBusiness, "")
+	p.AddOption(c, lang.TxtTopicBusiness, C.URISkyNews+C.URISkyNewsBusiness, "")
 	c++
-	m.AddOption(c, lang.TxtTopicPolitics, C.URISkyNews+C.URISkyNewsPolitics, "")
+	p.AddOption(c, lang.TxtTopicPolitics, C.URISkyNews+C.URISkyNewsPolitics, "")
 	c++
-	m.AddOption(c, lang.TxtTopicTechnology, C.URISkyNews+C.URISkyNewsTechnology, "")
+	p.AddOption(c, lang.TxtTopicTechnology, C.URISkyNews+C.URISkyNewsTechnology, "")
 	c++
-	m.AddOption(c, lang.TxtTopicEntertainment, C.URISkyNews+C.URISkyNewsEntertainment, "")
+	p.AddOption(c, lang.TxtTopicEntertainment, C.URISkyNews+C.URISkyNewsEntertainment, "")
 	c++
-	m.AddOption(c, lang.TxtTopicStrange, C.URISkyNews+C.URISkyNewsStrange, "")
-	m.AddAction(lang.SymActionQuit)
+	p.AddOption(c, lang.TxtTopicStrange, C.URISkyNews+C.URISkyNewsStrange, "")
+	p.AddAction(lang.SymActionQuit)
 
-	action, nextLevel := m.DisplayWithActions()
+	action, nextLevel := p.DisplayWithActions()
 
 	if action == lang.SymActionQuit {
 		return

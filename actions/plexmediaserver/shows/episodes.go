@@ -16,15 +16,15 @@ func Episodes(t *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, info 
 		t.Error(errs.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
-	m := t.NewTitledPage(seriesTitle + lang.Space + info.Title)
+	p := t.NewTitledPage(seriesTitle + lang.Space + info.Title)
 
 	noEps := len(res.MediaContainer.Metadata)
 	for i := 0; i < noEps; i++ {
 		ep := res.MediaContainer.Metadata[i]
-		m.AddOption(i+1, ep.Title, "", "")
+		p.AddOption(i+1, ep.Title, "", "")
 	}
 
-	nextAction, _ := m.DisplayWithActions()
+	nextAction, _ := p.DisplayWithActions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return
@@ -32,7 +32,7 @@ func Episodes(t *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, info 
 		if t.Helpers.IsInt(nextAction) {
 			EpisodeDetail(t, res.MediaContainer.Metadata[t.Helpers.ToInt(nextAction)-1])
 		} else {
-			m.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
+			p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
 		}
 	}
 }

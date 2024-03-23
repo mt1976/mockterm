@@ -14,17 +14,17 @@ func Run(t *term.ViewPort) {
 
 	t.Clear()
 
-	m := t.NewTitledPage(lang.TxtTorrentsMenuTitle)
+	p := t.NewTitledPage(lang.TxtTorrentsMenuTitle)
 	c := 0
 	c++
-	m.AddOption(c, lang.TxtTransmission, C.TransmissionURI, "")
+	p.AddOption(c, lang.TxtTransmission, C.TransmissionURI, "")
 	c++
-	m.AddOption(c, lang.TxtQTorrent, C.QTorrentURI, "")
+	p.AddOption(c, lang.TxtQTorrent, C.QTorrentURI, "")
 	c++
 
-	m.AddAction(lang.SymActionQuit)
+	p.AddAction(lang.SymActionQuit)
 
-	action, nextLevel := m.DisplayWithActions()
+	action, nextLevel := p.DisplayWithActions()
 
 	if action == lang.SymActionQuit {
 		return
@@ -39,7 +39,7 @@ func Run(t *term.ViewPort) {
 			//QTor(t, nextLevel.AlternateID, nextLevel.Title)
 			action = ""
 		default:
-			m.Error(term.ErrInvalidAction, action)
+			p.Error(term.ErrInvalidAction, action)
 			action = ""
 		}
 	}
