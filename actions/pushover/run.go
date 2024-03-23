@@ -1,8 +1,8 @@
 package pushover
 
 import (
+	"errors"
 	flags "flag"
-	"fmt"
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
@@ -156,7 +156,14 @@ func processMessage(t *term.Crt, action string) (*pushover.Pushover, *pushover.R
 	}
 
 	messageBody := "Message Body"
-	messageTitle := fmt.Sprintf("%v Priority Message Title", poPriorityToString(priority))
+	messageTitle, action, err := getMessageTitle(t)
+	if err != nil {
+		t.InputError(err)
+		return nil, nil, nil, err
+	}
+	if t.Formatters.Upcase(action) == lang.SymActionQuit {
+		return nil, nil, nil, nil
+	}
 
 	app, recipient, message := buildPushoverMessage(messageBody, messageTitle, priority)
 
@@ -180,6 +187,26 @@ func processMessage(t *term.Crt, action string) (*pushover.Pushover, *pushover.R
 	spew.Dump(p, t)
 	p.Display(t)
 	return app, recipient, message, nil
+}
+
+func getMessageTitle(t *term.Crt) (string, string, error) {
+	p := t.NewTitledPage("Message Title")
+	xx := []string{"Enter the title of the message to be sent to pushover"}
+	p.Paragraph(xx)
+	p.BlankRow()
+	p.SetPrompt("Enter the title of the message, or (Q)uit")
+	for {
+		op := t.Input("", "")
+		if op == lang.SymActionQuit {
+			return "", lang.SymActionQuit, nil
+		}
+		if op != "" {
+			return op, "", nil
+		}
+	}
+
+	return "", "", errors.New("Failed to get message title")
+
 }
 
 func poPriorityToString(in int) string {
