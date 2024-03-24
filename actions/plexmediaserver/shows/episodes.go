@@ -21,7 +21,7 @@ func Episodes(t *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, info 
 	noEps := len(res.MediaContainer.Metadata)
 	for i := 0; i < noEps; i++ {
 		ep := res.MediaContainer.Metadata[i]
-		p.AddOption(i+1, ep.Title, "", "")
+		p.AddMenuOption(i+1, ep.Title, "", "")
 	}
 
 	nextAction, _ := p.DisplayWithActions()
@@ -54,10 +54,10 @@ func EpisodeDetail(t *term.ViewPort, info plex.Metadata) {
 	videoContainer := info.Media[0].Container
 	aspectRatio := info.Media[0].AspectRatio
 
-	p.BlankRow()
+	p.AddBlankRow()
 	p.AddColumnsTitle(lang.TxtPlexCodecLabel, lang.TxtPlexFrameRateLabel, lang.TxtPlexResolutionLabel, lang.TxtPlexContainerLabel, lang.TxtPlexAspectRatioLabel)
 	p.AddColumns(videoCodec, videoFrameRate, videoResolution, videoContainer, aspectRatio.String())
-	p.BlankRow()
+	p.AddBlankRow()
 	p.AddColumnsTitle(lang.TxtPlexMediaLabel)
 	for _, v := range info.Media {
 		p.AddColumns(v.Part[0].File)

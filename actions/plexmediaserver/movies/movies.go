@@ -27,7 +27,7 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	for range res.MediaContainer.Metadata {
 		count++
-		p.AddOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
+		p.AddMenuOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
 	}
 
 	nextAction, _ := p.DisplayWithActions()
@@ -53,7 +53,7 @@ func Detail(t *term.ViewPort, info plex.Metadata) {
 	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, pmms.FormatPlexDate(info.OriginallyAvailableAt))
 	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
 	//unix time to hrs mins secs
-	p.BlankRow()
+	p.AddBlankRow()
 	for i := 0; i < len(info.Director); i++ {
 		data := info.Director[i]
 		lbl := lang.TxtPlexDirectorLabel
@@ -73,7 +73,7 @@ func Detail(t *term.ViewPort, info plex.Metadata) {
 	}
 
 	count := 0
-	p.BlankRow()
+	p.AddBlankRow()
 	p.AddColumnsTitle(lang.TxtPlexContainerLabel, lang.TxtPlexResolutionLabel, lang.TxtPlexCodecLabel, lang.TxtPlexAspectRatioLabel, lang.TxtPlexFrameRateLabel)
 
 	for range info.Media {
@@ -83,7 +83,7 @@ func Detail(t *term.ViewPort, info plex.Metadata) {
 	}
 
 	//range trhough parts
-	p.BlankRow()
+	p.AddBlankRow()
 	p.AddColumnsTitle(lang.TxtPlexMediaLabel)
 	for _, v := range info.Media {
 		p.AddColumns(v.Part[0].File)

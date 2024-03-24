@@ -27,7 +27,7 @@ func Topic(t *term.ViewPort, topic, title string) {
 	for i := range noNewsItems {
 		//log.Println("Adding: ", feed.Items[i].Title, i)
 		dt := t.Formatters.TimeAgo(feed.Items[i].Published)
-		p.AddOption(i+1, feed.Items[i].Title, feed.Items[i].Link, dt)
+		p.AddMenuOption(i+1, feed.Items[i].Title, feed.Items[i].Link, dt)
 		i++
 	}
 

@@ -102,12 +102,12 @@ func RunOld(t term.ViewPort, debug bool, messageType, messageTitle, messageBody 
 
 func Run(t *term.ViewPort) {
 	optionsScreen := t.NewTitledPage(lang.TxtPushoverTitle)
-	optionsScreen.Paragraph(lang.TxtPushoverDescription)
-	optionsScreen.BlankRow()
-	optionsScreen.AddOption(1, lang.TxtPushoverMsgPriorityNormal, "", "")
-	optionsScreen.AddOption(2, lang.TxtPushoverMsgPriorityHigh, "", "")
-	optionsScreen.AddOption(3, lang.TxtPushoverMsgPriorityLow, "", "")
-	optionsScreen.AddOption(4, lang.TxtPushoverMsgPriorityEmergancy, "", "")
+	optionsScreen.AddParagraph(lang.TxtPushoverDescription)
+	optionsScreen.AddBlankRow()
+	optionsScreen.AddMenuOption(1, lang.TxtPushoverMsgPriorityNormal, "", "")
+	optionsScreen.AddMenuOption(2, lang.TxtPushoverMsgPriorityHigh, "", "")
+	optionsScreen.AddMenuOption(3, lang.TxtPushoverMsgPriorityLow, "", "")
+	optionsScreen.AddMenuOption(4, lang.TxtPushoverMsgPriorityEmergancy, "", "")
 	optionsScreen.SetPrompt(lang.TxtPushoverPrompt)
 	optionsScreen.AddAction(lang.SymActionQuit)
 	action, _ := optionsScreen.DisplayWithActions()
@@ -177,10 +177,10 @@ func processMessage(t *term.ViewPort, action string) (*pushover.Pushover, *pusho
 	app, recipient, message := buildPushoverMessage(messageBody, messageTitle, priority)
 
 	p := t.NewTitledPage(lang.TxtPushoverTitle)
-	p.BlankRow()
+	p.AddBlankRow()
 	p.AddFieldValuePair("Title", message.Title)
 	p.AddFieldValuePair("Message", message.Message)
-	p.BlankRow()
+	p.AddBlankRow()
 	p.AddFieldValuePair("Priority", t.Formatters.Upcase(poPriorityToString(message.Priority)))
 	p.AddFieldValuePair("Device Name", message.DeviceName)
 	ts := t.Formatters.HumanFromUnixDate(message.Timestamp)
@@ -201,12 +201,12 @@ func processMessage(t *term.ViewPort, action string) (*pushover.Pushover, *pusho
 
 func getMessageTitle(t *term.ViewPort) (string, string, error) {
 	p := t.NewTitledPage(lang.TxtPushoverTitle)
-	p.BlankRow()
+	p.AddBlankRow()
 	p.AddFieldValuePair("Title", "")
-	p.BlankRow()
+	p.AddBlankRow()
 	xx := []string{lang.SymBlank, "Enter the title of the message to be sent to pushover", lang.SymBlank, "Enter the title of the message, or (Q)uit"}
-	p.Paragraph(xx)
-	p.BlankRow()
+	p.AddParagraph(xx)
+	p.AddBlankRow()
 
 	//p.SetPrompt("Enter the title of the message, or (Q)uit")
 	for {
@@ -229,13 +229,13 @@ func getMessageBody(t *term.ViewPort, title string) (string, string, error) {
 	fmt.Printf("getMessageBody\n")
 
 	p := t.NewTitledPage(lang.TxtPushoverTitle)
-	p.BlankRow()
+	p.AddBlankRow()
 	p.AddFieldValuePair("Title", title)
 	p.AddFieldValuePair("Message", "")
-	p.BlankRow()
+	p.AddBlankRow()
 	xx := []string{lang.SymBlank, "Enter the message to be sent to pushover", lang.SymBlank, "Enter message, or (Q)uit"}
-	p.Paragraph(xx)
-	p.BlankRow()
+	p.AddParagraph(xx)
+	p.AddBlankRow()
 
 	//p.SetPrompt("Enter the title of the message, or (Q)uit")
 	for {

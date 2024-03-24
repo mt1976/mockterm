@@ -11,9 +11,9 @@ import (
 func Run(t *term.ViewPort) {
 
 	p := t.NewTitledPage(lang.TxtSystemsMaintenanceMenuTitle)
-	p.Paragraph(lang.TxtServiceMenuDescription)
-	p.BlankRow()
-	p.AddOption(1, lang.TxtPushoverTitle, "", "")
+	p.AddParagraph(lang.TxtServiceMenuDescription)
+	p.AddBlankRow()
+	p.AddMenuOption(1, lang.TxtPushoverTitle, "", "")
 	p.AddAction(lang.SymActionQuit)
 
 	// loop while ok

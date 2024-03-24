@@ -20,7 +20,7 @@ func SeasonDetails(t *term.ViewPort, mediaVault *plex.Plex, info plex.Metadata) 
 	noResps := len(yy.MediaContainer.Metadata)
 	for i := 0; i < noResps; i++ {
 		season := yy.MediaContainer.Metadata[i]
-		p.AddOption(i+1, season.Title, "", "")
+		p.AddMenuOption(i+1, season.Title, "", "")
 	}
 
 	na, _ := p.DisplayWithActions()

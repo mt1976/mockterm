@@ -29,7 +29,7 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	for range res.MediaContainer.Metadata {
 		count++
-		p.AddOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
+		p.AddMenuOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
 	}
 
 	nextAction, _ := p.DisplayWithActions()
@@ -52,7 +52,7 @@ func Detail(t *term.ViewPort, info plex.Metadata, mediaVault *plex.Plex) {
 	p.AddFieldValuePair(lang.TxtYear, t.Helpers.ToString(info.Year))
 	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
 	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, pmss.FormatPlexDate(info.OriginallyAvailableAt))
-	p.BlankRow()
+	p.AddBlankRow()
 	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
 
 	p.AddAction(lang.SymActionSeasons) //Drilldown to episodes

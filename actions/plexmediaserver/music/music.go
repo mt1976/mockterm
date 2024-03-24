@@ -26,7 +26,7 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	for range res.MediaContainer.Metadata {
 		count++
-		p.AddOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
+		p.AddMenuOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
 	}
 
 	nextAction, _ := p.DisplayWithActions()
@@ -50,7 +50,7 @@ func Detail(t *term.ViewPort, info plex.Metadata) {
 	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
 
 	count := 0
-	p.BlankRow()
+	p.AddBlankRow()
 	p.AddColumnsTitle(lang.TxtPlexContainerLabel, lang.TxtPlexResolutionLabel, lang.TxtPlexCodecLabel, lang.TxtPlexAspectRatioLabel, lang.TxtPlexFrameRateLabel)
 
 	for range info.Media {

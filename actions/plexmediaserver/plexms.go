@@ -71,7 +71,7 @@ func Run(t *term.ViewPort) {
 	for mvLibrary := range mvLibraries.MediaContainer.Directory {
 		xx := mvLibraries.MediaContainer.Directory[mvLibrary]
 		count++
-		p.AddOption(count, xx.Title, "", "")
+		p.AddMenuOption(count, xx.Title, "", "")
 	}
 
 	p.AddAction(lang.SymActionQuit)
