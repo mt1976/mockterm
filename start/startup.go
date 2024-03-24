@@ -10,7 +10,7 @@ import (
 
 // Run initializes the terminal and runs the main loop.
 
-var C = conf.Configuration
+var cfg = conf.Configuration
 
 // Run initializes the terminal and runs the main loop.
 func Run(t *term.ViewPort) {
@@ -50,10 +50,10 @@ func Run(t *term.ViewPort) {
 	// Print a message with the IP address and port number.
 	msg := fmt.Sprintf(lang.TxtDialing, t.Helpers.RandomIP(), t.Helpers.RandomPort())
 	t.Print(msg + lang.SymNewline)
-	if !C.Debug {
+	if !cfg.Debug {
 		t.SetDelayInSec(t.Helpers.RandomFloat(1, 5))
 	}
-	if t.Helpers.CoinToss() && !C.Debug {
+	if t.Helpers.CoinToss() && !cfg.Debug {
 		t.Print(lang.ErrorMessageConnectionFailed + lang.SymNewline)
 		// Print a message with the IP address and port number.
 		t.ResetDelay()
