@@ -5,7 +5,6 @@ import (
 	flags "flag"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/gregdel/pushover"
 	term "github.com/mt1976/crt"
 	lang "github.com/mt1976/mockterm/language"
@@ -120,7 +119,7 @@ func Run(t *term.ViewPort) {
 			t.Error(err, "")
 			return
 		}
-		return
+
 		_, err = po.SendMessage(msg, recp)
 		if err != nil {
 			t.Error(err, "")
@@ -193,7 +192,7 @@ func processMessage(t *term.ViewPort, action string) (*pushover.Pushover, *pusho
 	p.AddAction("S")
 	p.AddAction("Q")
 	p.SetPrompt(lang.TxtPushoverConfirmation)
-	spew.Dump(p, t)
+	//spew.Dump(p, t)
 	p.DisplayWithActions()
 	return app, recipient, message, nil
 }
