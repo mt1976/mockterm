@@ -264,4 +264,6 @@ var (
 	TxtPushoverMsgPriorityLow       string   = "Low Priority"
 	TxtPushoverPrompt               string   = "Choose a message type to send"
 	TxtPushoverConfirmation         string   = "Choose (S)end or (Q)uit"
+	TxtPushoverMessageTitlePrompt   string   = "Enter the title of the message, or (Q)uit"
+	TxtPushoverMessageBodyPrompt    string   = "Enter the body of the message, or (Q)uit"
 )

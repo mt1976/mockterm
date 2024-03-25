@@ -3,7 +3,6 @@ package pushover
 import (
 	"errors"
 	flags "flag"
-	"fmt"
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
@@ -204,11 +203,10 @@ func getMessageTitle(t *term.ViewPort) (string, string, error) {
 	p.AddBlankRow()
 	p.AddFieldValuePair("Title", "")
 	p.AddBlankRow()
-	xx := []string{lang.SymBlank, "Enter the title of the message to be sent to pushover", lang.SymBlank, "Enter the title of the message, or (Q)uit"}
+	xx := []string{lang.SymBlank, "Enter a title of the message to be sent to pushover", lang.SymBlank, "e.g. :-", "Test Pushover Message", "System Pushover Message", "Heartbeat Message"}
 	p.AddParagraph(xx)
 	p.AddBlankRow()
-
-	//p.SetPrompt("Enter the title of the message, or (Q)uit")
+	p.SetPrompt(lang.TxtPushoverMessageTitlePrompt)
 	for {
 		op, _ := p.DisplayAndInput(3, 15)
 		//op := t.Input("", "")
@@ -224,22 +222,20 @@ func getMessageTitle(t *term.ViewPort) (string, string, error) {
 }
 
 func getMessageBody(t *term.ViewPort, title string) (string, string, error) {
-	fmt.Printf("getMessageBody\n")
-	fmt.Printf("getMessageBody\n")
-	fmt.Printf("getMessageBody\n")
 
 	p := t.NewTitledPage(lang.TxtPushoverTitle)
 	p.AddBlankRow()
 	p.AddFieldValuePair("Title", title)
 	p.AddFieldValuePair("Message", "")
 	p.AddBlankRow()
-	xx := []string{lang.SymBlank, "Enter the message to be sent to pushover", lang.SymBlank, "Enter message, or (Q)uit"}
+	xx := []string{lang.SymBlank, "Enter a message to be sent to pushover", lang.SymBlank, "e.g. :-", "This is a test message", "This is a system message", "This is a heartbeat message"}
 	p.AddParagraph(xx)
 	p.AddBlankRow()
+	p.SetPrompt(lang.TxtPushoverMessageBodyPrompt)
 
 	//p.SetPrompt("Enter the title of the message, or (Q)uit")
 	for {
-		op, _ := p.DisplayAndInput(3, 15)
+		op, _ := p.DisplayAndInput(3, 20)
 		//op := t.Input("", "")
 		if op == lang.SymActionQuit {
 			return "", lang.SymActionQuit, nil
