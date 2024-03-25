@@ -1,8 +1,6 @@
 package mainmenu
 
 import (
-	"log"
-
 	term "github.com/mt1976/crt"
 	dash "github.com/mt1976/mockterm/actions/dashboard"
 	plex "github.com/mt1976/mockterm/actions/plexmediaserver"
@@ -16,14 +14,8 @@ import (
 // The Run function displays a main menu and allows the user to navigate through different sub-menus
 // and perform various actions.
 func Run(t *term.ViewPort) {
-	log.Println("Starting Main Menu")
+	//log.Println("Starting Main Menu")
 	p := t.NewTitledPage(lang.TxtMainMenuTitle)
-	//	spew.Dump(p)
-	//	log.Println("Adding Menu Options")
-	//for i := range 11 {
-	//	m.AddMenuItem(i, fmt.Sprintf("Menu Item %v", i))
-	//}
-
 	p.AddMenuOption(1, lang.TxtDashboardTitle, "", "")
 	p.AddMenuOption(2, lang.TxtSkyNewsMenuTitle, "", "")
 	p.AddMenuOption(3, lang.TxtBBCNewsMenuTitle, "", "")
@@ -35,18 +27,16 @@ func Run(t *term.ViewPort) {
 	p.AddMenuOption(9, lang.SymBlank, "", "")
 	p.AddMenuOption(10, lang.SymBlank, "", "")
 	p.AddAction(lang.SymActionQuit)
-	//spew.Dump(p)
-	//os.Exit(0)
-	// loop while ok
+
 	ok := false
 	for !ok {
 
-		t.Clear()
+		p.Clear()
 
 		action, _ := p.DisplayWithActions()
 		switch action {
 		case lang.SymActionQuit:
-			t.InfoMessage(lang.TxtQuittingMessage + lang.SymNewline)
+			p.Info(lang.TxtQuittingMessage)
 			ok = true
 			continue
 		case "1":

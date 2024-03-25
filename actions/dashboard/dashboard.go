@@ -24,15 +24,14 @@ var dummy = term.New()
 // articles.
 func Run(t *term.ViewPort) {
 
-	t.InfoMessage(lang.TxtDashboardChecking)
 	p := t.NewTitledPage(lang.TxtDashboardTitle)
-
+	p.Info(lang.TxtDashboardChecking)
 	c := 0
 	c++
 	//p.Add("Testing Server/Service Dashboard", "", time.Now().Format("2006-01-02"))
 	for i := 0; i < C.DashboardURINoEntries; i++ {
 		//p.Add(C.DashboardURIName[i], "", "")
-		t.InfoMessage(fmt.Sprintf(lang.TxtDashboardCheckingService, C.DashboardURIName[i]))
+		p.Info(fmt.Sprintf(lang.TxtDashboardCheckingService, C.DashboardURIName[i]))
 		result := CheckService(i)
 		p.AddFieldValuePair(C.DashboardURIName[i], dummy.Formatters.Bold(result))
 	}
