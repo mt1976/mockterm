@@ -33,7 +33,8 @@ func Run(t *term.ViewPort) {
 		//p.Add(C.DashboardURIName[i], "", "")
 		p.Info(fmt.Sprintf(lang.TxtDashboardCheckingService, C.DashboardURIName[i]))
 		result := CheckService(i)
-		p.AddFieldValuePair(C.DashboardURIName[i], dummy.Formatters.Bold(result))
+		//p.AddFieldValuePair(C.DashboardURIName[i], dummy.Formatters.Bold(result))
+		p.AddFieldValuePair(C.DashboardURIName[i], result)
 	}
 
 	p.AddAction(lang.SymActionQuit)
