@@ -8,6 +8,7 @@ import (
 	"github.com/gen2brain/beeep"
 	errs "github.com/mt1976/crt/errors"
 	"github.com/spf13/viper"
+	"golang.org/x/term"
 )
 
 type Config struct {
@@ -156,8 +157,13 @@ func init() {
 	Configuration.TimeStampFormat = "20060102"
 	Configuration.OnlyFansDateTimeFormat = "060102150405"
 
-	Configuration.TerminalWidth = 125
-	Configuration.TerminalHeight = 38
+	width, height, err := term.GetSize(0)
+	if err != nil {
+		return
+	}
+
+	Configuration.TerminalWidth = width
+	Configuration.TerminalHeight = height
 	//spew.Dump(Configuration)
 	//os.Exit(1)
 }
