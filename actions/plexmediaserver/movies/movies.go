@@ -23,12 +23,16 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
 
 	p := t.NewPage(res.MediaContainer.LibrarySectionTitle + lang.Space + t.Formatters.PQuote(noItems))
+	p.Clear()
+	fmt.Printf("NEW OUTER p: %+v\n", p)
+
 	count := 0
 
 	for range res.MediaContainer.Metadata {
 		count++
 		p.AddMenuOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
 	}
+	fmt.Printf("READY OUTER p: %+v\n", p)
 
 	nextAction, _ := p.DisplayWithActions()
 	switch nextAction {
@@ -45,6 +49,7 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 
 func Detail(t *term.ViewPort, info plex.Metadata) {
 	p := t.NewPage(info.Title)
+	fmt.Printf("DETAIL p: %+v\n", p)
 
 	p.AddFieldValuePair(lang.TxtPlexTitleLabel, info.Title)
 	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
@@ -88,7 +93,7 @@ func Detail(t *term.ViewPort, info plex.Metadata) {
 	for _, v := range info.Media {
 		p.AddColumns(v.Part[0].File)
 	}
-
+	fmt.Printf("FULL p: %+v\n", p)
 	nextAction, _ := p.DisplayWithActions()
 	switch nextAction {
 	case lang.SymActionQuit:

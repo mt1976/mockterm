@@ -51,8 +51,7 @@ func Run(t *term.ViewPort) {
 		return
 	}
 	if t.Helpers.IsInt(action) {
-		Topic(t, nextLevel.AlternateID, nextLevel.Title)
+		Topic(p, nextLevel.AlternateID, nextLevel.Title)
 		action = ""
 	}
-
 }

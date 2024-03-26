@@ -10,12 +10,11 @@ import (
 // choose to quit.
 func Story(t *term.ViewPort, storyLink string) {
 
-	t.InfoMessage(lang.TxtLoadingStory)
+	p := buildPage(t, storyLink)
+	p.Info(lang.TxtLoadingStory)
+	p.ActivePageIndex = 0
 
-	s := buildPage(t, storyLink)
-	s.ActivePageIndex = 0
-
-	x, _ := s.DisplayWithActions()
+	x, _ := p.DisplayWithActions()
 
 	if x == lang.SymActionQuit {
 		return
