@@ -18,7 +18,7 @@ func Topic(t *term.ViewPort, topic, title string) {
 	feed, _ := fp.ParseURL(topic)
 	t.Clear()
 
-	p := t.NewTitledPage(feed.Title)
+	p := t.NewPage(feed.Title)
 	noNewsItems := len(feed.Items)
 	if noNewsItems > C.MaxContentRows {
 		noNewsItems = C.MaxContentRows

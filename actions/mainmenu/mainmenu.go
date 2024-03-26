@@ -15,7 +15,7 @@ import (
 // and perform various actions.
 func Run(t *term.ViewPort) {
 	//log.Println("Starting Main Menu")
-	p := t.NewTitledPage(lang.TxtMainMenuTitle)
+	p := t.NewPage(lang.TxtMainMenuTitle)
 	p.AddMenuOption(1, lang.TxtDashboardTitle, "", "")
 	p.AddMenuOption(2, lang.TxtSkyNewsMenuTitle, "", "")
 	p.AddMenuOption(3, lang.TxtBBCNewsMenuTitle, "", "")

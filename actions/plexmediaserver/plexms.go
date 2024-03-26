@@ -66,7 +66,7 @@ func Run(t *term.ViewPort) {
 		os.Exit(1)
 	}
 
-	p := t.NewTitledPage(lang.TxtPlexTitle + lang.SymDelimiter + mediaVaultProperties.Name)
+	p := t.NewPage(lang.TxtPlexTitle + lang.SymDelimiter + mediaVaultProperties.Name)
 	count := 0
 	for mvLibrary := range mvLibraries.MediaContainer.Directory {
 		xx := mvLibraries.MediaContainer.Directory[mvLibrary]

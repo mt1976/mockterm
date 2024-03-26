@@ -16,7 +16,7 @@ func SeasonDetails(t *term.ViewPort, mediaVault *plex.Plex, info plex.Metadata) 
 		t.Error(errs.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
-	p := t.NewTitledPage(lang.TxtPlexSeasons + info.Title)
+	p := t.NewPage(lang.TxtPlexSeasons + info.Title)
 	noResps := len(yy.MediaContainer.Metadata)
 	for i := 0; i < noResps; i++ {
 		season := yy.MediaContainer.Metadata[i]

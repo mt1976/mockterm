@@ -16,7 +16,7 @@ func Episodes(t *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, info 
 		t.Error(errs.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
-	p := t.NewTitledPage(seriesTitle + lang.Space + info.Title)
+	p := t.NewPage(seriesTitle + lang.Space + info.Title)
 
 	noEps := len(res.MediaContainer.Metadata)
 	for i := 0; i < noEps; i++ {
@@ -40,7 +40,7 @@ func Episodes(t *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, info 
 func EpisodeDetail(t *term.ViewPort, info plex.Metadata) {
 
 	title := info.GrandparentTitle + lang.Space + info.ParentTitle + lang.Space + info.Title
-	p := t.NewTitledPage(title)
+	p := t.NewPage(title)
 	p.AddFieldValuePair(lang.TxtPlexShow, info.GrandparentTitle)
 	p.AddFieldValuePair(lang.TxtPlexSeason, info.ParentTitle)
 	p.AddFieldValuePair(lang.TxtPlexEpisode, info.Title)

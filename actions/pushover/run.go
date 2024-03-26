@@ -99,7 +99,7 @@ func RunOld(t term.ViewPort, debug bool, messageType, messageTitle, messageBody 
 //TODO add a confirmation box to confirm the message to send
 
 func Run(t *term.ViewPort) {
-	optionsScreen := t.NewTitledPage(lang.TxtPushoverTitle)
+	optionsScreen := t.NewPage(lang.TxtPushoverTitle)
 	optionsScreen.AddParagraph(lang.TxtPushoverDescription)
 	optionsScreen.AddBlankRow()
 	optionsScreen.AddMenuOption(1, lang.TxtPushoverMsgPriorityNormal, "", "")
@@ -174,7 +174,7 @@ func processMessage(t *term.ViewPort, action string) (*pushover.Pushover, *pusho
 
 	app, recipient, message := buildPushoverMessage(messageBody, messageTitle, priority)
 
-	p := t.NewTitledPage(lang.TxtPushoverTitle)
+	p := t.NewPage(lang.TxtPushoverTitle)
 	p.AddBlankRow()
 	p.AddFieldValuePair("Title", message.Title)
 	p.AddFieldValuePair("Message", message.Message)
@@ -198,7 +198,7 @@ func processMessage(t *term.ViewPort, action string) (*pushover.Pushover, *pusho
 }
 
 func getMessageTitle(t *term.ViewPort) (string, string, error) {
-	p := t.NewTitledPage(lang.TxtPushoverTitle)
+	p := t.NewPage(lang.TxtPushoverTitle)
 	p.AddBlankRow()
 	p.AddFieldValuePair("Title", "")
 	p.AddBlankRow()
@@ -222,7 +222,7 @@ func getMessageTitle(t *term.ViewPort) (string, string, error) {
 
 func getMessageBody(t *term.ViewPort, title string) (string, string, error) {
 
-	p := t.NewTitledPage(lang.TxtPushoverTitle)
+	p := t.NewPage(lang.TxtPushoverTitle)
 	p.AddBlankRow()
 	p.AddFieldValuePair("Title", title)
 	p.AddFieldValuePair("Message", "")

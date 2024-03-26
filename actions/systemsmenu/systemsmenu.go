@@ -10,7 +10,7 @@ import (
 // and perform various actions.
 func Run(t *term.ViewPort) {
 
-	p := t.NewTitledPage(lang.TxtSystemsMaintenanceMenuTitle)
+	p := t.NewPage(lang.TxtSystemsMaintenanceMenuTitle)
 	p.AddParagraph(lang.TxtServiceMenuDescription)
 	p.AddBlankRow()
 	p.AddMenuOption(1, lang.TxtPushoverTitle, "", "")

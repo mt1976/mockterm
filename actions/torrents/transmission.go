@@ -11,7 +11,7 @@ import (
 func Trans(t *term.ViewPort, uri, title string) {
 	// Get the news for the topic
 	t.InfoMessage(lang.TxtLoadingTorrentsTransmission)
-	p := t.NewTitledPage(lang.TxtTransmission)
+	p := t.NewPage(lang.TxtTransmission)
 	// get the news for the topic from an rss feed
 	// endpoint, err := url.Parse(uri)
 	// if err != nil {

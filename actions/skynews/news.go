@@ -23,7 +23,7 @@ func Run(t *term.ViewPort) {
 	// Strange News
 
 	t.Clear()
-	p := t.NewTitledPage(lang.TxtMenuTitle)
+	p := t.NewPage(lang.TxtMenuTitle)
 	c := 0
 	c++
 	p.AddMenuOption(c, lang.TxtTopicHome, C.URISkyNews+C.URISkyNewsHome, "")

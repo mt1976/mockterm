@@ -155,6 +155,9 @@ func init() {
 	Configuration.DashboardDefaultPort = "80"
 	Configuration.TimeStampFormat = "20060102"
 	Configuration.OnlyFansDateTimeFormat = "060102150405"
+
+	Configuration.TerminalWidth = 125
+	Configuration.TerminalHeight = 38
 	//spew.Dump(Configuration)
 	//os.Exit(1)
 }

@@ -14,7 +14,7 @@ func Run(t *term.ViewPort) {
 
 	t.Clear()
 
-	p := t.NewTitledPage(lang.TxtTorrentsMenuTitle)
+	p := t.NewPage(lang.TxtTorrentsMenuTitle)
 	c := 0
 	c++
 	p.AddMenuOption(c, lang.TxtTransmission, C.TransmissionURI, "")

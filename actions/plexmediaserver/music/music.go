@@ -21,7 +21,7 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
 
-	p := t.NewTitledPage(res.MediaContainer.LibrarySectionTitle + lang.Space + t.Formatters.PQuote(noItems))
+	p := t.NewPage(res.MediaContainer.LibrarySectionTitle + lang.Space + t.Formatters.PQuote(noItems))
 	count := 0
 
 	for range res.MediaContainer.Metadata {
@@ -44,7 +44,7 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 
 func Detail(t *term.ViewPort, info plex.Metadata) {
 
-	p := t.NewTitledPage(info.Title)
+	p := t.NewPage(info.Title)
 
 	p.AddFieldValuePair(lang.TxtPlexTitleLabel, info.Title)
 	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
