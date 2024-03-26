@@ -31,8 +31,6 @@ func Run(t *term.ViewPort) {
 	ok := false
 	for !ok {
 
-		p.Clear()
-
 		action, _ := p.DisplayWithActions()
 		switch action {
 		case lang.SymActionQuit:
