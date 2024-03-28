@@ -3,6 +3,7 @@ package pushover
 import (
 	"errors"
 	flags "flag"
+	"runtime"
 	"time"
 
 	"github.com/gregdel/pushover"
@@ -41,9 +42,10 @@ func init() {
 	types.Heartbeat = "-heartbeat"
 	types.Other = "-other"
 	types.Message = "-message"
-
-	hostName = term.New().Helpers.GetHostName()
-
+	hostName = "unknown"
+	if !(runtime.GOOS == "windows") {
+		hostName = term.New().Helpers.GetHostName()
+	}
 	messages[types.Up] = hostName + " has started - System is available"
 	messages[types.Heartbeat] = hostName + " - Heartbeat - OK"
 	messages[types.Other] = hostName + " - Unknown Message"
