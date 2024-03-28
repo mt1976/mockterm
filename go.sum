@@ -14,6 +14,8 @@ github.com/antchfx/xpath v1.2.4/go.mod h1:i54GszH55fYfBmoZXapTHN8T8tkcHfRgLyVwwq
 github.com/antchfx/xpath v1.2.5 h1:hqZ+wtQ+KIOV/S3bGZcIhpgYC26um2bZYP2KVGcR7VY=
 github.com/antchfx/xpath v1.2.5/go.mod h1:i54GszH55fYfBmoZXapTHN8T8tkcHfRgLyVwwqzXNcs=
 github.com/armon/consul-api v0.0.0-20180202201655-eb2c6b5be1b6/go.mod h1:grANhF5doyWs3UAsr3K4I6qtAmlQcZDesFNEHPZAzj8=
+github.com/bit101/go-ansi v1.5.2 h1:CiIUywKc6j3xISUpfxe/KhRcwj6zUW/RPhCPZeE7OoA=
+github.com/bit101/go-ansi v1.5.2/go.mod h1:7IFt7zupyULqKEDbOkGsDBGu+Bvzu3pYu0Ojnn7aGQQ=
 github.com/briandowns/openweathermap v0.19.0 h1:nkopLMEtZLxbZI1th6dOG6xkajpszofqf53r5K8mT9k=
 github.com/briandowns/openweathermap v0.19.0/go.mod h1:0GLnknqicWxXnGi1IqoOaZIw+kIe5hkt+YM5WY3j8+0=
 github.com/buger/goterm v1.0.4 h1:Z9YvGmOih81P0FbVtEYTFF6YsSgxSUKEhf/f9bTMXbY=
@@ -174,6 +176,8 @@ github.com/mt1976/crt v0.0.39 h1:DaS4DdOTGXI674+RYlRC4f8eEKKLB1pbfTjnM99f+l4=
 github.com/mt1976/crt v0.0.39/go.mod h1:Mg/RaoM5z2f9tKz1BA1WlMP5jlsT/vxLA5X5pKGNwns=
 github.com/mt1976/crt v0.0.40 h1:EctAgHBAjJS3MlBuuHFGwMpppcGCuw6pfDA6tQl7EJM=
 github.com/mt1976/crt v0.0.40/go.mod h1:K9Fx7zTG4nnxxPA7lzZOjxPoYOLZ+OWVVokQlQWDHBg=
+github.com/mt1976/crt v0.0.41 h1:FcOaj9yAST4pLcM1L+EnRSXezcLADb1fvAIeXVey4vc=
+github.com/mt1976/crt v0.0.41/go.mod h1:TrWKS76XOzjdEeLAgrDF7USsrTmCpObBkfjrAk0YqVw=
 github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d h1:VhgPp6v9qf9Agr/56bj7Y/xa04UccTW04VP0Qed4vnQ=
 github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d/go.mod h1:YUTz3bUH2ZwIWBy3CJBeOBEugqcmXREj14T+iG/4k4U=
 github.com/pelletier/go-toml v1.2.0/go.mod h1:5z9KED0ma1S8pY6P1sdut58dfprrGBbd/94hg7ilaic=

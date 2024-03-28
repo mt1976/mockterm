@@ -13,12 +13,14 @@ require (
 	github.com/jrudio/go-plex-client v0.0.0-20230508221844-834554e41d30
 	github.com/mmcdole/gofeed v1.3.0
 	github.com/moby/sys/mountinfo v0.7.1
-	github.com/mt1976/crt v0.0.40
+	github.com/mt1976/crt v0.0.41
 	github.com/prometheus-community/pro-bing v0.4.0
 	github.com/shirou/gopsutil v3.21.11+incompatible
 	github.com/shirou/gopsutil/v3 v3.24.2
 	github.com/spf13/viper v1.18.2
 )
+
+require github.com/bit101/go-ansi v1.5.2 // indirect
 
 require (
 	github.com/PuerkitoBio/goquery v1.9.1 // indirect
