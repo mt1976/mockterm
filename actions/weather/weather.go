@@ -12,19 +12,18 @@ import (
 	lang "github.com/mt1976/mockterm/language"
 )
 
-var C conf.Config
+var C = conf.Configuration
 
 // The main function initializes and runs a terminal-based news reader application called StarTerm,
 // which fetches news headlines from an RSS feed and allows the user to navigate and open the full news
 // articles.
 func Run(t *term.ViewPort) {
 
-	t.Clear()
+	//t.Clear()
 	p := t.NewPage(lang.TxtWeatherTitle + lang.Space + lang.TxtSourceService)
-
 	w, err := owm.NewCurrent(C.OpenWeatherMapApiUnits, C.OpenWeatherMapApiLang, C.OpenWeatherMapApiKey)
 	if err != nil {
-		t.Error(errs.ErrOpenWeather, err.Error())
+		p.Error(errs.ErrOpenWeather, err.Error())
 		os.Exit(1)
 		return
 	}
@@ -32,7 +31,7 @@ func Run(t *term.ViewPort) {
 	err = w.CurrentByCoordinates(
 		&owm.Coordinates{Latitude: C.LocationLatitude, Longitude: C.LocationLogitude})
 	if err != nil {
-		t.Error(errs.ErrOpenWeather, err.Error())
+		p.Error(errs.ErrOpenWeather, err.Error())
 		os.Exit(1)
 		return
 	}
@@ -60,6 +59,7 @@ func Run(t *term.ViewPort) {
 	p.AddAction(lang.SymActionQuit)
 	p.AddAction(lang.SymActionForward)
 	p.AddAction(lang.SymActionBack)
+	p.Dump()
 	ok := false
 	for !ok {
 
@@ -87,7 +87,9 @@ func outdate(t *term.ViewPort, unixDateTime int) string {
 
 // The `hr` function returns a string consisting of a line of dashes.
 func hr(t *term.ViewPort) string {
-	return strings.Repeat(lang.SymBreak, 3)
+	screenwidth := t.Width() - 5
+	//fmt.Printf("screenwidth: %v\n", screenwidth)
+	return strings.Repeat("-", screenwidth)
 }
 
 func boldFloat(t *term.ViewPort, in float64) string {

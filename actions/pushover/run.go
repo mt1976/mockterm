@@ -110,6 +110,7 @@ func Run(t *term.ViewPort) {
 	optionsScreen.AddMenuOption(4, lang.TxtPushoverMsgPriorityEmergancy, "", "")
 	optionsScreen.SetPrompt(lang.TxtPushoverPrompt)
 	optionsScreen.AddAction(lang.SymActionQuit)
+	optionsScreen.ShowOptions()
 	action, _ := optionsScreen.DisplayWithActions()
 	if action == lang.SymActionQuit {
 		return

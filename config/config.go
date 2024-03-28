@@ -99,7 +99,7 @@ func init() {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		return
+		panic(err)
 	}
 
 	err = viper.Unmarshal(&Configuration)
@@ -165,7 +165,7 @@ func init() {
 	Configuration.TerminalWidth = width
 	Configuration.TerminalHeight = height
 	//spew.Dump(Configuration)
-	//os.Exit(1)
+
 }
 
 func split(s string) (r []string) {
