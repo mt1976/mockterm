@@ -111,7 +111,6 @@ func Run(t *term.ViewPort) {
 	optionsScreen.SetPrompt(lang.TxtPushoverPrompt)
 	optionsScreen.ShowOptions()
 	optionsScreen.AddAction(lang.SymActionQuit)
-	optionsScreen.Dump("Prepped")
 	action, _ := optionsScreen.DisplayWithActions()
 	if action == lang.SymActionQuit {
 		return
@@ -196,7 +195,6 @@ func processMessage(t *term.ViewPort, action string) (*pushover.Pushover, *pusho
 	p.AddAction("S")
 	p.AddAction("Q")
 	p.SetPrompt(lang.TxtPushoverConfirmation)
-	//spew.Dump(p, t)
 	p.DisplayWithActions()
 	return app, recipient, message, nil
 }
