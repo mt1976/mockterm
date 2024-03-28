@@ -109,8 +109,9 @@ func Run(t *term.ViewPort) {
 	optionsScreen.AddMenuOption(3, lang.TxtPushoverMsgPriorityLow, "", "")
 	optionsScreen.AddMenuOption(4, lang.TxtPushoverMsgPriorityEmergancy, "", "")
 	optionsScreen.SetPrompt(lang.TxtPushoverPrompt)
-	optionsScreen.AddAction(lang.SymActionQuit)
 	optionsScreen.ShowOptions()
+	optionsScreen.AddAction(lang.SymActionQuit)
+	optionsScreen.Dump("Prepped")
 	action, _ := optionsScreen.DisplayWithActions()
 	if action == lang.SymActionQuit {
 		return
