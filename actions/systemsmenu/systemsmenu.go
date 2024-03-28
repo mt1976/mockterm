@@ -25,7 +25,7 @@ func Run(t *term.ViewPort) {
 		action, _ := p.DisplayWithActions()
 		switch action {
 		case lang.SymActionQuit:
-			t.InfoMessage(lang.TxtQuittingMessage + lang.SymNewline)
+			p.Info(lang.TxtQuittingMessage)
 			ok = true
 			continue
 		case "1":
