@@ -76,45 +76,47 @@ func GetFolderList(dir string, includeDotFiles, includeDirectories, showFiles bo
 
 	// Filter the list of files to only include directories
 	var directories []File
-	include := false
+	//include := false
 	itemNo := 0
 	for _, file := range files {
-		if file.IsDir() && includeDirectories {
-			include = true
+		if file.IsDir() && !includeDirectories {
+			//include = true
+			continue
 		}
 		if file.Name()[0] == '.' && !includeDotFiles {
-			include = false
+			//include = false
 			continue
 		}
 		if !file.IsDir() && showFiles {
-			include = true
+			//include = false
+			continue
 		}
-		if include {
-			var this File
-			this.Name = file.Name()
-			this.Path = dir + "/" + file.Name()
-			inf, _ := file.Info()
-			this.Created = "N/A"
-			this.Modified = crt.New().Formatters.HumanFromUnixDate(inf.ModTime().Local().Unix())
-			this.Size = inf.Size()
-			yy := fmt.Sprintf("%v\n", this.Size)
-			this.SizeTxt = yy + "b"
-			this.Mode = inf.Mode().String()
-			this.IsDir = file.IsDir()
-			if this.IsDir {
-				this.Icon = lang.TxtFolderIcon
-			} else {
-				this.Icon = lang.TxtFileIcon
-			}
-			if isSymLink(this.Mode) {
-				this.Icon = lang.TxtSymLinkIcon
-			}
-			this.Icon = this.Icon + " "
-			this.Seq = itemNo
-			directories = append(directories, this)
-			itemNo++
-			//directories = append(directories, "📁 "+file.Name())
+
+		var this File
+		this.Name = file.Name()
+		this.Path = dir + "/" + file.Name()
+		inf, _ := file.Info()
+		this.Created = "N/A"
+		this.Modified = crt.New().Formatters.HumanFromUnixDate(inf.ModTime().Local().Unix())
+		this.Size = inf.Size()
+		yy := fmt.Sprintf("%v\n", this.Size)
+		this.SizeTxt = yy + "b"
+		this.Mode = inf.Mode().String()
+		this.IsDir = file.IsDir()
+		if this.IsDir {
+			this.Icon = lang.TxtFolderIcon
+		} else {
+			this.Icon = lang.TxtFileIcon
 		}
+		if isSymLink(this.Mode) {
+			this.Icon = lang.TxtSymLinkIcon
+		}
+		this.Icon = this.Icon + " "
+		this.Seq = itemNo
+		directories = append(directories, this)
+		itemNo++
+		//directories = append(directories, "📁 "+file.Name())
+
 	}
 
 	return directories, nil

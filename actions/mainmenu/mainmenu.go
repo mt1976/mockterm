@@ -62,6 +62,12 @@ func Run(t *term.ViewPort) {
 			if err != nil {
 				p.Error(err, "file chooser error")
 			}
+			if isDir {
+				_, _, err := file.FileChooser(selected, false, true, true)
+				if err != nil {
+					p.Error(err, "file chooser error")
+				}
+			}
 			prn := fmt.Sprintf("Selected = %v, isDir = %v", selected, isDir)
 			p.Error(errors.New("testing"), prn)
 		default:
