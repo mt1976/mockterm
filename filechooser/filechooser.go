@@ -5,6 +5,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/mt1976/crt"
 	lang "github.com/mt1976/mockterm/language"
 )
@@ -37,13 +38,19 @@ func FileChooser(root string, includeDotFiles, includeDirectories, showFiles boo
 	page.AddBlankRow()
 	//page.AddColumnsTitle("Name", "Mode", "Size", "Modified")
 	formatter := "%1v %-30v %10v %12v %15v"
-	tformatter := "%6v %1v|%-30v|%-10v|%-12v|%-15v"
-	title := fmt.Sprintf(tformatter, "", "T", " Name", " Mode", " Modified", " Size")
+	tformatter := "%5v %1v-|%-30v|-%-10v-|-%-12v-|-%-15v"
+	title := fmt.Sprintf(tformatter, "", "T", " Name", "Mode", "Modified", "Size")
 	title = strings.ReplaceAll(title, "|", " ")
+	title = strings.ReplaceAll(title, "-", " ")
+
 	page.Add(title, "", "")
 	breaker := fmt.Sprintf(tformatter, strings.Repeat(" ", 5), strings.Repeat("-", 1), strings.Repeat("-", 30), strings.Repeat("-", 10), strings.Repeat("-", 12), strings.Repeat("-", 15))
 	//breaker = strings.Repeat("-", len(breaker))
 	page.Add(breaker, "", "")
+	up := fmt.Sprintf(formatter, "^", " ..", "", "", "")
+	page.Add("0 "+up, "", "")
+	page.AddAction("U")
+
 	for _, file := range files {
 		row := fmt.Sprintf(formatter, file.Icon, file.Name, file.Mode, file.Modified, file.SizeTxt)
 		page.AddMenuOption(file.Seq+1, row, "", "")
@@ -54,6 +61,19 @@ func FileChooser(root string, includeDotFiles, includeDirectories, showFiles boo
 	}
 	if term.Helpers.IsInt(na) {
 		r := files[term.Helpers.ToInt(na)-1]
+		if r.IsDir {
+			return FileChooser(r.Path, includeDotFiles, includeDirectories, showFiles)
+		}
+		if na == "U" {
+			upPath := strings.Split(root, "/")
+			if len(upPath) > 1 {
+				upPath = upPath[:len(upPath)-1]
+			}
+			toPath := strings.Join(upPath, "/")
+
+			return FileChooser(toPath, includeDotFiles, includeDirectories, showFiles)
+		}
+
 		return r.Path, r.IsDir, nil
 	}
 	return "", false, nil
@@ -78,6 +98,13 @@ func GetFolderList(dir string, includeDotFiles, includeDirectories, showFiles bo
 	var directories []File
 	//include := false
 	itemNo := 0
+	// upPath := strings.Split(dir, "/")
+	// if len(upPath) > 1 {
+	// 	upPath = upPath[:len(upPath)-1]
+	// }
+	//upPath = strings.Join(upPath, "/")
+	//up := File{Name: "..", Path: strings.Join(upPath, "/"), Icon: lang.TxtFolderIcon, IsDir: true, Seq: -1}
+	//directories = append(directories, up)
 	for _, file := range files {
 		if file.IsDir() && !includeDirectories {
 			//include = true
@@ -93,13 +120,13 @@ func GetFolderList(dir string, includeDotFiles, includeDirectories, showFiles bo
 		}
 
 		var this File
-		this.Name = file.Name()
+		this.Name = strings.Trim(file.Name(), " ")
 		this.Path = dir + "/" + file.Name()
 		inf, _ := file.Info()
 		this.Created = "N/A"
 		this.Modified = crt.New().Formatters.HumanFromUnixDate(inf.ModTime().Local().Unix())
 		this.Size = inf.Size()
-		yy := fmt.Sprintf("%v\n", this.Size)
+		yy := fmt.Sprintf("%v", this.Size)
 		this.SizeTxt = yy + "b"
 		this.Mode = inf.Mode().String()
 		this.IsDir = file.IsDir()
@@ -118,10 +145,19 @@ func GetFolderList(dir string, includeDotFiles, includeDirectories, showFiles bo
 		//directories = append(directories, "📁 "+file.Name())
 
 	}
-
+	spew.Dump(directories)
 	return directories, nil
 }
 
 func isSymLink(mode string) bool {
 	return mode[0] == 'L' || mode[0] == 'l'
+}
+
+func ChooseDirectory(root string) (string, error) {
+	// Function to choose a directory using the file chooser
+	item, _, err := FileChooser(root, false, true, false)
+	if err != nil {
+		return "", err
+	}
+	return item, err
 }
