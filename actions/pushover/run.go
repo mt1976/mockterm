@@ -62,7 +62,7 @@ func Run(t *term.ViewPort) {
 	optionsScreen.AddMenuOption(1, lang.TxtPushoverMsgPriorityNormal, "", "")
 	optionsScreen.AddMenuOption(2, lang.TxtPushoverMsgPriorityHigh, "", "")
 	optionsScreen.AddMenuOption(3, lang.TxtPushoverMsgPriorityLow, "", "")
-	optionsScreen.AddMenuOption(4, lang.TxtPushoverMsgPriorityEmergancy, "", "")
+	optionsScreen.AddMenuOption(4, lang.TxtPushoverMsgPriorityEmergency, "", "")
 	optionsScreen.SetPrompt(lang.TxtPushoverPrompt)
 	optionsScreen.ShowOptions()
 	optionsScreen.AddAction(lang.SymActionQuit)
@@ -79,15 +79,6 @@ func Run(t *term.ViewPort) {
 		}
 
 	}
-}
-
-func sendMessage(inMessage, inTitle string) {
-	//L.WithFields(xlg.Fields{"Message": inMessage, "Title": inTitle}).Info("Sending Message")
-	t.Print("Sending Message")
-	t.Print("Message: " + inMessage)
-	t.Print("Title: " + inTitle)
-	Normal(inMessage, inTitle)
-	t.Print("Message Sent")
 }
 
 func processMessage(t *term.ViewPort, action string) error {
@@ -150,11 +141,13 @@ func processMessage(t *term.ViewPort, action string) error {
 	for {
 		sendAction, _ := p.DisplayWithActions()
 		if upcase(p, sendAction) == "S" {
+			p.Info(lang.TxtPushoverMessageSending)
 			_, err = app.SendMessage(message, recipient)
 			if err != nil {
 				t.Error(err, "")
 				return err
 			}
+			p.Info(lang.TxtPushoverMessageSent)
 		}
 		if upcase(p, sendAction) == lang.SymActionQuit {
 			return nil
