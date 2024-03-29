@@ -1,6 +1,9 @@
 package mainmenu
 
 import (
+	"errors"
+	"fmt"
+
 	term "github.com/mt1976/crt"
 	dash "github.com/mt1976/mockterm/actions/dashboard"
 	plex "github.com/mt1976/mockterm/actions/plexmediaserver"
@@ -8,6 +11,7 @@ import (
 	syst "github.com/mt1976/mockterm/actions/systemsmenu"
 	trts "github.com/mt1976/mockterm/actions/torrents"
 	wthr "github.com/mt1976/mockterm/actions/weather"
+	file "github.com/mt1976/mockterm/filechooser"
 	lang "github.com/mt1976/mockterm/language"
 )
 
@@ -25,7 +29,7 @@ func Run(t *term.ViewPort) {
 	p.AddMenuOption(7, lang.TxtRemoteSystemsAccessMenuTitle, "", "")
 	p.AddMenuOption(8, lang.TxtSystemsMaintenanceMenuTitle, "", "")
 	p.AddMenuOption(9, lang.SymBlank, "", "")
-	p.AddMenuOption(10, lang.SymBlank, "", "")
+	p.AddMenuOption(10, "File Chooser", "", "")
 	p.AddAction(lang.SymActionQuit)
 
 	ok := false
@@ -49,6 +53,17 @@ func Run(t *term.ViewPort) {
 			plex.Run(t)
 		case "8":
 			syst.Run(t)
+		case "10":
+			userHome, err := file.UserHome()
+			if err != nil {
+				t.Error(err)
+			}
+			selected, isDir, err := file.FileChooser(userHome, false, true, true)
+			if err != nil {
+				p.Error(err, "file chooser error")
+			}
+			prn := fmt.Sprintf("Selected = %v, isDir = %v", selected, isDir)
+			p.Error(errors.New("testing"), prn)
 		default:
 			p.Error(term.ErrInvalidAction, action)
 		}

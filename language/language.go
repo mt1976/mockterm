@@ -269,3 +269,17 @@ var (
 	TxtPushoverMessageSending       string   = "Sending Pushover Message"
 	TxtPushoverMessageSent          string   = "Pushover Message Sent"
 )
+
+// FileChooser
+const (
+	TxtFileChooserTitle string = "File Chooser"
+	TxtFolderIcon              = "+"
+	TxtFileIcon                = "#"
+	TxtSymLinkIcon             = "~"
+)
+
+var (
+	TxtFileChooserDescription  []string = []string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"}
+	TxtFileChooserPrompt       string   = "Choose a file to use"
+	TxtFileChooserConfirmation string   = "Choose (S)end or (Q)uit"
+)
