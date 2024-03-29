@@ -2,9 +2,7 @@ package pushover
 
 import (
 	"errors"
-	flags "flag"
 	"runtime"
-	"time"
 
 	"github.com/gregdel/pushover"
 	term "github.com/mt1976/crt"
@@ -57,49 +55,6 @@ func init() {
 	titles[types.Message] = "This Message"
 }
 
-func RunOld(t term.ViewPort, debug bool, messageType, messageTitle, messageBody string) {
-
-	//debugMode = debug
-
-	flags.Parse()
-
-	t.Print("Starting Alive")
-	t.Print("Message Type: " + messageType)
-	t.Print("Message Title: " + messageTitle)
-	t.Print("Message Body: " + messageBody)
-	t.Blank()
-
-	//argsWithoutProg := os.Args[1:]
-	if messageType != "" {
-		//fmt.Println("Args: ", argsWithoutProg)
-		//CONFIG.DebugCFG()
-		//Get Time
-		now := time.Now().Format("2006-01-02 15:04:05")
-
-		//L.WithFields(xlg.Fields{"args": argsWithoutProg, "msgType": msgType}).Info("Arguments")
-		switch messageType {
-		case "up":
-			//xlg.Info("ACTION=UP")
-			sendMessage("System Started", hostName+" started at "+now)
-		case "heartbeat":
-			//xlg.Info("ACTION=HEARTBEAT")
-			sendMessage("System Online", hostName+" online at "+now)
-		case "other":
-			//xlg.Info("ACTION=OTHER")
-			sendMessage("Unknown Message", "An unknown message was received at "+now)
-		default:
-			//xlg.Info("ACTION=RAW")
-			sendMessage(messageTitle, messageBody)
-		}
-	}
-}
-
-//TODO create a menu to select the type of notification to send
-//TODO create a menu to offer a series of default notifications, or a custom notification
-//TODO add input box to enter the message to send
-//TODO add a Preview page, with the message type, title, body etc.
-//TODO add a confirmation box to confirm the message to send
-
 func Run(t *term.ViewPort) {
 	optionsScreen := t.NewPage(lang.TxtPushoverTitle)
 	optionsScreen.AddParagraph(lang.TxtPushoverDescription)
@@ -117,17 +72,12 @@ func Run(t *term.ViewPort) {
 	}
 	if t.Helpers.IsInt(action) {
 
-		po, recp, msg, err := processMessage(t, action)
+		err := processMessage(t, action)
 		if err != nil {
 			t.Error(err, "")
 			return
 		}
 
-		_, err = po.SendMessage(msg, recp)
-		if err != nil {
-			t.Error(err, "")
-			return
-		}
 	}
 }
 
@@ -140,7 +90,7 @@ func sendMessage(inMessage, inTitle string) {
 	t.Print("Message Sent")
 }
 
-func processMessage(t *term.ViewPort, action string) (*pushover.Pushover, *pushover.Recipient, *pushover.Message, error) {
+func processMessage(t *term.ViewPort, action string) error {
 
 	var priority int
 	switch action {
@@ -160,19 +110,19 @@ func processMessage(t *term.ViewPort, action string) (*pushover.Pushover, *pusho
 	messageTitle, action, err := getMessageTitle(t)
 	if err != nil {
 		t.InputError(err)
-		return nil, nil, nil, err
+		return err
 	}
 	if t.Helpers.IsActionIn(action, lang.SymActionQuit) {
-		return nil, nil, nil, nil
+		return nil
 	}
 
 	messageBody, action, err := getMessageBody(t, messageTitle)
 	if err != nil {
 		t.InputError(err)
-		return nil, nil, nil, err
+		return err
 	}
 	if t.Helpers.IsActionIn(action, lang.SymActionQuit) {
-		return nil, nil, nil, nil
+		return nil
 	}
 
 	app, recipient, message := buildPushoverMessage(messageBody, messageTitle, priority)
@@ -193,10 +143,28 @@ func processMessage(t *term.ViewPort, action string) (*pushover.Pushover, *pusho
 	p.AddFieldValuePair("CallbackURL", message.CallbackURL)
 	p.AddFieldValuePair("Sound", message.Sound)
 	p.AddAction("S")
-	p.AddAction("Q")
+	p.AddAction(lang.SymActionQuit)
 	p.SetPrompt(lang.TxtPushoverConfirmation)
-	p.DisplayWithActions()
-	return app, recipient, message, nil
+	p.ShowOptions()
+
+	for {
+		sendAction, _ := p.DisplayWithActions()
+		if upcase(p, sendAction) == "S" {
+			_, err = app.SendMessage(message, recipient)
+			if err != nil {
+				t.Error(err, "")
+				return err
+			}
+		}
+		if upcase(p, sendAction) == lang.SymActionQuit {
+			return nil
+		}
+	}
+	return nil
+}
+
+func upcase(p *term.Page, in string) string {
+	return p.ViewPort().Formatters.Upcase(in)
 }
 
 func getMessageTitle(t *term.ViewPort) (string, string, error) {
