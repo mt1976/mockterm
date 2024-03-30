@@ -55,6 +55,9 @@ func FileChooser(root string, includeDotFiles, includeDirectories, showFiles boo
 	for _, file := range files {
 		row := fmt.Sprintf(formatter, file.Icon, file.Name, file.Mode, file.Modified, file.SizeTxt)
 		page.AddMenuOption(file.Seq+1, row, "", "")
+		if file.IsDir {
+			page.AddAction("S" + fmt.Sprintf("%v", file.Seq))
+		}
 	}
 	na, _ := page.DisplayWithActions()
 	if na == lang.SymActionQuit {
