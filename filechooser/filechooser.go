@@ -7,6 +7,7 @@ import (
 
 	"github.com/davecgh/go-spew/spew"
 	"github.com/mt1976/crt"
+	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
 )
 
@@ -59,21 +60,27 @@ func FileChooser(root string, includeDotFiles, includeDirectories, showFiles boo
 	if na == lang.SymActionQuit {
 		return "", false, nil
 	}
+	if na == "U" || na == "^" {
+		upPath := strings.Split(root, "/")
+		if len(upPath) > 1 {
+			upPath = upPath[:len(upPath)-1]
+		}
+		toPath := strings.Join(upPath, "/")
+
+		return FileChooser(toPath, includeDotFiles, includeDirectories, showFiles)
+	}
+	// split na into first char and remainder
+	first := na[:1]
+	remainder := na[1:]
+	if first == "S" || isInt(remainder) {
+		r := files[term.Helpers.ToInt(remainder)-1]
+		if !r.IsDir {
+			page.Error(errs.ErrNotADirectory, r.Path)
+			return FileChooser(root, includeDotFiles, includeDirectories, showFiles)
+		}
+	}
 	if term.Helpers.IsInt(na) {
 		r := files[term.Helpers.ToInt(na)-1]
-		if r.IsDir {
-			return FileChooser(r.Path, includeDotFiles, includeDirectories, showFiles)
-		}
-		if na == "U" {
-			upPath := strings.Split(root, "/")
-			if len(upPath) > 1 {
-				upPath = upPath[:len(upPath)-1]
-			}
-			toPath := strings.Join(upPath, "/")
-
-			return FileChooser(toPath, includeDotFiles, includeDirectories, showFiles)
-		}
-
 		return r.Path, r.IsDir, nil
 	}
 	return "", false, nil
@@ -142,8 +149,6 @@ func GetFolderList(dir string, includeDotFiles, includeDirectories, showFiles bo
 		this.Seq = itemNo
 		directories = append(directories, this)
 		itemNo++
-		//directories = append(directories, "📁 "+file.Name())
-
 	}
 	spew.Dump(directories)
 	return directories, nil
@@ -160,4 +165,9 @@ func ChooseDirectory(root string) (string, error) {
 		return "", err
 	}
 	return item, err
+}
+
+func isInt(s string) bool {
+	//_, err := crt.New().Helpers.IsInt(s)
+	return crt.New().Helpers.IsInt(s)
 }

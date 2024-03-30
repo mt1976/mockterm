@@ -54,4 +54,5 @@ var (
 	ErrInvalidPath                 = errors.New("the path provided is not valid %v")
 	ErrInvalidPathSpecialDirectory = errors.New("the path provided is the root or home directory")
 	ErrFailedToChangeDirectory     = errors.New("failed to change directory to %v %v")
+	ErrNotADirectory               = errors.New("%v is not a directory")
 )
