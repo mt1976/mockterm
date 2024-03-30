@@ -134,7 +134,7 @@ func GetFolderList(dir string, includeDotFiles, includeDirectories, showFiles bo
 		this.Modified = crt.New().Formatters.HumanFromUnixDate(inf.ModTime().Local().Unix())
 		this.Size = inf.Size()
 		yy := fmt.Sprintf("%v", this.Size)
-		this.SizeTxt = yy + "b"
+		this.SizeTxt = yy
 		this.Mode = inf.Mode().String()
 		this.IsDir = file.IsDir()
 		if this.IsDir {
