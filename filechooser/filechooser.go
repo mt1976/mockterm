@@ -3,6 +3,7 @@ package filechooser
 import (
 	"fmt"
 	"os"
+	"os/user"
 	"strings"
 
 	"github.com/mt1976/crt"
@@ -53,7 +54,9 @@ func FileChooser(searchPath string, flags flagger) (string, bool, error) {
 		return "", false, err
 	}
 	uh, _ := UserHome()
-	page.AddFieldValuePair("Home", uh)
+	un, _ := UserName()
+	page.AddFieldValuePair("User Name", un)
+	page.AddFieldValuePair("User Home", uh)
 	page.AddFieldValuePair("Directory", searchPath)
 	page.AddBlankRow()
 	//page.AddColumnsTitle("Name", "Mode", "Size", "Modified")
@@ -72,6 +75,7 @@ func FileChooser(searchPath string, flags flagger) (string, bool, error) {
 	page.AddAction(actionUp)
 	page.AddAction(actionUpArrow)
 	page.AddAction(actionUpDoubleDot)
+	page.AddAction(actionSelect)
 
 	for _, file := range files {
 		row := fmt.Sprintf(formatter, file.Icon, file.Name, file.Mode, file.Modified, file.SizeTxt)
@@ -86,6 +90,7 @@ func FileChooser(searchPath string, flags flagger) (string, bool, error) {
 	if na == lang.SymActionQuit {
 		return "", false, nil
 	}
+
 	if na == actionUp || na == actionUpArrow || na == actionUpDoubleDot {
 		upPath := strings.Split(searchPath, pathSeparator)
 		if len(upPath) > 1 {
@@ -106,6 +111,7 @@ func FileChooser(searchPath string, flags flagger) (string, bool, error) {
 		}
 		return FileChooser(r.Path, flags)
 	}
+
 	if term.Helpers.IsInt(na) {
 		// if a specific item has been selected, return the path of that item
 		r := files[term.Helpers.ToInt(na)-1]
@@ -119,19 +125,12 @@ func FileChooser(searchPath string, flags flagger) (string, bool, error) {
 		}
 		return r.Path, r.IsDir, nil
 	}
-	if upcase(na) == actionSelect {
+	if upcase(na) == upcase(actionSelect) {
 		// The current folder has been selected
-		return searchPath, false, nil
+		return searchPath, true, nil
 	}
-	return FileChooser(searchPath, flags)
-}
 
-func UserHome() (string, error) {
-	// Function gets the home directory of the current user, or returns an error if it cant.
-	//
-	// Returns:
-	// The home directory of the current user, or an error if it cant.
-	return os.UserHomeDir()
+	return FileChooser(searchPath, flags)
 }
 
 func GetFolderList(dir string, include flagger) ([]File, error) {
@@ -229,4 +228,21 @@ func isInt(s string) bool {
 
 func upcase(s string) string {
 	return crt.New().Formatters.Upcase(s)
+}
+
+func UserHome() (string, error) {
+	// Function gets the home directory of the current user, or returns an error if it cant.
+	//
+	// Returns:
+	// The home directory of the current user, or an error if it cant.
+	return os.UserHomeDir()
+}
+
+func UserName() (string, error) {
+	// Function gets the name of the current user, or returns an error if it cant.
+	//
+	// Returns:
+	// The name of the current user, or an error if it cant.
+	currentUser, err := user.Current()
+	return currentUser.Name, err
 }
