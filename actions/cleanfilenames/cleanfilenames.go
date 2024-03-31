@@ -27,7 +27,7 @@ func Run(t *term.ViewPort, debugModeIn bool, basePath string) {
 	debugMode = debugModeIn
 
 	p := t.NewPage(lang.TxtCleanFileNames)
-	resultsAdd(upcase(p, lang.TxtCleanFileNames) + " REPORT")
+	resultsAdd(upcase(p, lang.TxtCleanFileNamesReport))
 
 	if basePath == "" {
 		home, err := file.UserHome()

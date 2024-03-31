@@ -28,8 +28,8 @@ func Run(t *term.ViewPort, debugModeIn bool, pathIn string) {
 
 	//new page
 	p := t.NewPage(lang.TxtTidyFilesTitle)
+	resultsAdd(upcase(p, lang.TxtCleanFileNamesReport))
 
-	//	t.Print(lang.TxtTidyFilesTitle)
 	if pathIn == "" {
 		home, err := file.UserHome()
 		if err != nil {
@@ -37,9 +37,10 @@ func Run(t *term.ViewPort, debugModeIn bool, pathIn string) {
 		}
 		pathIn = home
 	}
+
 	path, err := file.ChooseDirectory(pathIn)
 	if err != nil {
-		p.Error(err, "file chooser error")
+		p.Error(errs.ErrTidyFiles, err.Error())
 	}
 	pathIn = path
 
@@ -47,8 +48,6 @@ func Run(t *term.ViewPort, debugModeIn bool, pathIn string) {
 		p.Error(errs.ErrNoPathSpecified, pathIn)
 		return
 	}
-
-	//path := os.Args[1]
 
 	if _, err := os.Stat(pathIn); os.IsNotExist(err) {
 		p.Error(errs.ErrInvalidPath, err.Error())
@@ -62,63 +61,46 @@ func Run(t *term.ViewPort, debugModeIn bool, pathIn string) {
 
 	if !debugMode {
 		p.AddFieldValuePair(lang.TxtMode, lang.TxtDebugMode)
-		//t.Special(t.Formatters.Bold(t.Underline(lang.TxtLiveRun)))
 	} else {
 		p.AddFieldValuePair(lang.TxtMode, lang.TxtLiveMode)
-		//t.Print(t.Underline(lang.TxtTrailRun))
 	}
 
-	//t.Print(lang.TxtResolvedPath + realpath(t, pathIn))
 	p.AddFieldValuePair(lang.TxtPath, realpath(p, pathIn))
-	//fmt.Printf("%s File types to be removed: [%s]\n", support.CHnormal, strings.Join(types, " "))
-	//t.Print(fmt.Sprintf(lang.TxtTidyFilesStart, t.Formatters.Bold(strings.Join(fileExtensions, " "))))
+	p.AddFieldValuePair(lang.TxtFileTypes, strings.Join(fileExtensions, " "))
+	resultsAdd(lang.TxtPath + " : " + pathIn)
+	resultsAdd(lang.TxtFileTypes + " : " + strings.Join(fileExtensions, " "))
+
 	p.AddBlankRow()
-	p.Add(fmt.Sprintf(lang.TxtTidyFilesStart, t.Formatters.Bold(strings.Join(fileExtensions, " "))), "", "")
+	msg := fmt.Sprintf(lang.TxtTidyFilesStart, t.Formatters.Bold(strings.Join(fileExtensions, " ")))
+	p.Add(msg, "", "")
+	resultsAdd(msg)
+
 	//var userResponse string
 	//fmt.Printf("%s Are you sure you want to proceed? %s(y/n) : %s", PFY, bold, normal)
+
 	ok, err := p.Confirmation(lang.TxtAreYouSureYouWantToProceed)
 	if err != nil {
-		p.Error(err, "unable to get user response")
+		p.Error(errs.ErrTidyFiles, err.Error())
 	}
-	//userResponse := t.Input(lang.TxtAreYouSureYouWantToProceed, lang.OptAreYouSureYouWantToProceed)
-	//fmt.Scanln(&userResponse)
 
 	if !ok {
-		//fmt.Printf("%s Exiting\n", PFY)
 		p.Info(lang.TxtQuittingMessage)
 		return
 	}
 
-	//	p.Clear()
-	//	q := t.NewPage(lang.TxtTidyFilesTitle)
-	//	t.Blank()
-	//p.AddBlankRow()
-
 	diskSizeTotalBefore, diskSizeFreeBefore, diskPercentUsedBefore := getDiskInfo(p, pathIn)
 
-	//fmt.Printf("%s Changing directory to %s\n", PFY, path)
 	p.Info(fmt.Sprintf(lang.TxtChangingDirectory, t.Formatters.Bold(pathIn)))
-	//t.Blank()
-	//	p.AddBlankRow()
 
 	err = os.Chdir(pathIn)
 	if err != nil {
-		//log.Fatal(fmt.Sprintf("%s Unable to change directory: %v", PFY, err))
 		p.Error(errs.ErrFailedToChangeDirectory, pathIn, err.Error())
 		return
 	}
 
-	//var wg sync.WaitGroup
-
 	for _, fileExtension := range fileExtensions {
-		//wg.Add(idx)
-		//fmt.Printf("%s Operation on .%s files completed in %s seconds\n", support.CHspecial, fileExt, runtime)
-
-		//defer wg.Done()
 		processFileTypes(p, fileExtension)
-
 	}
-	//wg.Wait()
 
 	p.Info(lang.TxtTidyFilesDeletingDirectories)
 	startLoopIteration := time.Now()
@@ -140,6 +122,10 @@ func Run(t *term.ViewPort, debugModeIn bool, pathIn string) {
 }
 
 func processFileTypes(p *term.Page, fileExtension string) {
+	msg1 := fmt.Sprintf(lang.TxtProcessing, fileExtension)
+	p.Info(msg1)
+	resultsAdd(msg1)
+
 	startTime := time.Now()
 
 	if !debugMode {
@@ -180,6 +166,9 @@ func getDiskInfo(p *term.Page, path string) (total, free, percentUsed string) {
 }
 
 func removeFiles(p *term.Page, fileExtension string) {
+	msg1 := fmt.Sprintf(lang.TxtRemovingFilesWithExt, fileExtension)
+	p.Info(msg1)
+	resultsAdd(msg1)
 	t := p.ViewPort()
 	if debugMode {
 		//p.ViewPort()
@@ -197,9 +186,15 @@ func removeFiles(p *term.Page, fileExtension string) {
 	resultsAdd(msg)
 	output, _ := findCmd.Output()
 	results = append(results, string(output))
+	msg2 := fmt.Sprintf(lang.TxtOperationComplete, fileExtension, time.Now().Format(cfg.TimeStampFormat))
+	p.Success(msg2)
+	resultsAdd(msg2)
 }
 
 func findFiles(p *term.Page, fileExt string) {
+	msg1 := fmt.Sprintf(lang.TxtFindingFilesWithExt, fileExt)
+	p.Info(msg1)
+	resultsAdd(msg1)
 	findCmd := exec.Command("find", ".", "-type", "f", "-name", "*."+fileExt)
 
 	output, err := findCmd.Output()
@@ -209,9 +204,15 @@ func findFiles(p *term.Page, fileExt string) {
 	}
 	p.Success(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
 	resultsAdd(string(output))
+	msg2 := fmt.Sprintf(lang.TxtOperationComplete, fileExt, time.Now().Format(cfg.TimeStampFormat))
+	p.Success(msg2)
+	resultsAdd(msg2)
 }
 
 func removeEmptyDirectories(p *term.Page) {
+	msg1 := lang.TxtRemovingEmptyDirectories
+	p.Info(msg1)
+	resultsAdd(msg1)
 	t := p.ViewPort()
 	if debugMode {
 		p.Info(lang.TxtTidyFilesWouldHaveRemoved)
@@ -229,9 +230,15 @@ func removeEmptyDirectories(p *term.Page) {
 	output, _ := findCmd.Output()
 	outputTxt := string(output)
 	resultsAdd(outputTxt)
+	msg2 := fmt.Sprintf(lang.TxtOperationCompleteIncomplete, time.Now().Format(cfg.TimeStampFormat))
+	p.Success(msg2)
+	resultsAdd(msg2)
 }
 
 func findEmptyDirectories(p *term.Page) {
+	msg1 := lang.TxtFindingEmptyDirectories
+	p.Info(msg1)
+	resultsAdd(msg1)
 	//t := p.ViewPort()
 	findCmd := exec.Command("find", ".", "-type", "d", "-empty", "-print")
 	output, err := findCmd.Output()
@@ -242,6 +249,9 @@ func findEmptyDirectories(p *term.Page) {
 	}
 	resultsAdd(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
 	resultsAdd(string(output))
+	msg2 := fmt.Sprintf(lang.TxtOperationCompleteIncomplete, time.Now().Format(cfg.TimeStampFormat))
+	p.Success(msg2)
+	resultsAdd(msg2)
 }
 
 func printStorageReport(p *term.Page, beforeDiskSizeTotal, beforeDiskSizeFree, beforeDiskPercentUsed, afterDiskSizeTotal, afterDiskSizeFree, afterDiskPercentUsed string) {
@@ -252,6 +262,7 @@ func printStorageReport(p *term.Page, beforeDiskSizeTotal, beforeDiskSizeFree, b
 	}
 
 	resultsAdd(t.Formatters.Bold(t.Underline(lang.TxtStorageReportTitle)))
+	resultsAdd("")
 	resultsAdd(fmt.Sprintf(lang.TxtTidyFilesBefore, t.Formatters.Bold(beforeDiskSizeFree), t.Formatters.Bold(beforeDiskSizeTotal), t.Formatters.Bold(beforeDiskPercentUsed)))
 	resultsAdd(fmt.Sprintf(lang.TxtTidyFilesAfter, t.Formatters.Bold(afterDiskSizeFree), t.Formatters.Bold(afterDiskSizeTotal), t.Formatters.Bold(afterDiskPercentUsed)))
 	resultsAdd(fmt.Sprintf(lang.TxtTidyFilesMachine, t.Helpers.GetSytemInfo()))
@@ -264,4 +275,8 @@ func printStorageReport(p *term.Page, beforeDiskSizeTotal, beforeDiskSizeFree, b
 
 func resultsAdd(in string) {
 	results = append(results, in)
+}
+
+func upcase(t *term.Page, msg string) string {
+	return t.ViewPort().Formatters.Upcase(msg)
 }

@@ -20,15 +20,17 @@ import (
 func Run(t *term.ViewPort) {
 	//log.Println("Starting Main Menu")
 	p := t.NewPage(lang.TxtMainMenuTitle)
+	p.AddBlankRow()
 	p.AddMenuOption(1, lang.TxtDashboardTitle, "", "")
 	p.AddMenuOption(2, lang.TxtSkyNewsMenuTitle, "", "")
 	p.AddMenuOption(3, lang.TxtBBCNewsMenuTitle, "", "")
 	p.AddMenuOption(4, lang.TxtWeatherMenuTitle, "", "")
 	p.AddMenuOption(5, lang.TxtTorrentsMenuTitle, "", "")
 	p.AddMenuOption(6, lang.TxtPlexMediaServersMenuTitle, "", "")
+	p.AddBlankRow()
 	p.AddMenuOption(7, lang.TxtRemoteSystemsAccessMenuTitle, "", "")
 	p.AddMenuOption(8, lang.TxtSystemsMaintenanceMenuTitle, "", "")
-	p.AddMenuOption(9, lang.SymBlank, "", "")
+	//p.AddMenuOption(9, lang.SymBlank, "", "")
 	p.AddAction(lang.SymActionQuit)
 
 	ok := false

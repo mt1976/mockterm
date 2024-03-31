@@ -203,6 +203,8 @@ const (
 // Disksize
 const (
 	TxtDiskSizeTitle     string = "Disk Size"
+	TxtDiskSizeResults   string = "Disk Size - Results"
+	TxtDiskSizeReport    string = "Disk Size - Report"
 	TxtDiskSizePrompt    string = "Choose (Q)uit"
 	TxtFileSizesOfNFiles string = "File Sizes of %v files"
 	DUOutputConstructor  string = "%5d b | %5.2f kb | %5.2f mb | %5.2f gb | %5.2f tb | %s"
@@ -210,17 +212,21 @@ const (
 
 // CleanFileNames
 const (
-	TxtCleanFileNames         string = "Clean File Names"
-	TxtCleanFileNamesResults  string = "Clean File Names - Results"
-	TxtStartingCleanFileNames string = "Starting file name cleanse"
-	TxtNoFilesFoundInFolder   string = "No files found in folder %s\n"
-	TxtProcessingNFilesIn     string = "Processing %d files in %v"
-	TxtProcessedNFilesIn      string = "Cleaned %d filenames in %s"
-	TxtNoFilesProcessed       string = "No files cleaned in %s"
-	TxtOnlyFans               string = "OnlyFans"
-	FileExtensionMP4          string = ".mp4"
-	TxtOnlyFansFilename       string = TxtOnlyFans + FileExtensionMP4
-	TxtRemamedFile            string = "Renamed file [%s -> %s]"
+	TxtCleanFileNames           string = "Clean File Names"
+	TxtCleanFileNamesResults    string = "Clean File Names - Results"
+	TxtCleanFileNamesReport     string = "Clean File Names - Report"
+	TxtStartingCleanFileNames   string = "Starting file name cleanse"
+	TxtNoFilesFoundInFolder     string = "No files found in folder %s\n"
+	TxtProcessingNFilesIn       string = "Processing %d files in %v"
+	TxtProcessedNFilesIn        string = "Cleaned %d filenames in %s"
+	TxtNoFilesProcessed         string = "No files cleaned in %s"
+	TxtOnlyFans                 string = "OnlyFans"
+	FileExtensionMP4            string = ".mp4"
+	TxtOnlyFansFilename         string = TxtOnlyFans + FileExtensionMP4
+	TxtRemamedFile              string = "Renamed file [%s -> %s]"
+	TxtProcessing               string = "Processing %v type files"
+	TxtRemovingEmptyDirectories string = "Removing empty directories"
+	TxtFindingEmptyDirectories  string = "Finding empty directories"
 )
 
 var (
@@ -231,7 +237,7 @@ var (
 const (
 	TxtTidyFilesTitle                        string = "Clean Media Folders"
 	TxtTidyFilesTitleResults                 string = "Clean Media Folders - Results"
-	TxtStorageReportTitle                    string = "STORAGE REPORT"
+	TxtStorageReportTitle                    string = "Clean Media Folders - Report"
 	TxtTidyFilesBefore                       string = "BEFORE  : %v available out of %v total (%vperc used)"
 	TxtTidyFilesAfter                        string = "AFTER   : %v available out of %v total (%vperc used)"
 	TxtTidyFilesMachine                      string = "MACHINE : %v"
@@ -247,7 +253,9 @@ const (
 	TxtRemovingFilesWithExt                  string = "Removing all files with extension .%v"
 	TxtFindingFilesWithExt                   string = "Finding all files with extension .%v"
 	TxtOperationComplete                     string = "Operation on .%v files completed in %v"
+	TxtOperationCompleteIncomplete           string = "Operation completed in %v"
 	TxtTidyFilesStart                        string = "Starting file removal process for %v"
+	TxtFileTypes                             string = "File Types"
 	TxtAreYouSureYouWantToProceed            string = "Are you sure you want to proceed"
 	OptAreYouSureYouWantToProceed            string = "y/n"
 	TxtChangingDirectory                     string = "Changing directory to %v"
