@@ -5,7 +5,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/mt1976/crt"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
@@ -24,18 +23,38 @@ type File struct {
 	Seq      int
 }
 
-func FileChooser(root string, includeDotFiles, includeDirectories, showFiles bool) (string, bool, error) {
+type flagger struct {
+	directory bool
+	file      bool
+	dotfile   bool
+	showFiles bool
+}
+
+var All = flagger{directory: true, file: true, dotfile: true, showFiles: true}
+var DirectoriesOnly = flagger{directory: true, file: false, dotfile: false, showFiles: false}
+var FilesOnly = flagger{directory: false, file: true, dotfile: false, showFiles: true}
+var DirectoriesAll = flagger{directory: true, file: false, dotfile: true, showFiles: false}
+var FilesAll = flagger{directory: false, file: true, dotfile: true, showFiles: true}
+
+var actionUp = "U"
+var actionUpDoubleDot = ".."
+var actionUpArrow = "^"
+var actionGo = "G"
+var pathSeparator = string(os.PathSeparator)
+var actionSelect = "S"
+
+func FileChooser(searchPath string, flags flagger) (string, bool, error) {
 
 	term := crt.New()
 	page := term.NewPage(lang.TxtFileChooserTitle)
 
-	files, err := GetFolderList(root, includeDotFiles, includeDirectories, showFiles)
+	files, err := GetFolderList(searchPath, flags)
 	if err != nil {
 		return "", false, err
 	}
 	uh, _ := UserHome()
 	page.AddFieldValuePair("Home", uh)
-	page.AddFieldValuePair("Directory", root)
+	page.AddFieldValuePair("Directory", searchPath)
 	page.AddBlankRow()
 	//page.AddColumnsTitle("Name", "Mode", "Size", "Modified")
 	formatter := "%1v %-30v %10v %12v %15v"
@@ -49,44 +68,62 @@ func FileChooser(root string, includeDotFiles, includeDirectories, showFiles boo
 	//breaker = strings.Repeat("-", len(breaker))
 	page.Add(breaker, "", "")
 	up := fmt.Sprintf(formatter, "^", " ..", "", "", "")
-	page.Add("0 "+up, "", "")
-	page.AddAction("U")
+	page.Add(actionUp+" "+up, "", "")
+	page.AddAction(actionUp)
+	page.AddAction(actionUpArrow)
+	page.AddAction(actionUpDoubleDot)
 
 	for _, file := range files {
 		row := fmt.Sprintf(formatter, file.Icon, file.Name, file.Mode, file.Modified, file.SizeTxt)
 		page.AddMenuOption(file.Seq+1, row, "", "")
 		if file.IsDir {
-			page.AddAction("S" + fmt.Sprintf("%v", file.Seq))
+			page.AddAction(actionGo + fmt.Sprintf("%v", file.Seq+1))
 		}
 	}
+	// spew.Dump(page)
+	// os.Exit(0)
 	na, _ := page.DisplayWithActions()
 	if na == lang.SymActionQuit {
 		return "", false, nil
 	}
-	if na == "U" || na == "^" {
-		upPath := strings.Split(root, "/")
+	if na == actionUp || na == actionUpArrow || na == actionUpDoubleDot {
+		upPath := strings.Split(searchPath, pathSeparator)
 		if len(upPath) > 1 {
 			upPath = upPath[:len(upPath)-1]
 		}
-		toPath := strings.Join(upPath, "/")
+		toPath := strings.Join(upPath, pathSeparator)
 
-		return FileChooser(toPath, includeDotFiles, includeDirectories, showFiles)
+		return FileChooser(toPath, flags)
 	}
 	// split na into first char and remainder
-	first := na[:1]
+	first := upcase(na[:1])
 	remainder := na[1:]
-	if first == "S" || isInt(remainder) {
+	if first == actionGo || isInt(remainder) {
 		r := files[term.Helpers.ToInt(remainder)-1]
 		if !r.IsDir {
 			page.Error(errs.ErrNotADirectory, r.Path)
-			return FileChooser(root, includeDotFiles, includeDirectories, showFiles)
+			return FileChooser(searchPath, flags)
 		}
+		return FileChooser(r.Path, flags)
 	}
 	if term.Helpers.IsInt(na) {
+		// if a specific item has been selected, return the path of that item
 		r := files[term.Helpers.ToInt(na)-1]
+		if !r.IsDir && flags.directory {
+			page.Error(errs.ErrNotAFile, r.Path)
+			return FileChooser(searchPath, flags)
+		}
+		if r.IsDir && flags.file {
+			page.Error(errs.ErrNotADirectory, r.Path)
+			return FileChooser(searchPath, flags)
+		}
 		return r.Path, r.IsDir, nil
 	}
-	return "", false, nil
+	if upcase(na) == actionSelect {
+		// The current folder has been selected
+		return searchPath, false, nil
+	}
+	return FileChooser(searchPath, flags)
 }
 
 func UserHome() (string, error) {
@@ -97,7 +134,7 @@ func UserHome() (string, error) {
 	return os.UserHomeDir()
 }
 
-func GetFolderList(dir string, includeDotFiles, includeDirectories, showFiles bool) ([]File, error) {
+func GetFolderList(dir string, include flagger) ([]File, error) {
 	// Get a list of files in the specified directory
 	files, err := os.ReadDir(dir)
 	if err != nil {
@@ -116,22 +153,35 @@ func GetFolderList(dir string, includeDotFiles, includeDirectories, showFiles bo
 	//up := File{Name: "..", Path: strings.Join(upPath, "/"), Icon: lang.TxtFolderIcon, IsDir: true, Seq: -1}
 	//directories = append(directories, up)
 	for _, file := range files {
-		if file.IsDir() && !includeDirectories {
+		// fmt.Printf("\"PROCESSING\": %v\n", file.Name())
+		// fmt.Printf("file.IsDir(): %v\n", file.IsDir())
+		// fmt.Printf("include.directory: %v\n", include.directory)
+		if file.IsDir() && !include.directory {
 			//include = true
 			continue
 		}
-		if file.Name()[0] == '.' && !includeDotFiles {
+		// fmt.Printf("file.Name()[0]: %v\n", file.Name()[0])
+		// fmt.Printf("include.dotfile: %v\n", include.dotfile)
+		if file.Name()[0] == '.' && !include.dotfile {
 			//include = false
 			continue
 		}
-		if !file.IsDir() && showFiles {
+		// fmt.Printf("file.IsDir(): %v\n", file.IsDir())
+		// fmt.Printf("include.file: %v\n", include.file)
+		if !file.IsDir() && !include.file {
+			//include = false
+			continue
+		}
+		// fmt.Printf("file.IsDir(): %v\n", file.IsDir())
+		// fmt.Printf("include.showFiles: %v\n", include.showFiles)
+		if !file.IsDir() && !include.showFiles {
 			//include = false
 			continue
 		}
 
 		var this File
 		this.Name = strings.Trim(file.Name(), " ")
-		this.Path = dir + "/" + file.Name()
+		this.Path = dir + pathSeparator + file.Name()
 		inf, _ := file.Info()
 		this.Created = "N/A"
 		this.Modified = crt.New().Formatters.HumanFromUnixDate(inf.ModTime().Local().Unix())
@@ -150,10 +200,12 @@ func GetFolderList(dir string, includeDotFiles, includeDirectories, showFiles bo
 		}
 		this.Icon = this.Icon + " "
 		this.Seq = itemNo
+		//fmt.Printf("this: %v\n", this)
 		directories = append(directories, this)
 		itemNo++
 	}
-	spew.Dump(directories)
+	//spew.Dump(directories, include, All)
+	//os.Exit(0)
 	return directories, nil
 }
 
@@ -163,7 +215,7 @@ func isSymLink(mode string) bool {
 
 func ChooseDirectory(root string) (string, error) {
 	// Function to choose a directory using the file chooser
-	item, _, err := FileChooser(root, false, true, false)
+	item, _, err := FileChooser(root, DirectoriesOnly)
 	if err != nil {
 		return "", err
 	}
@@ -173,4 +225,8 @@ func ChooseDirectory(root string) (string, error) {
 func isInt(s string) bool {
 	//_, err := crt.New().Helpers.IsInt(s)
 	return crt.New().Helpers.IsInt(s)
+}
+
+func upcase(s string) string {
+	return crt.New().Formatters.Upcase(s)
 }

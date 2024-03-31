@@ -58,12 +58,12 @@ func Run(t *term.ViewPort) {
 			if err != nil {
 				t.Error(err)
 			}
-			selected, isDir, err := file.FileChooser(userHome, false, true, true)
+			selected, isDir, err := file.FileChooser(userHome, file.All)
 			if err != nil {
 				p.Error(err, "file chooser error")
 			}
 			if isDir {
-				_, _, err := file.FileChooser(selected, false, true, true)
+				_, _, err := file.FileChooser(selected, file.All)
 				if err != nil {
 					p.Error(err, "file chooser error")
 				}
