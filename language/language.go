@@ -224,6 +224,7 @@ const (
 // TidyFiles
 const (
 	TxtTidyFilesTitle                        string = "Media Management - Tidy Folders"
+	TxtTidyFilesTitleResults                 string = "Media Management - Tidy Folders - Results"
 	TxtStorageReportTitle                    string = "STORAGE REPORT"
 	TxtTidyFilesBefore                       string = "BEFORE  : %v available out of %v total (%vperc used)"
 	TxtTidyFilesAfter                        string = "AFTER   : %v available out of %v total (%vperc used)"
@@ -249,6 +250,8 @@ const (
 	TxtCommandRun                            string = "Command run: %v"
 	TxtLiveRun                               string = "This is a live run. Files will be deleted."
 	TxtTrailRun                              string = "This is a trial run. Files & Folders will not be deleted."
+	TxtMode                                  string = "Mode"
+	TxtPath                                  string = "Path"
 )
 
 const (

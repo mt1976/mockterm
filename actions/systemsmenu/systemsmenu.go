@@ -3,6 +3,7 @@ package systemsmenu
 import (
 	term "github.com/mt1976/crt"
 	push "github.com/mt1976/mockterm/actions/pushover"
+	tidy "github.com/mt1976/mockterm/actions/tidymediafolders"
 	lang "github.com/mt1976/mockterm/language"
 )
 
@@ -14,6 +15,7 @@ func Run(t *term.ViewPort) {
 	p.AddParagraph(lang.TxtServiceMenuDescription)
 	p.AddBlankRow()
 	p.AddMenuOption(1, lang.TxtPushoverTitle, "", "")
+	p.AddMenuOption(2, lang.TxtTidyFilesTitle, "", "")
 	p.AddAction(lang.SymActionQuit)
 
 	// loop while ok
@@ -30,6 +32,8 @@ func Run(t *term.ViewPort) {
 			continue
 		case "1":
 			push.Run(t)
+		case "2":
+			tidy.Run(t, true, "")
 		default:
 			p.Error(term.ErrInvalidAction, action)
 		}

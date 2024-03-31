@@ -21,6 +21,7 @@ var (
 
 var debugMode bool = true
 var cfg = conf.Configuration
+var results = []string{}
 
 func Run(t *term.ViewPort, debugModeIn bool, pathIn string) {
 	debugMode = debugModeIn
@@ -60,15 +61,15 @@ func Run(t *term.ViewPort, debugModeIn bool, pathIn string) {
 	}
 
 	if !debugMode {
-		p.AddFieldValuePair("Mode", "Debug")
+		p.AddFieldValuePair(lang.TxtMode, lang.TxtDebugMode)
 		//t.Special(t.Formatters.Bold(t.Underline(lang.TxtLiveRun)))
 	} else {
-		p.AddFieldValuePair("Mode", "Normal")
+		p.AddFieldValuePair(lang.TxtMode, lang.TxtLiveMode)
 		//t.Print(t.Underline(lang.TxtTrailRun))
 	}
 
 	//t.Print(lang.TxtResolvedPath + realpath(t, pathIn))
-	p.AddFieldValuePair("Path", realpath(p, pathIn))
+	p.AddFieldValuePair(lang.TxtPath, realpath(p, pathIn))
 	//fmt.Printf("%s File types to be removed: [%s]\n", support.CHnormal, strings.Join(types, " "))
 	//t.Print(fmt.Sprintf(lang.TxtTidyFilesStart, t.Formatters.Bold(strings.Join(fileExtensions, " "))))
 	p.AddBlankRow()
@@ -132,6 +133,10 @@ func Run(t *term.ViewPort, debugModeIn bool, pathIn string) {
 	diskSizeTotalAfter, diskSizeFreeAfter, diskPercentUsedAfter := getDiskInfo(p, pathIn)
 
 	printStorageReport(p, diskSizeTotalBefore, diskSizeFreeBefore, diskPercentUsedBefore, diskSizeTotalAfter, diskSizeFreeAfter, diskPercentUsedAfter)
+	q := t.NewPage(lang.TxtTidyFilesTitleResults)
+	q.AddParagraph(results)
+	q.DisplayWithActions()
+
 }
 
 func processFileTypes(p *term.Page, fileExtension string) {
@@ -147,8 +152,9 @@ func processFileTypes(p *term.Page, fileExtension string) {
 	endTime := time.Now()
 	runtime := endTime.Sub(startTime)
 
-	p.Success(fmt.Sprintf(lang.TxtOperationComplete, fileExtension, runtime.String()))
-
+	msg := fmt.Sprintf(lang.TxtOperationComplete, fileExtension, runtime.String())
+	p.Success(msg)
+	resultsAdd(msg)
 }
 
 func realpath(p *term.Page, path string) string {
@@ -167,24 +173,30 @@ func realpath(p *term.Page, path string) string {
 // space used for a given path.
 func getDiskInfo(p *term.Page, path string) (total, free, percentUsed string) {
 	info := du.NewDiskUsage(path)
-	total = t.Formatters.HumanDiskSize(info.Size())
-	free = t.Formatters.HumanDiskSize(info.Available())
-	percentUsed = t.Formatters.Human(info.Usage())
+	total = p.ViewPort().Formatters.HumanDiskSize(info.Size())
+	free = p.ViewPort().Formatters.HumanDiskSize(info.Available())
+	percentUsed = p.ViewPort().Formatters.Human(info.Usage())
 	return total, free, percentUsed
 }
 
 func removeFiles(p *term.Page, fileExtension string) {
+	t := p.ViewPort()
 	if debugMode {
+		//p.ViewPort()
 		t.Print(lang.TxtTidyFilesWouldHaveRemoved)
 		return
 	}
 	findCmd := exec.Command("find", ".", "-type", "f", "-name", "*."+fileExtension, "-exec", "rm", "-f", "{}", ";")
 	err := findCmd.Run()
 	if err != nil {
-		t.Error(errs.ErrUnableToFindFiles, err.Error())
+		p.Error(errs.ErrUnableToFindFiles, err.Error())
 		return
 	}
-	t.Println(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
+	msg := fmt.Sprintf(lang.TxtCommandRun, findCmd.String())
+	p.Success(msg)
+	resultsAdd(msg)
+	output, _ := findCmd.Output()
+	results = append(results, string(output))
 }
 
 func findFiles(p *term.Page, fileExt string) {
@@ -192,38 +204,44 @@ func findFiles(p *term.Page, fileExt string) {
 
 	output, err := findCmd.Output()
 	if err != nil {
-		t.Error(errs.ErrUnableToFindFiles, err.Error())
+		p.Error(errs.ErrUnableToFindFiles, err.Error())
 		return
 	}
-	t.Println(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
-	t.Spool(output)
+	p.Success(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
+	resultsAdd(string(output))
 }
 
 func removeEmptyDirectories(p *term.Page) {
+	t := p.ViewPort()
 	if debugMode {
-		t.Print(lang.TxtTidyFilesWouldHaveRemoved)
+		p.Info(lang.TxtTidyFilesWouldHaveRemoved)
 		return
 	}
 	findCmd := exec.Command("find", ".", "-type", "d", "-exec", "rmdir", "{}", "+")
 	err := findCmd.Run()
 	if err != nil {
 		//log.Fatal(fmt.Sprintf("%s Unable to remove empty directories: %v", PFY, err))
-		t.Error(errs.ErrUnableToRemoveDirectories, err.Error())
+		p.Error(errs.ErrUnableToRemoveDirectories, err.Error())
 		return
 	}
 	t.Println(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
+	resultsAdd(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
+	output, _ := findCmd.Output()
+	outputTxt := string(output)
+	resultsAdd(outputTxt)
 }
 
 func findEmptyDirectories(p *term.Page) {
+	//t := p.ViewPort()
 	findCmd := exec.Command("find", ".", "-type", "d", "-empty", "-print")
 	output, err := findCmd.Output()
 	if err != nil {
 		//log.Fatal(fmt.Sprintf("%s Unable to find empty directories: %v", PFY, err))
-		t.Error(errs.ErrNoEmptyDirectories, err.Error())
+		p.Error(errs.ErrNoEmptyDirectories, err.Error())
 		return
 	}
-	t.Println(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
-	t.Spool(output)
+	resultsAdd(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
+	resultsAdd(string(output))
 }
 
 func printStorageReport(p *term.Page, beforeDiskSizeTotal, beforeDiskSizeFree, beforeDiskPercentUsed, afterDiskSizeTotal, afterDiskSizeFree, afterDiskPercentUsed string) {
@@ -233,15 +251,17 @@ func printStorageReport(p *term.Page, beforeDiskSizeTotal, beforeDiskSizeFree, b
 		mode = lang.TxtLiveMode
 	}
 
-	t.Break()
-	t.Print(t.Formatters.Bold(t.Underline(lang.TxtStorageReportTitle)))
-	t.Break()
-	t.Print(fmt.Sprintf(lang.TxtTidyFilesBefore, t.Formatters.Bold(beforeDiskSizeFree), t.Formatters.Bold(beforeDiskSizeTotal), t.Formatters.Bold(beforeDiskPercentUsed)))
-	t.Print(fmt.Sprintf(lang.TxtTidyFilesAfter, t.Formatters.Bold(afterDiskSizeFree), t.Formatters.Bold(afterDiskSizeTotal), t.Formatters.Bold(afterDiskPercentUsed)))
-	t.Print(fmt.Sprintf(lang.TxtTidyFilesMachine, t.Helpers.GetSytemInfo()))
-	t.Print(fmt.Sprintf(lang.TxtTidyFilesHost, t.Helpers.GetHostName()))
-	t.Print(fmt.Sprintf(lang.TxtTidyFilesUser, t.Helpers.GetUsername()))
-	t.Print(fmt.Sprintf(lang.TxtTidyFilesMode, mode))
-	t.Print(fmt.Sprintf(lang.TxtTidyFilesTypes, strings.Join(fileExtensions, " ")))
-	t.Print(fmt.Sprintf(lang.TxtTidyFilesEnd, time.Now().Format(cfg.TimeStampFormat)))
+	resultsAdd(t.Formatters.Bold(t.Underline(lang.TxtStorageReportTitle)))
+	resultsAdd(fmt.Sprintf(lang.TxtTidyFilesBefore, t.Formatters.Bold(beforeDiskSizeFree), t.Formatters.Bold(beforeDiskSizeTotal), t.Formatters.Bold(beforeDiskPercentUsed)))
+	resultsAdd(fmt.Sprintf(lang.TxtTidyFilesAfter, t.Formatters.Bold(afterDiskSizeFree), t.Formatters.Bold(afterDiskSizeTotal), t.Formatters.Bold(afterDiskPercentUsed)))
+	resultsAdd(fmt.Sprintf(lang.TxtTidyFilesMachine, t.Helpers.GetSytemInfo()))
+	resultsAdd(fmt.Sprintf(lang.TxtTidyFilesHost, t.Helpers.GetHostName()))
+	resultsAdd(fmt.Sprintf(lang.TxtTidyFilesUser, t.Helpers.GetUsername()))
+	resultsAdd(fmt.Sprintf(lang.TxtTidyFilesMode, mode))
+	resultsAdd(fmt.Sprintf(lang.TxtTidyFilesTypes, strings.Join(fileExtensions, " ")))
+	resultsAdd(fmt.Sprintf(lang.TxtTidyFilesEnd, time.Now().Format(cfg.TimeStampFormat)))
+}
+
+func resultsAdd(in string) {
+	results = append(results, in)
 }

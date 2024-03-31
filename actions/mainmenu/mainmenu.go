@@ -10,7 +10,6 @@ import (
 	plex "github.com/mt1976/mockterm/actions/plexmediaserver"
 	news "github.com/mt1976/mockterm/actions/skynews"
 	syst "github.com/mt1976/mockterm/actions/systemsmenu"
-	tidy "github.com/mt1976/mockterm/actions/tidymediafolders"
 	trts "github.com/mt1976/mockterm/actions/torrents"
 	wthr "github.com/mt1976/mockterm/actions/weather"
 	lang "github.com/mt1976/mockterm/language"
@@ -30,8 +29,6 @@ func Run(t *term.ViewPort) {
 	p.AddMenuOption(7, lang.TxtRemoteSystemsAccessMenuTitle, "", "")
 	p.AddMenuOption(8, lang.TxtSystemsMaintenanceMenuTitle, "", "")
 	p.AddMenuOption(9, lang.SymBlank, "", "")
-	p.AddMenuOption(10, "File Chooser", "", "")
-	p.AddMenuOption(11, "Tidy Media Files", "", "")
 	p.AddAction(lang.SymActionQuit)
 
 	ok := false
@@ -72,9 +69,7 @@ func Run(t *term.ViewPort) {
 			}
 			prn := fmt.Sprintf("Selected = %v, isDir = %v", selected, isDir)
 			p.Error(errors.New("testing"), prn)
-		case "11":
 
-			tidy.Run(t, true, "")
 		default:
 			p.Error(term.ErrInvalidAction, action)
 		}
