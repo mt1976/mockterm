@@ -210,6 +210,8 @@ const (
 
 // CleanFileNames
 const (
+	TxtCleanFileNames         string = "Clean File Names"
+	TxtCleanFileNamesResults  string = "Clean File Names - Results"
 	TxtStartingCleanFileNames string = "Starting file name cleanse"
 	TxtNoFilesFoundInFolder   string = "No files found in folder %s\n"
 	TxtProcessingNFilesIn     string = "Processing %d files in %v"
@@ -221,10 +223,14 @@ const (
 	TxtRemamedFile            string = "Renamed file [%s -> %s]"
 )
 
+var (
+	TxtCleanFileNamesDescription []string = []string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"}
+)
+
 // TidyFiles
 const (
-	TxtTidyFilesTitle                        string = "Media Management - Tidy Folders"
-	TxtTidyFilesTitleResults                 string = "Media Management - Tidy Folders - Results"
+	TxtTidyFilesTitle                        string = "Clean Media Folders"
+	TxtTidyFilesTitleResults                 string = "Clean Media Folders - Results"
 	TxtStorageReportTitle                    string = "STORAGE REPORT"
 	TxtTidyFilesBefore                       string = "BEFORE  : %v available out of %v total (%vperc used)"
 	TxtTidyFilesAfter                        string = "AFTER   : %v available out of %v total (%vperc used)"

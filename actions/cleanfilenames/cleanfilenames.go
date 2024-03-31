@@ -10,6 +10,7 @@ import (
 
 	uuid "github.com/lithammer/shortuuid/v3"
 	term "github.com/mt1976/crt"
+	file "github.com/mt1976/crt/filechooser"
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
@@ -19,52 +20,101 @@ import (
 var itemCount int = 0
 var debugMode bool = false
 var cfg = conf.Configuration
+var results = []string{}
 
-func Run(t term.ViewPort, debugModeIn bool, cleanPathIn, messageIn string) {
-	//TODO add Input to get path to clean
-	//TODO add Check to see if path exists, if not ask for input again
-	//TODO add Input to select Mode, debug or normal
-	//TODO re-present the path and mode selected, ask for permission to proceed
-	//TODO if no permission go back, otherwise proceed.
+func Run(t *term.ViewPort, debugModeIn bool, basePath string) {
 
 	debugMode = debugModeIn
 
-	t.Print(lang.TxtStartingCleanFileNames + t.Formatters.DQuote(t.Formatters.Bold(cleanPathIn)))
-	t.Blank()
+	p := t.NewPage(lang.TxtCleanFileNames)
+	resultsAdd(upcase(p, lang.TxtCleanFileNames) + " REPORT")
 
-	baseFolder := "."
+	if basePath == "" {
+		home, err := file.UserHome()
+		if err != nil {
+			p.Error(err)
+		}
+		basePath = home
+	}
 
-	fileList := sppt.GetFilesList(t, baseFolder)
-	if len(fileList) == 0 {
-		t.Shout(fmt.Sprintf(lang.TxtNoFilesFoundInFolder, baseFolder))
+	if debugMode {
+		p.AddFieldValuePair(lang.TxtMode, lang.TxtDebugMode)
+	} else {
+		p.AddFieldValuePair(lang.TxtMode, lang.TxtLiveMode)
+	}
+
+	baseFolder, _, err := file.FileChooser(basePath, file.DirectoriesOnly)
+	if err != nil {
+		p.Error(err, "file chooser error")
+	}
+
+	p.AddFieldValuePair(lang.TxtPath, baseFolder)
+	resultsAdd(lang.TxtPath + " " + baseFolder)
+	p.AddBlankRow()
+	p.AddParagraph(lang.TxtCleanFileNamesDescription)
+
+	msg := lang.TxtStartingCleanFileNames + t.Formatters.DQuote(t.Formatters.Bold(basePath))
+	p.Info(msg)
+	resultsAdd(msg)
+	p.AddBlankRow()
+	resultsAdd("")
+
+	ok, err := p.Confirmation(lang.TxtAreYouSureYouWantToProceed)
+	if err != nil {
+		p.Error(err, "unable to get user response")
+	}
+	if !ok {
+		//fmt.Printf("%s Exiting\n", PFY)
+		p.Info(lang.TxtQuittingMessage)
 		return
 	}
 
-	t.Print(fmt.Sprintf(lang.TxtProcessingNFilesIn, len(fileList), messageIn))
-	t.Blank()
+	fileList := sppt.GetFilesList(t, baseFolder)
+	if len(fileList) == 0 {
+		p.Error(errs.ErrDirectoryEmpty, baseFolder)
+		resultsAdd(errs.ErrDirectoryEmpty.Error())
+		resultsAdd(baseFolder)
+		return
+	}
+
+	msg = fmt.Sprintf(lang.TxtProcessingNFilesIn, len(fileList), baseFolder)
+	p.Info(msg)
+	resultsAdd(msg)
 
 	for _, file := range fileList {
-		err := cleanFileName(t, file, baseFolder)
+		err := cleanFileName(p, file, baseFolder)
 		if err != nil {
-			t.Error(errs.ErrProcessingFiles, err.Error())
+			p.Error(errs.ErrProcessingFiles, err.Error())
+			resultsAdd(errs.ErrProcessingFiles.Error())
+			resultsAdd(err.Error())
 			return
 		}
 	}
 
-	t.Break()
-
 	if itemCount > 0 {
-		t.Print(fmt.Sprintf(lang.TxtProcessedNFilesIn, itemCount, cleanPathIn))
+		msg := fmt.Sprintf(lang.TxtProcessedNFilesIn, itemCount, basePath)
+		p.Success(msg)
+		resultsAdd(msg)
 	} else {
-		t.Print(fmt.Sprintf(lang.TxtNoFilesProcessed, cleanPathIn))
+		msg := fmt.Sprintf(lang.TxtNoFilesProcessed, basePath)
+		p.Info(msg)
+		resultsAdd(msg)
 	}
+
+	q := t.NewPage(lang.TxtCleanFileNamesResults)
+	q.AddParagraph(results)
+	q.DisplayWithActions()
+
 }
 
-func cleanFileName(t term.ViewPort, info fs.DirEntry, path string) error {
-
-	cleanName, err := getCleanName(t, info.Name())
+func cleanFileName(p *term.Page, info fs.DirEntry, path string) error {
+	resultsAdd("Processing : " + info.Name())
+	cleanName, err := getCleanName(p, info.Name())
 	if err != nil {
-		t.Error(errs.ErrCleaningFileName, info.Name(), err.Error())
+		p.Error(errs.ErrCleaningFileName, info.Name(), err.Error())
+		resultsAdd(errs.ErrCleaningFileName.Error())
+		resultsAdd(info.Name())
+		resultsAdd(err.Error())
 		return errs.ErrCleaningFileName
 	}
 
@@ -75,14 +125,17 @@ func cleanFileName(t term.ViewPort, info fs.DirEntry, path string) error {
 	}
 
 	if cleanName != info.Name() {
-		renameFile(t, path, cleanName, info.Name())
+		resultsAdd(fmt.Sprintf(lang.TxtRemamedFile, info.Name(), cleanName))
+		renameFile(p, path, cleanName, info.Name())
 		itemCount++
 	}
 	return nil
 }
 
-func getCleanName(t term.ViewPort, fileName string) (string, error) {
+func getCleanName(p *term.Page, fileName string) (string, error) {
 	//fmt.Printf("%s Cleaning file name '%s'\n", support.PFX, name)
+	t := p.ViewPort()
+	f := t.Formatters
 	newFileName := fileName
 
 	// Remove all characters that are not in the ValidChars list
@@ -95,10 +148,10 @@ func getCleanName(t term.ViewPort, fileName string) (string, error) {
 	newFileName = strings.ReplaceAll(newFileName, "-", " ")
 
 	// Remove all double spaces
-	newFileName = t.Formatters.TrimRepeatingCharacters(newFileName, " ")
-	newFileName = t.Formatters.TrimRepeatingCharacters(newFileName, ".")
-	newFileName = t.Formatters.TrimRepeatingCharacters(newFileName, "-")
-	newFileName = t.Formatters.TrimRepeatingCharacters(newFileName, "*")
+	newFileName = f.TrimRepeatingCharacters(newFileName, " ")
+	newFileName = f.TrimRepeatingCharacters(newFileName, ".")
+	newFileName = f.TrimRepeatingCharacters(newFileName, "-")
+	newFileName = f.TrimRepeatingCharacters(newFileName, "*")
 	newFileName = strings.TrimLeft(newFileName, " ")
 	newFileName = strings.TrimLeft(newFileName, "-")
 	newFileName = strings.TrimLeft(newFileName, " ")
@@ -107,7 +160,7 @@ func getCleanName(t term.ViewPort, fileName string) (string, error) {
 	return newFileName, nil
 }
 
-func renameFile(t term.ViewPort, path string, newFileName string, oldFileName string) {
+func renameFile(p *term.Page, path string, newFileName string, oldFileName string) {
 	newPath := filepath.Join(filepath.Dir(path), newFileName)
 	oldPath := filepath.Join(filepath.Dir(path), oldFileName)
 	err := error(nil)
@@ -117,8 +170,16 @@ func renameFile(t term.ViewPort, path string, newFileName string, oldFileName st
 	}
 
 	if err != nil {
-		t.Error(errs.ErrRenamingFile, path, err.Error())
+		p.Error(errs.ErrRenamingFile, path, err.Error())
 	} else {
-		t.Print(fmt.Sprintf(lang.TxtRemamedFile, oldFileName, newPath))
+		p.Info(fmt.Sprintf(lang.TxtRemamedFile, oldFileName, newPath))
 	}
+}
+
+func resultsAdd(msg string) {
+	results = append(results, msg)
+}
+
+func upcase(t *term.Page, msg string) string {
+	return t.ViewPort().Formatters.Upcase(msg)
 }

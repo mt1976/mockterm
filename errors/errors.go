@@ -56,4 +56,5 @@ var (
 	ErrFailedToChangeDirectory     = errors.New("failed to change directory to %v %v")
 	ErrNotADirectory               = errors.New("%v is not a directory")
 	ErrNotAFile                    = errors.New("%v is not a file")
+	ErrDirectoryEmpty              = errors.New("directory %v is empty")
 )
