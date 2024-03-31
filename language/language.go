@@ -300,3 +300,14 @@ var (
 	TxtFileChooserPrompt       string   = "Choose a file to use"
 	TxtFileChooserConfirmation string   = "Choose (S)end or (Q)uit"
 )
+
+// Catalog
+const (
+	TxtCatalogTitle string = "Systems Catalog"
+)
+
+var (
+	TxtCatalogDescription  []string = []string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"}
+	TxtCatalogPrompt       string   = "Choose a file to use"
+	TxtCatalogConfirmation string   = "Choose (S)end or (Q)uit"
+)

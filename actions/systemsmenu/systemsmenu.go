@@ -2,6 +2,7 @@ package systemsmenu
 
 import (
 	term "github.com/mt1976/crt"
+	catalog "github.com/mt1976/mockterm/actions/catalog"
 	clean "github.com/mt1976/mockterm/actions/cleanfilenames"
 	push "github.com/mt1976/mockterm/actions/pushover"
 	tidy "github.com/mt1976/mockterm/actions/tidymediafolders"
@@ -22,6 +23,8 @@ func Run(t *term.ViewPort) {
 	p.AddBlankRow()
 	p.AddMenuOption(4, lang.TxtCleanFileNames+" (Trial Mode)", "", "")
 	p.AddMenuOption(5, lang.TxtCleanFileNames+" (LIVE)", "", "")
+	p.AddBlankRow()
+	p.AddMenuOption(6, lang.TxtCatalogTitle, "", "")
 	p.AddAction(lang.SymActionQuit)
 
 	// loop while ok
@@ -46,6 +49,9 @@ func Run(t *term.ViewPort) {
 			clean.Run(t, true, "")
 		case "5":
 			clean.Run(t, false, "")
+		case "6":
+			catalog.Run(t)
+
 		default:
 			p.Error(term.ErrInvalidAction, action)
 		}

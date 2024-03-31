@@ -15,10 +15,11 @@ import (
 // Catalogs the resources available on a given system.
 
 var debugMode bool = false
+var results = []string{}
 
-func Run(t term.ViewPort, debug bool, path string) {
+func Run(t *term.ViewPort) {
 
-	debugMode = debug
+	debugMode = false
 	hostname := t.Helpers.GetHostName()
 	outputFilename := "catalog_" + hostname + "_" + supt.GetTimeStamp() + ".info"
 
@@ -31,7 +32,7 @@ func Run(t term.ViewPort, debug bool, path string) {
 	info.storeData(t, "Hostname", t.Helpers.GetHostName())
 	info.storeData(t, "Machine Name", t.Helpers.GetSytemInfo())
 	info.storeData(t, "Username", t.Helpers.GetUsername())
-	info.storeData(t, "Current Path", path)
+	//info.storeData(t, "Current Path", path)
 
 	m, _ := mem.VirtualMemory()
 	info.storeData(t, "Total Memory", t.Formatters.Human(m.Total))
@@ -106,6 +107,7 @@ func Run(t term.ViewPort, debug bool, path string) {
 		info.storeData(t, fmt.Sprintf("Mount %d InodesUsedPercent", zz), t.Formatters.Human(usage.InodesUsedPercent))
 
 	}
+
 	if !debugMode {
 		// Open output file
 		file, err := supt.OpenFile(t, outputFilename)
