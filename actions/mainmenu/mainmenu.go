@@ -6,6 +6,7 @@ import (
 
 	term "github.com/mt1976/crt"
 	file "github.com/mt1976/crt/filechooser"
+	"github.com/mt1976/mockterm/actions/bbcnews"
 	dash "github.com/mt1976/mockterm/actions/dashboard"
 	plex "github.com/mt1976/mockterm/actions/plexmediaserver"
 	news "github.com/mt1976/mockterm/actions/skynews"
@@ -46,6 +47,12 @@ func Run(t *term.ViewPort) {
 			dash.Run(t)
 		case "2":
 			news.Run(t)
+		case "3":
+			err := bbcnews.Run(t)
+			if err != nil {
+				t.Error(err, "")
+				return
+			}
 		case "4":
 			wthr.Run(t)
 		case "5":
