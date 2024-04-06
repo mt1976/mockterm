@@ -18,51 +18,64 @@ func Run(t *term.ViewPort) {
 	t.Clear()
 
 	// Display the banner.
-	t.Banner(lang.TxtStarting)
+	t.Banner("Initialise...")
+	t.Wait()
 
 	// Print a message.
-	t.Print(lang.TxtStartingTerminal + lang.SymNewline)
+	fmt.Println(lang.TxtStartingTerminal)
+	t.Wait()
 
 	// Print a message.
-	t.Print(lang.TxtSelfTesting + lang.SymNewline)
+	fmt.Println(lang.TxtSelfTesting)
+	t.Wait()
 	oldDelay := t.Delay()
 	//fmt.Println("Old Delay: ", oldDelay)
 	t.SetDelayInSec(0.25)
-	t.Print(lang.TxtSelfTesting + lang.TxtComplete + lang.SymNewline)
+	fmt.Println(lang.TxtSelfTesting + lang.TxtComplete)
+	t.Wait()
 	// Print the current date and time.
 	t.SetDelayInMs(oldDelay)
-	t.Print(lang.TxtCurrentDate + t.Formatters.DateString() + lang.SymNewline)
-	t.Print(lang.TxtCurrentTime + t.Formatters.TimeString() + lang.SymNewline)
+	fmt.Println(lang.TxtCurrentDate + t.Formatters.DateString())
+	t.Wait()
+	fmt.Println(lang.TxtCurrentTime + t.Formatters.TimeString())
+	t.Wait()
 
 	// Print a message.
-	t.Print(lang.TxtPleaseWait + lang.SymNewline)
+	fmt.Println(lang.TxtPleaseWait)
+	t.Wait()
 
 	// Check if the terminal has a baud rate set.
 	if !t.NoBaudRate() {
 		// Print a message with the current baud rate.
 		msg := fmt.Sprintf(lang.TxtBaudRate, t.Baud())
-		t.Print(msg + lang.SymNewline)
+		fmt.Println(msg)
+		t.Wait()
 	}
 
 	// Print a message.
-	t.Print(lang.TxtConnecting + lang.SymNewline)
+	fmt.Println(lang.TxtConnecting)
+	t.Wait()
 
 	// Print a message with the IP address and port number.
 	msg := fmt.Sprintf(lang.TxtDialing, t.Helpers.RandomIP(), t.Helpers.RandomPort())
-	t.Print(msg + lang.SymNewline)
+	fmt.Println(msg)
+	t.Wait()
 	if !cfg.Debug {
 		t.SetDelayInSec(t.Helpers.RandomFloat(1, 5))
 	}
 	if t.Helpers.CoinToss() && !cfg.Debug {
-		t.Print(lang.ErrorMessageConnectionFailed + lang.SymNewline)
+		fmt.Println(lang.ErrorMessageConnectionFailed)
+		t.Wait()
 		// Print a message with the IP address and port number.
 		t.ResetDelay()
 		msg := fmt.Sprintf(lang.TxtDialing, t.Helpers.RandomIP(), t.Helpers.RandomPort())
-		t.Print(msg + lang.SymNewline)
+		fmt.Println(msg)
+		t.Wait()
 		t.SetDelayInSec(t.Helpers.RandomFloat(1, 5))
 	}
 
-	// Print a message.
-	t.Print(lang.TxtConnected + lang.SymNewline)
+	// Print a message
+	fmt.Println(lang.TxtConnected)
+	t.Wait()
 	t.SetDelayInMs(oldDelay)
 }

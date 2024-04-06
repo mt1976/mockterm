@@ -8,6 +8,7 @@ import (
 	text "github.com/mt1976/crt/language"
 	menu "github.com/mt1976/mockterm/actions/mainmenu"
 	cnfg "github.com/mt1976/mockterm/config"
+	strt "github.com/mt1976/mockterm/start"
 )
 
 // config is used to store configuration settings for the program, including terminal
@@ -32,7 +33,7 @@ func main() {
 	log.Println("Setting up...")
 	t.SetDelayInSec(C.Delay)
 	log.Println("Starting up...")
-	//strt.Run(&t)
+	strt.Run(&t)
 	log.Printf("Startup complete in %v \n", time.Since(start))
 	t.ResetDelay()
 
