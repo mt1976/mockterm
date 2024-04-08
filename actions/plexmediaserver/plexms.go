@@ -78,7 +78,7 @@ func Run(t *term.ViewPort) {
 	p.AddAction(lang.SymActionForward)
 	p.AddAction(lang.SymActionBack)
 
-	nextAction, _ := p.DisplayWithActions()
+	nextAction, _ := p.Display_Actions()
 	switch {
 	case nextAction == lang.SymActionQuit:
 		return

@@ -78,7 +78,7 @@ func Run(t *term.ViewPort, debugModeIn bool, pathIn string) {
 	//var userResponse string
 	//fmt.Printf("%s Are you sure you want to proceed? %s(y/n) : %s", PFY, bold, normal)
 
-	ok, err := p.Confirmation(lang.TxtAreYouSureYouWantToProceed)
+	ok, err := p.Display_Confirmation(lang.TxtAreYouSureYouWantToProceed)
 	if err != nil {
 		p.Error(errs.ErrTidyFiles, err.Error())
 	}
@@ -117,7 +117,7 @@ func Run(t *term.ViewPort, debugModeIn bool, pathIn string) {
 	printStorageReport(p, diskSizeTotalBefore, diskSizeFreeBefore, diskPercentUsedBefore, diskSizeTotalAfter, diskSizeFreeAfter, diskPercentUsedAfter)
 	q := t.NewPage(lang.TxtTidyFilesTitleResults)
 	q.AddParagraph(results)
-	q.DisplayWithActions()
+	q.Display_Actions()
 
 }
 

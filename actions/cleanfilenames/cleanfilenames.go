@@ -59,7 +59,7 @@ func Run(t *term.ViewPort, debugModeIn bool, basePath string) {
 	p.AddBlankRow()
 	resultsAdd("")
 
-	ok, err := p.Confirmation(lang.TxtAreYouSureYouWantToProceed)
+	ok, err := p.Display_Confirmation(lang.TxtAreYouSureYouWantToProceed)
 	if err != nil {
 		p.Error(err, "unable to get user response")
 	}
@@ -103,7 +103,7 @@ func Run(t *term.ViewPort, debugModeIn bool, basePath string) {
 
 	q := t.NewPage(lang.TxtCleanFileNamesResults)
 	q.AddParagraph(results)
-	q.DisplayWithActions()
+	q.Display_Actions()
 
 }
 

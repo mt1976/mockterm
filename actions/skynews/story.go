@@ -14,7 +14,7 @@ func Story(t *term.ViewPort, storyLink string) {
 	p.Info(lang.TxtLoadingStory)
 	p.ActivePageIndex = 0
 
-	x, _ := p.DisplayWithActions()
+	x, _ := p.Display_Actions()
 
 	if x == lang.SymActionQuit {
 		return

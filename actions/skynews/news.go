@@ -45,7 +45,7 @@ func Run(t *term.ViewPort) {
 	p.AddMenuOption(c, lang.TxtTopicStrange, C.URISkyNews+C.URISkyNewsStrange, "")
 	p.AddAction(lang.SymActionQuit)
 
-	action, nextLevel := p.DisplayWithActions()
+	action, nextLevel := p.Display_Actions()
 
 	if action == lang.SymActionQuit {
 		return

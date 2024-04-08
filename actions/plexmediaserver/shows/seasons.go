@@ -23,7 +23,7 @@ func SeasonDetails(t *term.ViewPort, mediaVault *plex.Plex, info plex.Metadata) 
 		p.AddMenuOption(i+1, season.Title, "", "")
 	}
 
-	na, _ := p.DisplayWithActions()
+	na, _ := p.Display_Actions()
 	switch na {
 	case lang.SymActionQuit:
 		return

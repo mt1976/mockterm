@@ -43,12 +43,12 @@ func Run(t *term.ViewPort) {
 	ok := false
 	for !ok {
 
-		nextAction, _ := p.DisplayWithActions()
+		nextAction, _ := p.Display_Actions()
 		switch nextAction {
 		case lang.SymActionForward:
-			p.NextPage()
+			p.Forward()
 		case lang.SymActionBack:
-			p.PreviousPage()
+			p.Back()
 		case lang.SymActionQuit:
 			ok = true
 			return

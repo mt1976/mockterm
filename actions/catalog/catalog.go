@@ -45,7 +45,7 @@ func Run(t *term.ViewPort) {
 	p.AddBlankRow()
 	p.AddFieldValuePair("Output file", outputFilename)
 	//p.Dump("AFTER")
-	ok, err := p.Confirmation("Do you want to continue with the cataloging process")
+	ok, err := p.Display_Confirmation("Do you want to continue with the cataloging process")
 	if err != nil {
 		p.Error(err, "unable to get user response")
 	}
@@ -151,5 +151,5 @@ func Run(t *term.ViewPort) {
 		}
 	}
 	p.ResetPrompt()
-	p.DisplayWithActions()
+	p.Display_Actions()
 }

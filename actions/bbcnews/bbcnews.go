@@ -45,7 +45,7 @@ func Run(t *term.ViewPort) (err error) {
 		page.AddMenuOption(count, item.Title, item.Link, item.PubDate)
 	}
 
-	na, selected := page.DisplayWithActions()
+	na, selected := page.Display_Actions()
 	if t.Helpers.IsInt(na) {
 		op := yy.Item[t.Helpers.ToInt(na)-1]
 		spew.Dump(op)

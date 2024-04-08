@@ -31,7 +31,7 @@ func Topic(t *term.Page, topic, title string) {
 		i++
 	}
 
-	action, mi := p.DisplayWithActions()
+	action, mi := p.Display_Actions()
 
 	if action == lang.SymActionQuit {
 		return

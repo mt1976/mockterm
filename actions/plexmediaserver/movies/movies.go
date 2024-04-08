@@ -34,7 +34,7 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 	}
 	fmt.Printf("READY OUTER p: %+v\n", p)
 
-	nextAction, _ := p.DisplayWithActions()
+	nextAction, _ := p.Display_Actions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return
@@ -94,7 +94,7 @@ func Detail(t *term.ViewPort, info plex.Metadata) {
 		p.AddColumns(v.Part[0].File)
 	}
 	fmt.Printf("FULL p: %+v\n", p)
-	nextAction, _ := p.DisplayWithActions()
+	nextAction, _ := p.Display_Actions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return

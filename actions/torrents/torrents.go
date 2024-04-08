@@ -24,7 +24,7 @@ func Run(t *term.ViewPort) {
 
 	p.AddAction(lang.SymActionQuit)
 
-	action, nextLevel := p.DisplayWithActions()
+	action, nextLevel := p.Display_Actions()
 
 	if action == lang.SymActionQuit {
 		return

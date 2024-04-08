@@ -24,7 +24,7 @@ func Episodes(t *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, info 
 		p.AddMenuOption(i+1, ep.Title, "", "")
 	}
 
-	nextAction, _ := p.DisplayWithActions()
+	nextAction, _ := p.Display_Actions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return
@@ -63,7 +63,7 @@ func EpisodeDetail(t *term.ViewPort, info plex.Metadata) {
 		p.AddColumns(v.Part[0].File)
 	}
 
-	nextAction, _ := p.DisplayWithActions()
+	nextAction, _ := p.Display_Actions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return

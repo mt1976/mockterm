@@ -29,7 +29,7 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 		p.AddMenuOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
 	}
 
-	nextAction, _ := p.DisplayWithActions()
+	nextAction, _ := p.Display_Actions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return
@@ -59,7 +59,7 @@ func Detail(t *term.ViewPort, info plex.Metadata) {
 		count++
 	}
 
-	nextAction, _ := p.DisplayWithActions()
+	nextAction, _ := p.Display_Actions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return

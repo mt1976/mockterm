@@ -66,7 +66,7 @@ func Run(t *term.ViewPort) {
 	optionsScreen.SetPrompt(lang.TxtPushoverPrompt)
 	optionsScreen.ShowOptions()
 	optionsScreen.AddAction(lang.SymActionQuit)
-	action, _ := optionsScreen.DisplayWithActions()
+	action, _ := optionsScreen.Display_Actions()
 	if action == lang.SymActionQuit {
 		return
 	}
@@ -139,7 +139,7 @@ func processMessage(t *term.ViewPort, action string) error {
 	p.ShowOptions()
 
 	for {
-		sendAction, _ := p.DisplayWithActions()
+		sendAction, _ := p.Display_Actions()
 		if upcase(p, sendAction) == "S" {
 			p.Info(lang.TxtPushoverMessageSending)
 			_, err = app.SendMessage(message, recipient)
@@ -170,7 +170,7 @@ func getMessageTitle(t *term.ViewPort) (string, string, error) {
 	p.AddBlankRow()
 	p.SetPrompt(lang.TxtPushoverMessageTitlePrompt)
 	for {
-		op, _ := p.DisplayAndInput(3, 15)
+		op, _ := p.Display_Input(3, 15)
 		//op := t.Input("", "")
 		if op == lang.SymActionQuit {
 			return "", lang.SymActionQuit, nil
@@ -197,7 +197,7 @@ func getMessageBody(t *term.ViewPort, title string) (string, string, error) {
 
 	//p.SetPrompt("Enter the title of the message, or (Q)uit")
 	for {
-		op, _ := p.DisplayAndInput(3, 20)
+		op, _ := p.Display_Input(3, 20)
 		//op := t.Input("", "")
 		if op == lang.SymActionQuit {
 			return "", lang.SymActionQuit, nil
