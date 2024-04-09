@@ -54,6 +54,7 @@ func buildPage(t *term.ViewPort, storyLink string) *term.Page {
 
 	// Create a new page with the title
 	p := t.NewPage(pageTitle)
+	p.AddBlankRow()
 
 	// Add the story content to the page
 	for _, content := range storyContent {

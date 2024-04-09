@@ -19,6 +19,7 @@ func Topic(t *term.Page, topic, title string) {
 	t.Clear()
 
 	p := vp.NewPage(feed.Title)
+	p.AddBlankRow()
 	noNewsItems := len(feed.Items)
 	if noNewsItems > C.MaxContentRows {
 		noNewsItems = C.MaxContentRows
