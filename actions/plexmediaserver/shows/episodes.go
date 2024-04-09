@@ -24,14 +24,14 @@ func Episodes(t *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, info 
 		p.AddMenuOption(i+1, ep.Title, "", "")
 	}
 
-	nextAction, _ := p.Display_Actions()
-	switch nextAction {
-	case lang.SymActionQuit:
-		return
-	default:
-		if t.Helpers.IsInt(nextAction) {
+	for {
+		nextAction, _ := p.Display_Actions()
+		switch {
+		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
+			return
+		case t.Helpers.IsInt(nextAction):
 			EpisodeDetail(t, res.MediaContainer.Metadata[t.Helpers.ToInt(nextAction)-1])
-		} else {
+		default:
 			p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
 		}
 	}

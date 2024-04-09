@@ -32,14 +32,14 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 		p.AddMenuOption(count, res.MediaContainer.Metadata[count-1].Title, "", "")
 	}
 
-	nextAction, _ := p.Display_Actions()
-	switch nextAction {
-	case lang.SymActionQuit:
-		return
-	default:
-		if t.Helpers.IsInt(nextAction) {
+	for {
+		nextAction, _ := p.Display_Actions()
+		switch {
+		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
+			return
+		case t.Helpers.IsInt(nextAction):
 			Detail(t, res.MediaContainer.Metadata[t.Helpers.ToInt(nextAction)-1], mediaVault)
-		} else {
+		default:
 			p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
 		}
 	}
@@ -57,12 +57,31 @@ func Detail(t *term.ViewPort, info plex.Metadata, mediaVault *plex.Plex) {
 
 	p.AddAction(lang.SymActionSeasons) //Drilldown to episodes
 	p.SetPrompt(lang.TxtPlexSeasonsPrompt)
+	p.AddBlankRow()
+	yy, err := mediaVault.GetEpisodes(info.RatingKey)
+	if err != nil {
+		t.Error(errs.ErrLibraryResponse, err.Error())
+		os.Exit(1)
+	}
+	//p := t.NewPage(lang.TxtPlexSeasons + info.Title)
+	noResps := len(yy.MediaContainer.Metadata)
+	for i := 0; i < noResps; i++ {
+		season := yy.MediaContainer.Metadata[i]
+		p.AddMenuOption(i+1, season.Title, "", "")
+	}
 
-	nextAction, _ := p.Display_Actions()
-	switch nextAction {
-	case lang.SymActionQuit:
-		return
-	case lang.SymActionSeasons:
-		SeasonDetails(t, mediaVault, info)
+	for {
+		nextAction, _ := p.Display_Actions()
+		switch {
+		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
+			return
+		case t.Helpers.IsInt(nextAction):
+			Episodes(t, mediaVault, info.Title, yy.MediaContainer.Metadata[t.Helpers.ToInt(nextAction)-1])
+			//	case t.Formatters.Upcase(nextAction) == lang.SymActionSeasons:
+			//		SeasonDetails(t, mediaVault, info)
+			//	}
+		default:
+			p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
+		}
 	}
 }

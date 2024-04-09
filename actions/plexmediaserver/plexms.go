@@ -78,20 +78,21 @@ func Run(t *term.ViewPort) {
 	p.AddAction(lang.SymActionForward)
 	p.AddAction(lang.SymActionBack)
 
-	nextAction, _ := p.Display_Actions()
-	switch {
-	case nextAction == lang.SymActionQuit:
-		return
-	case t.Helpers.IsInt(nextAction):
-		naInt, _ := strconv.Atoi(nextAction)
-		wi := mvLibraries.MediaContainer.Directory[naInt-1]
-		Action(t, mediaVault, &wi)
+	for {
+		nextAction, _ := p.Display_Actions()
+		switch {
+		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
+			return
 
-	default:
-		p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
+		case t.Helpers.IsInt(nextAction):
+			naInt, _ := strconv.Atoi(nextAction)
+			wi := mvLibraries.MediaContainer.Directory[naInt-1]
+			Action(t, mediaVault, &wi)
+
+		default:
+			p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
+		}
 	}
-	//}
-
 }
 
 func Action(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
