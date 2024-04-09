@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	term "github.com/mt1976/crt"
+	viewPort "github.com/mt1976/crt"
 	text "github.com/mt1976/crt/language"
 	menu "github.com/mt1976/mockterm/actions/mainmenu"
 	cnfg "github.com/mt1976/mockterm/config"
@@ -22,7 +22,7 @@ func main() {
 
 	// create a new instance of the ViewPort
 	log.Println("Creating new terminal...")
-	t := term.NewWithSize(C.TerminalWidth, C.TerminalHeight)
+	vp := viewPort.NewWithSize(C.TerminalWidth, C.TerminalHeight)
 	log.Println("Created new terminal...")
 	// set the terminal size
 	//t.SetTerminalSize(config.term_width, config.term_height)
@@ -31,19 +31,19 @@ func main() {
 
 	// run the startup sequence
 	log.Println("Setting up...")
-	t.SetDelayInSec(C.Delay)
+	vp.SetDelayInSec(C.Delay)
 	log.Println("Starting up...")
-	strt.Run(&t)
+	strt.Run(&vp)
 	log.Printf("Startup complete in %v \n", time.Since(start))
-	t.ResetDelay()
+	vp.ResetDelay()
 
 	//os.Exit(0)
 	// run the main menu
-	menu.Run(&t)
+	menu.Run(&vp)
 
 	// stop the timer
 	elapsed := time.Since(start)
 	// output the elapsed time
-	t.Shout(t.Formatters.Bold(text.TxtDone) + text.Space + elapsed.String())
+	vp.Shout(vp.Formatters.Bold(text.TxtDone) + text.Space + elapsed.String())
 
 }
