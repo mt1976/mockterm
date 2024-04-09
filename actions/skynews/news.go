@@ -24,6 +24,7 @@ func Run(t *term.ViewPort) {
 
 	t.Clear()
 	p := t.NewPage(lang.TxtMenuTitle)
+	p.AddBlankRow()
 	c := 0
 	c++
 	p.AddMenuOption(c, lang.TxtTopicHome, C.URISkyNews+C.URISkyNewsHome, "")
