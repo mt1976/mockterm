@@ -139,8 +139,8 @@ const (
 // Plex Seasons
 
 const (
-	SymActionSeasons     string = "S"
-	TxtPlexSeasonsPrompt string = "Choose (S)easons, (F)orward, (B)ack or (Q)uit"
+	//SymActionSeasons     string = "S"
+	TxtPlexSeasonsPrompt string = "Choose (1...n)Season, (F)orward, (B)ack or (Q)uit"
 )
 
 // Support

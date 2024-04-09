@@ -55,7 +55,7 @@ func Detail(t *term.ViewPort, info plex.Metadata, mediaVault *plex.Plex) {
 	p.AddBlankRow()
 	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
 
-	p.AddAction(lang.SymActionSeasons) //Drilldown to episodes
+	//p.AddAction(lang.SymActionSeasons) //Drilldown to episodes
 	p.SetPrompt(lang.TxtPlexSeasonsPrompt)
 	p.AddBlankRow()
 	yy, err := mediaVault.GetEpisodes(info.RatingKey)
