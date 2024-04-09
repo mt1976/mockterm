@@ -14,12 +14,13 @@ func Story(t *term.ViewPort, storyLink string) {
 	p.Info(lang.TxtLoadingStory)
 	p.ActivePageIndex = 0
 
-	x, _ := p.Display_Actions()
+	for {
+		x, _ := p.Display_Actions()
 
-	if x == lang.SymActionQuit {
-		return
+		if x == lang.SymActionQuit {
+			break
+		}
 	}
-
 }
 
 // buildPage creates a new page with the given title and adds a link to the given story to the page.

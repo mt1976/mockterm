@@ -46,13 +46,15 @@ func Run(t *term.ViewPort) {
 	p.AddMenuOption(c, lang.TxtTopicStrange, C.URISkyNews+C.URISkyNewsStrange, "")
 	p.AddAction(lang.SymActionQuit)
 
-	action, nextLevel := p.Display_Actions()
+	for {
+		action, nextLevel := p.Display_Actions()
 
-	if action == lang.SymActionQuit {
-		return
-	}
-	if t.Helpers.IsInt(action) {
-		Topic(p, nextLevel.AlternateID, nextLevel.Title)
-		action = ""
+		if p.ViewPort().Formatters.Upcase(action) == lang.SymActionQuit {
+			break
+		}
+		if t.Helpers.IsInt(action) {
+			Topic(p, nextLevel.AlternateID, nextLevel.Title)
+			action = ""
+		}
 	}
 }

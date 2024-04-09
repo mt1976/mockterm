@@ -10,6 +10,7 @@ import (
 // news items for that topic from an RSS feed, displays them in a menu, and allows the user to select a
 // news item to view.
 func Topic(t *term.Page, topic, title string) {
+
 	vp := t.ViewPort()
 	// Get the news for the topic
 	t.Info(lang.TxtLoadingTopic + title)
@@ -19,6 +20,7 @@ func Topic(t *term.Page, topic, title string) {
 	t.Clear()
 
 	p := vp.NewPage(feed.Title)
+
 	p.AddBlankRow()
 	noNewsItems := len(feed.Items)
 	if noNewsItems > C.MaxContentRows {
@@ -32,13 +34,14 @@ func Topic(t *term.Page, topic, title string) {
 		i++
 	}
 
-	action, mi := p.Display_Actions()
-
-	if action == lang.SymActionQuit {
-		return
-	}
-	if vp.Helpers.IsInt(action) {
-		Story(&vp, mi.AlternateID)
-		action = ""
+	for {
+		action, mi := p.Display_Actions()
+		if action == lang.SymActionQuit {
+			break
+		}
+		if vp.Helpers.IsInt(action) {
+			Story(&vp, mi.AlternateID)
+			action = ""
+		}
 	}
 }
