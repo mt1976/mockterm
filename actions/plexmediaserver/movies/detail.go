@@ -54,7 +54,7 @@ func Detail(t *term.ViewPort, info plex.Metadata) {
 		p.AddColumns(v.Part[0].File)
 	}
 	for {
-		nextAction, _ := p.Display_Actions()
+		nextAction := p.Display_Actions()
 		switch {
 		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
 			return

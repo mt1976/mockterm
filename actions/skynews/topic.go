@@ -35,12 +35,15 @@ func Topic(t *term.Page, topic, title string) {
 	}
 
 	for {
-		action, mi := p.Display_Actions()
+		action := p.Display_Actions()
 		if action == lang.SymActionQuit {
 			break
 		}
 		if vp.Helpers.IsInt(action) {
-			Story(&vp, mi.AlternateID)
+			i := (vp.Helpers.ToInt(action) - 1)
+			p.Dump(string(i), string(vp.Helpers.ToInt(action)), action)
+			//os.Exit(1)
+			Story(p, feed.Items[i].Link, feed.Items[i].Title)
 			action = ""
 		}
 	}

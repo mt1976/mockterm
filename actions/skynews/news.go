@@ -47,14 +47,34 @@ func Run(t *term.ViewPort) {
 	p.AddAction(lang.SymActionQuit)
 
 	for {
-		action, nextLevel := p.Display_Actions()
+		action := p.Display_Actions()
 
 		if p.ViewPort().Formatters.Upcase(action) == lang.SymActionQuit {
 			break
 		}
 		if t.Helpers.IsInt(action) {
-			Topic(p, nextLevel.AlternateID, nextLevel.Title)
-			action = ""
+			switch action {
+			case "1":
+				Topic(p, C.URISkyNews+C.URISkyNewsHome, lang.TxtTopicHome)
+			case "2":
+				Topic(p, C.URISkyNews+C.URISkyNewsUK, lang.TxtTopicUK)
+			case "3":
+				Topic(p, C.URISkyNews+C.URISkyNewsWorld, lang.TxtTopicWorld)
+			case "4":
+				Topic(p, C.URISkyNews+C.URISkyNewsUS, lang.TxtTopicUS)
+			case "5":
+				Topic(p, C.URISkyNews+C.URISkyNewsBusiness, lang.TxtTopicBusiness)
+			case "6":
+				Topic(p, C.URISkyNews+C.URISkyNewsPolitics, lang.TxtTopicPolitics)
+			case "7":
+				Topic(p, C.URISkyNews+C.URISkyNewsTechnology, lang.TxtTopicTechnology)
+			case "8":
+				Topic(p, C.URISkyNews+C.URISkyNewsEntertainment, lang.TxtTopicEntertainment)
+			case "9":
+				Topic(p, C.URISkyNews+C.URISkyNewsStrange, lang.TxtTopicStrange)
+			default:
+				p.Error(term.ErrInvalidAction, action)
+			}
 		}
 	}
 }

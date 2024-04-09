@@ -24,7 +24,7 @@ func Run(t *term.ViewPort) {
 
 	p.AddAction(lang.SymActionQuit)
 
-	action, nextLevel := p.Display_Actions()
+	action := p.Display_Actions()
 
 	if action == lang.SymActionQuit {
 		return
@@ -33,7 +33,7 @@ func Run(t *term.ViewPort) {
 	if t.Helpers.IsInt(action) {
 		switch action {
 		case "1":
-			Trans(t, nextLevel.AlternateID, nextLevel.Title)
+			//	Trans(t, nextLevel.AlternateID, nextLevel.Title)
 			action = ""
 		case "2":
 			//QTor(t, nextLevel.AlternateID, nextLevel.Title)

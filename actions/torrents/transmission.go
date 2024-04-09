@@ -37,7 +37,7 @@ func Trans(t *term.ViewPort, uri, title string) {
 	// }
 	ok := false
 	for !ok {
-		action, _ := p.Display_Actions()
+		action := p.Display_Actions()
 
 		if action == lang.SymActionQuit {
 			ok = true

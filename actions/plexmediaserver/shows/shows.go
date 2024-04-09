@@ -33,7 +33,7 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 	}
 
 	for {
-		nextAction, _ := p.Display_Actions()
+		nextAction := p.Display_Actions()
 		switch {
 		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
 			return
@@ -53,7 +53,8 @@ func Detail(t *term.ViewPort, info plex.Metadata, mediaVault *plex.Plex) {
 	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
 	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, pmss.FormatPlexDate(info.OriginallyAvailableAt))
 	p.AddBlankRow()
-	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
+	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, "")
+	p.AddParagraphString(info.Summary)
 
 	//p.AddAction(lang.SymActionSeasons) //Drilldown to episodes
 	p.SetPrompt(lang.TxtPlexSeasonsPrompt)
@@ -71,7 +72,7 @@ func Detail(t *term.ViewPort, info plex.Metadata, mediaVault *plex.Plex) {
 	}
 
 	for {
-		nextAction, _ := p.Display_Actions()
+		nextAction := p.Display_Actions()
 		switch {
 		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
 			return

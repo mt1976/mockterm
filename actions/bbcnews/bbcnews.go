@@ -45,15 +45,15 @@ func Run(t *term.ViewPort) (err error) {
 		page.AddMenuOption(count, item.Title, item.Link, item.PubDate)
 	}
 
-	na, selected := page.Display_Actions()
+	na := page.Display_Actions()
 	if t.Helpers.IsInt(na) {
 		op := yy.Item[t.Helpers.ToInt(na)-1]
 		spew.Dump(op)
 		os.Exit(0)
 	}
 
-	page.Info(fmt.Sprintf("na: %+v\n", na))
-	page.Info(fmt.Sprintf("selected: %+v\n", selected))
+	//page.Info(fmt.Sprintf("na: %+v\n", na))
+	//page.Info(fmt.Sprintf("selected: %+v\n", selected))
 	//fmt.Printf("na: %+v\n", na)
 	//fmt.Printf("selected: %+v\n", selected)
 

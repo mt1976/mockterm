@@ -66,7 +66,7 @@ func Run(t *term.ViewPort) {
 	optionsScreen.SetPrompt(lang.TxtPushoverPrompt)
 	optionsScreen.ShowOptions()
 	optionsScreen.AddAction(lang.SymActionQuit)
-	action, _ := optionsScreen.Display_Actions()
+	action := optionsScreen.Display_Actions()
 	if action == lang.SymActionQuit {
 		return
 	}
@@ -139,7 +139,7 @@ func processMessage(t *term.ViewPort, action string) error {
 	p.ShowOptions()
 
 	for {
-		sendAction, _ := p.Display_Actions()
+		sendAction := p.Display_Actions()
 		if upcase(p, sendAction) == "S" {
 			p.Info(lang.TxtPushoverMessageSending)
 			_, err = app.SendMessage(message, recipient)

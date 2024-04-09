@@ -32,7 +32,7 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 	}
 
 	for {
-		nextAction, _ := p.Display_Actions()
+		nextAction := p.Display_Actions()
 		switch {
 		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
 			return

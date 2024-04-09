@@ -79,7 +79,7 @@ func Run(t *term.ViewPort) {
 	p.AddAction(lang.SymActionBack)
 
 	for {
-		nextAction, _ := p.Display_Actions()
+		nextAction := p.Display_Actions()
 		switch {
 		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
 			return

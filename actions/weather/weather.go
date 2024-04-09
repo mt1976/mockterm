@@ -63,7 +63,7 @@ func Run(t *term.ViewPort) {
 	ok := false
 	for !ok {
 
-		nextAction, _ := p.Display_Actions()
+		nextAction := p.Display_Actions()
 		switch nextAction {
 		case lang.SymActionForward:
 			p.Forward()

@@ -25,7 +25,7 @@ func Episodes(t *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, info 
 	}
 
 	for {
-		nextAction, _ := p.Display_Actions()
+		nextAction := p.Display_Actions()
 		switch {
 		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
 			return
@@ -63,7 +63,7 @@ func EpisodeDetail(t *term.ViewPort, info plex.Metadata) {
 		p.AddColumns(v.Part[0].File)
 	}
 
-	nextAction, _ := p.Display_Actions()
+	nextAction := p.Display_Actions()
 	switch nextAction {
 	case lang.SymActionQuit:
 		return
