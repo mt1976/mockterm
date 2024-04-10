@@ -2,10 +2,10 @@ package systemsmenu
 
 import (
 	term "github.com/mt1976/crt"
-	catalog "github.com/mt1976/mockterm/actions/catalog"
-	clean "github.com/mt1976/mockterm/actions/cleanfilenames"
-	push "github.com/mt1976/mockterm/actions/pushover"
-	tidy "github.com/mt1976/mockterm/actions/tidymediafolders"
+	catalog "github.com/mt1976/mockterm/actions/systems/catalog"
+	clean "github.com/mt1976/mockterm/actions/systems/cleanfilenames"
+	push "github.com/mt1976/mockterm/actions/systems/pushover"
+	tidy "github.com/mt1976/mockterm/actions/systems/tidymediafolders"
 	lang "github.com/mt1976/mockterm/language"
 )
 

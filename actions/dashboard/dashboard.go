@@ -22,28 +22,28 @@ var dummy = term.New()
 // The main function initializes and runs a terminal-based news reader application called StarTerm,
 // which fetches news headlines from an RSS feed and allows the user to navigate and open the full news
 // articles.
-func Run(t *term.ViewPort) {
+func Run(terminal *term.ViewPort) {
 
-	p := t.NewPage(lang.TxtDashboardTitle)
+	p := terminal.NewPage(lang.TxtDashboardTitle)
 	p.Info(lang.TxtDashboardChecking)
 	c := 0
 	c++
-	//p.Add("Testing Server/Service Dashboard", "", time.Now().Format("2006-01-02"))
+
 	for i := 0; i < C.DashboardURINoEntries; i++ {
-		//p.Add(C.DashboardURIName[i], "", "")
 		p.Info(fmt.Sprintf(lang.TxtDashboardCheckingService, C.DashboardURIName[i]))
-		result := CheckService(i)
-		//p.AddFieldValuePair(C.DashboardURIName[i], dummy.Formatters.Bold(result))
+		result := CheckService(p, i)
 		p.AddFieldValuePair(C.DashboardURIName[i], result)
 	}
 
 	p.AddAction(lang.SymActionQuit)
 	p.AddAction(lang.SymActionForward)
 	p.AddAction(lang.SymActionBack)
+
 	ok := false
 	for !ok {
 
 		nextAction := p.Display_Actions()
+
 		switch nextAction {
 		case lang.SymActionForward:
 			p.Forward()
@@ -55,11 +55,13 @@ func Run(t *term.ViewPort) {
 		default:
 			p.Error(terr.ErrInvalidAction, nextAction)
 		}
+
 	}
 }
 
 // CheckService checks the status of a service
-func CheckService(i int) string {
+func CheckService(p *term.Page, i int) string {
+
 	// Extract the configuration values for the service
 	protocol := C.DashboardURIProtocol[i]
 	host := C.DashboardURIHost[i]
@@ -67,8 +69,11 @@ func CheckService(i int) string {
 		host = C.DashboardDefaultHost
 	}
 	if host == "" {
-		panic(errs.ErrDashboardNoHost)
+		p.Error(errs.ErrDashboardNoHost, "no host specified")
+		//panic(errs.ErrDashboardNoHost)
+		return errs.ErrDashboardNoHost.Error()
 	}
+
 	port := C.DashboardURIPort[i]
 	if port == "" {
 		port = C.DashboardDefaultPort
@@ -101,14 +106,12 @@ func CheckService(i int) string {
 
 	// Perform an HTTP request to the service
 	if dummy.Formatters.Upcase(operation) == "HTTP" {
-		//fmt.Printf("GET %v://%v:%v%v - %v %v\n", protocol, host, port, query, operation, success)
+
 		var u url.URL
 
 		u.Scheme = protocol
 		u.Host = host + ":" + port
 		u.Path = query
-
-		//fmt.Println(u)
 
 		return StatusCode(u.String(), "", success)
 	}
@@ -130,11 +133,13 @@ func CheckService(i int) string {
 //
 // The function returns the status message for the specified status code.
 func StatusCode(PAGE string, AUTH string, SUCCESS string) (r string) {
+
 	// Setup the request.
 	req, err := http.NewRequest("GET", PAGE, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	req.Header.Set("Authorization", AUTH)
 
 	// Execute the request.
@@ -146,11 +151,10 @@ func StatusCode(PAGE string, AUTH string, SUCCESS string) (r string) {
 	// Close response body as required.
 	defer resp.Body.Close()
 
-	//fmt.Println("HTTP Response Status:", resp.StatusCode, http.StatusText(resp.StatusCode))
-
 	if resp.StatusCode == 200 {
 		return lang.TxtStatusOnline + lang.Space + dummy.Formatters.PQuote(resp.Status)
 	}
+
 	//resp.StatusCode to string
 	scString := strconv.Itoa(resp.StatusCode)
 	if scString == SUCCESS {
@@ -158,5 +162,4 @@ func StatusCode(PAGE string, AUTH string, SUCCESS string) (r string) {
 	}
 
 	return lang.TxtStatusOffline + lang.Space + dummy.Formatters.PQuote(resp.Status)
-	// or fmt.Sprintf("%d %s", resp.StatusCode, http.StatusText(resp.StatusCode))
 }

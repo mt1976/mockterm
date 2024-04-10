@@ -6,11 +6,11 @@ import (
 
 	term "github.com/mt1976/crt"
 	file "github.com/mt1976/crt/filechooser"
-	"github.com/mt1976/mockterm/actions/bbcnews"
+	bbcn "github.com/mt1976/mockterm/actions/bbcnews"
 	dash "github.com/mt1976/mockterm/actions/dashboard"
 	plex "github.com/mt1976/mockterm/actions/plexmediaserver"
 	news "github.com/mt1976/mockterm/actions/skynews"
-	syst "github.com/mt1976/mockterm/actions/systemsmenu"
+	syst "github.com/mt1976/mockterm/actions/systems"
 	trts "github.com/mt1976/mockterm/actions/torrents"
 	wthr "github.com/mt1976/mockterm/actions/weather"
 	lang "github.com/mt1976/mockterm/language"
@@ -18,9 +18,9 @@ import (
 
 // The Run function displays a main menu and allows the user to navigate through different sub-menus
 // and perform various actions.
-func Run(t *term.ViewPort) {
+func Run(terminal *term.ViewPort) {
 	//log.Println("Starting Main Menu")
-	p := t.NewPage(lang.TxtMainMenuTitle)
+	p := terminal.NewPage(lang.TxtMainMenuTitle)
 	p.AddBlankRow()
 	p.AddMenuOption(1, lang.TxtDashboardTitle, "", "")
 	p.AddMenuOption(2, lang.TxtSkyNewsMenuTitle, "", "")
@@ -40,31 +40,31 @@ func Run(t *term.ViewPort) {
 		action := p.Display_Actions()
 		switch action {
 		case lang.SymActionQuit:
-			p.Info(lang.TxtQuittingMessage)
+			p.Info(lang.TxtQuittingMessage + " - " + lang.TxtThankYouForUsing + " " + lang.TxtApplicationName)
 			ok = true
 			continue
 		case "1":
-			dash.Run(t)
+			dash.Run(terminal)
 		case "2":
-			news.Run(t)
+			news.Run(terminal)
 		case "3":
-			err := bbcnews.Run(t)
+			err := bbcn.Run(terminal)
 			if err != nil {
-				t.Error(err, "")
+				terminal.Error(err, lang.TxtBBCError)
 				return
 			}
 		case "4":
-			wthr.Run(t)
+			wthr.Run(terminal)
 		case "5":
-			trts.Run(t)
+			trts.Run(terminal)
 		case "6":
-			plex.Run(t)
+			plex.Run(terminal)
 		case "8":
-			syst.Run(t)
+			syst.Run(terminal)
 		case "10":
 			userHome, err := file.UserHome()
 			if err != nil {
-				t.Error(err)
+				terminal.Error(err)
 			}
 			selected, isDir, err := file.FileChooser(userHome, file.All)
 			if err != nil {

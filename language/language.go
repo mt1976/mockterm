@@ -58,6 +58,7 @@ const (
 	TxtSystemsMaintenanceMenuTitle  string = "Systems Maintenance"
 	TxtPlexMediaServersMenuTitle    string = "Plex Media Server"
 	TxtQuittingMessage              string = "Quitting"
+	TxtThankYouForUsing             string = "Thank you for using"
 	TxtSubMenuTitle                 string = "Sub Menu"
 	SymBlank                        string = "-"
 	TxtTorrentsMenuTitle            string = "Torrents"
@@ -87,6 +88,11 @@ const (
 	TxtQTorrent                    string = "qTorrent"
 	TxtLoadingTorrentsTransmission string = "Loading Transmission Torrents..."
 	TxtLoadingTorrentsQTor         string = "Loading qTorrent Torrents..."
+)
+
+// BBC
+const (
+	TxtBBCError string = "error with BBC News"
 )
 
 // Weather
