@@ -25,26 +25,25 @@ func Run(t *term.ViewPort) {
 
 	debugMode = false
 	hostname := t.Helpers.GetHostName()
-	outputFilename := "catalog_" + hostname + "_" + supt.GetTimeStamp() + ".info"
+	outputFilename := "data/catalogs/catalog_" + hostname + "_" + supt.GetTimeStamp() + ".info"
 	path, _ := os.Getwd()
 	info := New()
-	//X := T
 
-	//info.breakData(p, "Cataloging system resources")
-
-	//p.Dump("B4")
-	//t.Break()
 	p.AddFieldValuePair("Hostname", t.Helpers.GetHostName())
 	storeData(p, info, "Hostname", t.Helpers.GetHostName())
+
 	p.AddFieldValuePair("Machine Name", t.Helpers.GetSytemInfo())
 	storeData(p, info, "Machine Name", t.Helpers.GetSytemInfo())
+
 	p.AddFieldValuePair("Username", t.Helpers.GetUsername())
 	storeData(p, info, "Username", t.Helpers.GetUsername())
+
 	p.AddFieldValuePair("Current Path", path)
 	storeData(p, info, "Current Path", path)
 	p.AddBlankRow()
+
 	p.AddFieldValuePair("Output file", outputFilename)
-	//p.Dump("AFTER")
+
 	ok, err := p.Display_Confirmation("Do you want to continue with the cataloging process")
 	if err != nil {
 		p.Error(err, "unable to get user response")
@@ -139,7 +138,6 @@ func Run(t *term.ViewPort) {
 	debugMode = false
 	if !debugMode {
 		// Open output file
-		//t := p.ViewPort()
 		file, err := supt.OpenFile(t, outputFilename)
 		if err != nil {
 			return
