@@ -58,4 +58,5 @@ var (
 	ErrNotAFile                    = errors.New("%v is not a file")
 	ErrDirectoryEmpty              = errors.New("directory %v is empty")
 	ErrTidyFiles                   = errors.New("error tidying files")
+	ErrFileChooser                 = errors.New("error selecting file")
 )
