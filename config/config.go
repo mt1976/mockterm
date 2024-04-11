@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/davecgh/go-spew/spew"
 	"github.com/gen2brain/beeep"
 	errs "github.com/mt1976/crt/errors"
 	"github.com/spf13/viper"
@@ -165,7 +166,6 @@ func init() {
 	Configuration.TerminalWidth = width
 	Configuration.TerminalHeight = height
 	//spew.Dump(Configuration)
-
 }
 
 func split(s string) (r []string) {
@@ -178,7 +178,277 @@ func buildOrder(in string) (r []int) {
 	for i := 0; i < len(s); i++ {
 		r[i], _ = strconv.Atoi(string(s[i]))
 	}
-	//	spew.Dump(r)
-	//	os.Exit(1)
 	return
+}
+
+func (config *Config) Dump() {
+	spew.Dump(config)
+}
+
+func (config *Config) GetPlexURI() string {
+	return config.PlexURI
+}
+
+func (config *Config) GetPlexPort() string {
+	return config.PlexPort
+}
+
+func (config *Config) GetPlexToken() string {
+	return config.PlexToken
+}
+
+func (config *Config) GetPlexClientID() string {
+	return config.PlexClientID
+}
+
+func (config *Config) GetPlexDateFormat() string {
+	return config.PlexDateFormat
+}
+
+func (config *Config) GetApplicationDateFormat() string {
+	return config.ApplicationDateFormat
+}
+
+func (config *Config) GetApplicationDateFormatShort() string {
+	return config.ApplicationDateFormatShort
+}
+
+func (config *Config) GetApplicationTimeFormat() string {
+	return config.ApplicationTimeFormat
+}
+
+func (config *Config) GetTerminalWidth() int {
+	return config.TerminalWidth
+}
+
+func (config *Config) GetTerminalHeight() int {
+	return config.TerminalHeight
+}
+
+func (config *Config) GetDelay() float64 {
+	return config.Delay
+}
+
+func (config *Config) GetBaud() int {
+	return config.Baud
+}
+
+func (config *Config) GetTransmissionURI() string {
+	return config.TransmissionURI
+}
+
+func (config *Config) GetQTorrentURI() string {
+	return config.QTorrentURI
+}
+
+func (config *Config) GetMaxContentRows() int {
+	return config.MaxContentRows
+}
+
+func (config *Config) GetMaxNoItems() int {
+	return config.MaxNoItems
+}
+
+func (config *Config) GetTitleLength() int {
+	return config.TitleLength
+}
+
+func (config *Config) GetDebug() bool {
+	return config.Debug
+}
+
+func (config *Config) GetOpenWeatherMapApiKey() string {
+	return config.OpenWeatherMapApiKey
+}
+
+func (config *Config) GetOpenWeatherMapApiLang() string {
+	return config.OpenWeatherMapApiLang
+}
+
+func (config *Config) GetOpenWeatherMapApiUnits() string {
+	return config.OpenWeatherMapApiUnits
+}
+
+func (config *Config) GetLocationLogitude() float64 {
+	return config.LocationLogitude
+}
+
+func (config *Config) GetLocationLatitude() float64 {
+	return config.LocationLatitude
+}
+
+func (config *Config) GetURISkyNews() string {
+	return config.URISkyNews
+}
+
+func (config *Config) GetURISkyNewsHome() string {
+	return config.URISkyNewsHome
+}
+
+func (config *Config) GetURISkyNewsUK() string {
+	return config.URISkyNewsUK
+}
+
+func (config *Config) GetURISkyNewsWorld() string {
+	return config.URISkyNewsWorld
+}
+
+func (config *Config) GetURISkyNewsUS() string {
+	return config.URISkyNewsUS
+}
+
+func (config *Config) GetURISkyNewsBusiness() string {
+	return config.URISkyNewsBusiness
+}
+
+func (config *Config) GetURISkyNewsPolitics() string {
+	return config.URISkyNewsPolitics
+}
+
+func (config *Config) GetURISkyNewsTechnology() string {
+	return config.URISkyNewsTechnology
+}
+
+func (config *Config) GetURISkyNewsEntertainment() string {
+	return config.URISkyNewsEntertainment
+}
+
+func (config *Config) GetURISkyNewsStrange() string {
+	return config.URISkyNewsStrange
+}
+
+func (config *Config) GetDefaultErrorDelay() float64 {
+	return config.DefaultErrorDelay
+}
+
+func (config *Config) GetDefaultRandomPortMin() int {
+	return config.DefaultRandomPortMin
+}
+
+func (config *Config) GetDefaultRandomPortMax() int {
+	return config.DefaultRandomPortMax
+}
+
+func (config *Config) GetDefaultRandomMACMin() int {
+	return config.DefaultRandomMACMin
+}
+
+func (config *Config) GetDefaultRandomMACMax() int {
+	return config.DefaultRandomMACMax
+}
+
+func (config *Config) GetDefaultRandomIPMin() int {
+	return config.DefaultRandomIPMin
+}
+
+func (config *Config) GetDefaultRandomIPMax() int {
+	return config.DefaultRandomIPMax
+}
+
+func (config *Config) GetDefaultBaud() int {
+	return config.DefaultBaud
+}
+
+func (config *Config) GetDefaultBeepDuration() int {
+	return config.DefaultBeepDuration
+}
+
+func (config *Config) GetDefaultBeepFrequency() float64 {
+	return config.DefaultBeepFrequency
+}
+
+func (config *Config) GetValidBaudRates() []int {
+	return config.ValidBaudRates
+}
+
+func (config *Config) GetValidFileNameCharacters() []string {
+	return config.ValidFileNameCharacters
+}
+
+func (config *Config) GetDashboardURINameIN() string {
+	return config.DashboardURINameIN
+}
+
+func (config *Config) GetDashboardURIProtocolIN() string {
+	return config.DashboardURIProtocolIN
+}
+
+func (config *Config) GetDashboardURIHostIN() string {
+	return config.DashboardURIHostIN
+}
+
+func (config *Config) GetDashboardURIPortIN() string {
+	return config.DashboardURIPortIN
+}
+
+func (config *Config) GetDashboardURIQueryIN() string {
+	return config.DashboardURIQueryIN
+}
+
+func (config *Config) GetDashboardURIOperationIN() string {
+	return config.DashboardURIOperationIN
+}
+
+func (config *Config) GetDashboardURISuccessIN() string {
+	return config.DashboardURISuccessIN
+}
+
+func (config *Config) GetDashboardOrderIN() string {
+	return config.DashboardOrderIN
+}
+
+func (config *Config) GetDashboardDefaultHost() string {
+	return config.DashboardDefaultHost
+}
+
+func (config *Config) GetDashboardDefaultPort() string {
+	return config.DashboardDefaultPort
+}
+
+func (config *Config) GetDashboardURIName() []string {
+	return config.DashboardURIName
+}
+
+func (config *Config) GetDashboardURIProtocol() []string {
+	return config.DashboardURIProtocol
+}
+
+func (config *Config) GetDashboardURIHost() []string {
+	return config.DashboardURIHost
+}
+
+func (config *Config) GetDashboardURIPort() []string {
+	return config.DashboardURIPort
+}
+
+func (config *Config) GetDashboardURIQuery() []string {
+	return config.DashboardURIQuery
+}
+
+func (config *Config) GetDashboardURIOperation() []string {
+	return config.DashboardURIOperation
+}
+
+func (config *Config) GetDashboardURISuccess() []string {
+	return config.DashboardURISuccess
+}
+
+func (config *Config) GetDashboardURIValidActions() []string {
+	return config.DashboardURIValidActions
+}
+
+func (config *Config) GetDashboardURINoEntries() int {
+	return config.DashboardURINoEntries
+}
+
+func (config *Config) GetDashboardOrdering() []int {
+	return config.DashboardOrdering
+}
+
+func (config *Config) GetTimeStampFormat() string {
+	return config.TimeStampFormat
+}
+
+func (config *Config) GetOnlyFansDateTimeFormat() string {
+	return config.OnlyFansDateTimeFormat
 }
