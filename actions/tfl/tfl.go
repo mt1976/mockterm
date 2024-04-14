@@ -11,18 +11,6 @@ func Run(terminal *terminal.ViewPort) {
 
 	page := terminal.NewPage("Transport for London")
 
-	page.AddColumnsTitle("One")
-	page.AddColumnsTitle("One", "Two")
-	page.AddColumnsTitle("One", "Two", "Three")
-	page.AddColumnsTitle("One", "Two", "Three", "Four")
-	page.AddColumnsTitle("One", "Two", "Three", "Four", "Five")
-	page.AddColumnsTitle("One", "Two", "Three", "Four", "Five", "Six")
-	page.AddColumnsTitle("One", "Two", "Three", "Four", "Five", "Six", "Seven")
-	page.AddColumnsTitle("One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight")
-	page.AddColumnsTitle("One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine")
-	page.AddColumnsTitle("One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten")
-	page.AddColumnsTitle("One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven")
-	page.AddColumnsTitle("One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve")
 	tubeLines, _ := tfl.GetTubeLines()
 	lineTitle := terminal.Styles.Bold("Line")
 	statusTitle := terminal.Styles.Bold("Status")
