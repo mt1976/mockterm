@@ -11,7 +11,7 @@ import (
 	plex "github.com/mt1976/mockterm/actions/plexmediaserver"
 	news "github.com/mt1976/mockterm/actions/skynews"
 	syst "github.com/mt1976/mockterm/actions/systems"
-	trts "github.com/mt1976/mockterm/actions/torrents"
+	tfl "github.com/mt1976/mockterm/actions/tfl"
 	wthr "github.com/mt1976/mockterm/actions/weather"
 	lang "github.com/mt1976/mockterm/language"
 )
@@ -26,7 +26,7 @@ func Run(terminal *term.ViewPort) {
 	p.AddMenuOption(2, lang.TxtSkyNewsMenuTitle, "", "")
 	p.AddMenuOption(3, lang.TxtBBCNewsMenuTitle, "", "")
 	p.AddMenuOption(4, lang.TxtWeatherMenuTitle, "", "")
-	p.AddMenuOption(5, lang.TxtTorrentsMenuTitle, "", "")
+	p.AddMenuOption(5, "TFL", "", "")
 	p.AddMenuOption(6, lang.TxtPlexMediaServersMenuTitle, "", "")
 	p.AddBlankRow()
 	p.AddMenuOption(7, lang.TxtRemoteSystemsAccessMenuTitle, "", "")
@@ -56,7 +56,7 @@ func Run(terminal *term.ViewPort) {
 		case "4":
 			wthr.Run(terminal)
 		case "5":
-			trts.Run(terminal)
+			tfl.Run(terminal)
 		case "6":
 			plex.Run(terminal)
 		case "8":

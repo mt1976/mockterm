@@ -19,8 +19,11 @@ require (
 )
 
 require (
+	github.com/FireEater64/go-tube v0.0.0-20160930191809-c2491b6c085a // indirect
 	github.com/bit101/go-ansi v1.5.4 // indirect
 	github.com/fatih/color v1.16.0 // indirect
+	github.com/georgevanburgh/go-tube v0.0.0-20160930191809-c2491b6c085a // indirect
+	github.com/jdheyburn/go-tflapi v0.1.2 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 )
