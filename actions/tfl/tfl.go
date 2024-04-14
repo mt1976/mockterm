@@ -12,8 +12,9 @@ func Run(terminal *terminal.ViewPort) {
 	page := terminal.NewPage("Transport for London")
 
 	tubeLines, _ := tfl.GetTubeLines()
-	lineTitle := terminal.Styles.Bold("Line")
-	statusTitle := terminal.Styles.Bold("Status")
+	lineTitle := "Line"
+	statusTitle := "Status"
+
 	page.AddColumnsTitle(lineTitle, statusTitle)
 	for _, s := range tubeLines {
 		//page.AddFieldValuePair(s.Name, s.Status)
@@ -25,6 +26,4 @@ func Run(terminal *terminal.ViewPort) {
 			return
 		}
 	}
-
-	//tfl.Client.Do()
 }
