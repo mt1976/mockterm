@@ -10,16 +10,16 @@ func GetTubeLines() ([]Line, error) {
 
 	var lines []Line
 
-	lines = append(lines, Line{Name: "Station1", Code: "Code1", Status: "Status1", Type: "Type1", Line: "Line1", StatusCode: "StatusCode1"})
-	lines = append(lines, Line{Name: "Station2", Code: "Code2", Status: "Status2", Type: "Type2", Line: "Line2", StatusCode: "StatusCode2"})
-	lines = append(lines, Line{Name: "Station3", Code: "Code3", Status: "Status3", Type: "Type3", Line: "Line3", StatusCode: "StatusCode3"})
-	lines = append(lines, Line{Name: "Station4", Code: "Code4", Status: "Status4", Type: "Type4", Line: "Line4", StatusCode: "StatusCode4"})
-	lines = append(lines, Line{Name: "Station5", Code: "Code5", Status: "Status5", Type: "Type5", Line: "Line5", StatusCode: "StatusCode5"})
-	lines = append(lines, Line{Name: "Station6", Code: "Code6", Status: "Status6", Type: "Type6", Line: "Line6", StatusCode: "StatusCode6"})
-	lines = append(lines, Line{Name: "Station7", Code: "Code7", Status: "Status7", Type: "Type7", Line: "Line7", StatusCode: "StatusCode7"})
-	lines = append(lines, Line{Name: "Station8", Code: "Code8", Status: "Status8", Type: "Type8", Line: "Line8", StatusCode: "StatusCode8"})
-	lines = append(lines, Line{Name: "Station9", Code: "Code9", Status: "Status9", Type: "Type9", Line: "Line9", StatusCode: "StatusCode9"})
-	lines = append(lines, Line{Name: "Station10", Code: "Code10", Status: "Status10", Type: "Type10", Line: "Line10", StatusCode: "StatusCode10"})
+	lines = append(lines, Line{Name: "Bakerloo", Code: "BAK", Status: "Status1", Type: "Type1", Line: "Line1", StatusCode: "StatusCode1"})
+	lines = append(lines, Line{Name: "Central", Code: "CEN", Status: "Status3", Type: "Type3", Line: "Line3", StatusCode: "StatusCode3"})
+	lines = append(lines, Line{Name: "District", Code: "DIS", Status: "Status4", Type: "Type4", Line: "Line4", StatusCode: "StatusCode4"})
+	lines = append(lines, Line{Name: "Hammersmith & City", Code: "HAM", Status: "Status5", Type: "Type5", Line: "Line5", StatusCode: "StatusCode5"})
+	lines = append(lines, Line{Name: "Jubilee", Code: "JUB", Status: "Status6", Type: "Type6", Line: "Line6", StatusCode: "StatusCode6"})
+	lines = append(lines, Line{Name: "Metropolitan", Code: "MET", Status: "Status7", Type: "Type7", Line: "Line7", StatusCode: "StatusCode7"})
+	lines = append(lines, Line{Name: "Northern", Code: "NOR", Status: "Status8", Type: "Type8", Line: "Line8", StatusCode: "StatusCode8"})
+	lines = append(lines, Line{Name: "Piccadilly", Code: "PIC", Status: "Status9", Type: "Type9", Line: "Line9", StatusCode: "StatusCode9"})
+	lines = append(lines, Line{Name: "Victoria", Code: "VIC", Status: "Status10", Type: "Type10", Line: "Line10", StatusCode: "StatusCode10"})
+	lines = append(lines, Line{Name: "Waterloo & City", Code: "WAT", Status: "Status11", Type: "Type11", Line: "Line11", StatusCode: "StatusCode11"})
 	return lines, nil
 }
 
