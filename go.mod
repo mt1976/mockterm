@@ -19,11 +19,8 @@ require (
 )
 
 require (
-	github.com/FireEater64/go-tube v0.0.0-20160930191809-c2491b6c085a // indirect
 	github.com/bit101/go-ansi v1.5.4 // indirect
 	github.com/fatih/color v1.16.0 // indirect
-	github.com/georgevanburgh/go-tube v0.0.0-20160930191809-c2491b6c085a // indirect
-	github.com/jdheyburn/go-tflapi v0.1.2 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 )
@@ -56,7 +53,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d // indirect
-	github.com/pelletier/go-toml/v2 v2.2.0 // indirect
+	github.com/pelletier/go-toml/v2 v2.2.1 // indirect
 	github.com/power-devops/perfstat v0.0.0-20240221224432-82ca36839d55 // indirect
 	github.com/ricochet2200/go-disk-usage/du v0.0.0-20210707232629-ac9918953285
 	github.com/sagikazarmark/locafero v0.4.0 // indirect
@@ -75,7 +72,7 @@ require (
 	github.com/xeonx/timeago v1.0.0-rc5 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/exp v0.0.0-20240404231335-c0f41cb1a7a0 // indirect
+	golang.org/x/exp v0.0.0-20240409090435-93d18d7e34b8 // indirect
 	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.19.0 // indirect
