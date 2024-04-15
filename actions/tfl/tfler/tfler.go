@@ -12,6 +12,7 @@ func GetTubeLines() ([]Line, error) {
 
 	lines = append(lines, Line{Name: "Bakerloo", Code: "BAK", Status: "Status1", Type: "Type1", Line: "Line1", StatusCode: "StatusCode1"})
 	lines = append(lines, Line{Name: "Central", Code: "CEN", Status: "Status3", Type: "Type3", Line: "Line3", StatusCode: "StatusCode3"})
+	lines = append(lines, Line{Name: "Circle", Code: "CIR", Status: "Status2", Type: "Type2", Line: "Line2", StatusCode: "StatusCode2"})
 	lines = append(lines, Line{Name: "District", Code: "DIS", Status: "Status4", Type: "Type4", Line: "Line4", StatusCode: "StatusCode4"})
 	lines = append(lines, Line{Name: "Hammersmith & City", Code: "HAM", Status: "Status5", Type: "Type5", Line: "Line5", StatusCode: "StatusCode5"})
 	lines = append(lines, Line{Name: "Jubilee", Code: "JUB", Status: "Status6", Type: "Type6", Line: "Line6", StatusCode: "StatusCode6"})
