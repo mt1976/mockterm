@@ -62,3 +62,67 @@ type LineImport []struct {
 		Type string `json:"$type"`
 	} `json:"crowding"`
 }
+
+type LineDetailImport []struct {
+	Type          string   `json:"$type"`
+	NaptanID      string   `json:"naptanId"`
+	Modes         []string `json:"modes"`
+	IcsCode       string   `json:"icsCode"`
+	StopType      string   `json:"stopType"`
+	StationNaptan string   `json:"stationNaptan"`
+	Lines         []struct {
+		LineType string `json:"$type"`
+		ID       string `json:"id"`
+		Name     string `json:"name"`
+		URI      string `json:"uri"`
+		Type     string `json:"type"`
+		Crowding struct {
+			Type string `json:"$type"`
+		} `json:"crowding"`
+		RouteType string `json:"routeType"`
+		Status    string `json:"status"`
+	} `json:"lines"`
+	LineGroup []struct {
+		Type              string   `json:"$type"`
+		NaptanIDReference string   `json:"naptanIdReference,omitempty"`
+		StationAtcoCode   string   `json:"stationAtcoCode"`
+		LineIdentifier    []string `json:"lineIdentifier"`
+	} `json:"lineGroup"`
+	LineModeGroups []struct {
+		Type           string   `json:"$type"`
+		ModeName       string   `json:"modeName"`
+		LineIdentifier []string `json:"lineIdentifier"`
+	} `json:"lineModeGroups"`
+	Status               bool   `json:"status"`
+	ID                   string `json:"id"`
+	CommonName           string `json:"commonName"`
+	PlaceType            string `json:"placeType"`
+	AdditionalProperties []struct {
+		Type            string `json:"$type"`
+		Category        string `json:"category"`
+		Key             string `json:"key"`
+		SourceSystemKey string `json:"sourceSystemKey"`
+		Value           string `json:"value"`
+	} `json:"additionalProperties"`
+	Children []struct {
+		Type                 string        `json:"$type"`
+		NaptanID             string        `json:"naptanId"`
+		Modes                []interface{} `json:"modes"`
+		IcsCode              string        `json:"icsCode"`
+		StationNaptan        string        `json:"stationNaptan"`
+		Lines                []interface{} `json:"lines"`
+		LineGroup            []interface{} `json:"lineGroup"`
+		LineModeGroups       []interface{} `json:"lineModeGroups"`
+		Status               bool          `json:"status"`
+		ID                   string        `json:"id"`
+		CommonName           string        `json:"commonName"`
+		PlaceType            string        `json:"placeType"`
+		AdditionalProperties []interface{} `json:"additionalProperties"`
+		Children             []interface{} `json:"children"`
+		Lat                  float64       `json:"lat"`
+		Lon                  float64       `json:"lon"`
+	} `json:"children"`
+	Lat           float64 `json:"lat"`
+	Lon           float64 `json:"lon"`
+	HubNaptanCode string  `json:"hubNaptanCode,omitempty"`
+}

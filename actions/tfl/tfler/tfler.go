@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
 // Stations - GetTubeLines
@@ -148,11 +150,64 @@ func upcase(line string) string {
 }
 
 func GetTubeLineDetails(lineCode string) (LineDetail, error) {
+
+	client := &http.Client{}
+
 	ok, err := IsValidLineCode(lineCode)
 	if !ok {
 		return LineDetail{}, err
 	}
 	//spew.Dump(lineCode)
+	baseUrl := "https://api.tfl.gov.uk"
+	uri := fmt.Sprintf("%s/Line/%s/StopPoints?app_key=%s", baseUrl, lineCode, api_key)
+
+	fmt.Println("URL: ", uri)
+	fmt.Println("URL: ", uri)
+	fmt.Println("URL: ", uri)
+	fmt.Println("URL: ", uri)
+
+	req, err := http.NewRequest("GET", uri, nil)
+	if err != nil {
+		fmt.Println("ERROR :" + err.Error())
+		os.Exit(1)
+	}
+
+	req.Header.Set("User-Agent", "Golang_Spider_Bot/3.0")
+
+	// Send the HTTP request to the TfL API
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Error fetching data:", err)
+		return LineDetail{}, err
+	}
+	defer resp.Body.Close()
+
+	// Check if the status code indicates success
+	if resp.StatusCode != http.StatusOK {
+		fmt.Printf("Received non-200 response code: %d\n", resp.StatusCode)
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		fmt.Println("Response body:", string(bodyBytes))
+		return LineDetail{}, errors.New("non-200 response code received")
+	}
+
+	//spew.Dump(resp)
+	// Read and parse the response body
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println("Error reading response:", err)
+		return LineDetail{}, err
+	}
+	//spew.Dump(body)
+	//os.Exit(1)
+	var lineDeets LineImport
+	err = json.Unmarshal(body, &lineDeets)
+	if err != nil {
+		fmt.Println("Error parsing JSON:", err)
+		return LineDetail{}, err
+	}
+
+	spew.Dump(lineDeets)
+
 	var lineDetail LineDetail
 	lineDetail.Code = lineCode
 	lineDetail.Name = "DummyLine" + lineCode
@@ -205,3 +260,49 @@ func GetStationDetails(stationCode string) (StationDetail, error) {
 
 	return stationDetail, nil
 }
+
+/////
+// Function to fetch line details
+// func getLineDetails(lineID string) ([]Station, LineStatus, error) {
+//     baseUrl := "https://api.tfl.gov.uk"
+//     url := fmt.Sprintf("%s/Line/%s/StopPoints?app_key=%s", baseUrl, lineID, api_key)
+
+//     // Make the HTTP GET request
+//     resp, err := http.Get(url)
+//     if err != nil {
+//         return nil, LineStatus{}, fmt.Errorf("HTTP request failed: %v", err)
+//     }
+//     defer resp.Body.Close()
+
+//     // Read and parse the response body
+//     body, err := ioutil.ReadAll(resp.Body)
+//     if err != nil {
+//         return nil, LineStatus{}, fmt.Errorf("Failed to read response: %v", err)
+//     }
+
+//     // Parse stations
+//     stations := []Station{}
+//     gjson.GetBytes(body, "#.commonName").ForEach(func(key, value gjson.Result) bool {
+//         stations = append(stations, Station{Name: value.String()})
+//         return true // keep iterating
+//     })
+
+//     // Fetch line status
+//     statusUrl := fmt.Sprintf("%s/Line/%s/Status?app_key=%s", baseUrl, lineID, api_key)
+//     respStatus, err := http.Get(statusUrl)
+//     if err != nil {
+//         return nil, LineStatus{}, fmt.Errorf("HTTP request for status failed: %v", err)
+//     }
+//     defer respStatus.Body.Close()
+
+//     bodyStatus, err := ioutil.ReadAll(respStatus.Body)
+//     if err != nil {
+//         return nil, LineStatus{}, fmt.Errorf("Failed to read status response: %v", err)
+//     }
+
+//     status := LineStatus{}
+//     statusResult := gjson.GetBytes(bodyStatus, "0.lineStatuses.0.statusSeverityDescription")
+//     status.StatusSeverityDescription = statusResult.String()
+
+//     return stations, status, nil
+// }
