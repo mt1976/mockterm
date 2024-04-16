@@ -8,12 +8,12 @@ import (
 	"net/http"
 	"os"
 	"strings"
-
-	"github.com/davecgh/go-spew/spew"
 )
 
 // Stations - GetTubeLines
 func GetTubeLines() ([]Line, error) {
+
+	client := &http.Client{}
 
 	//var lines []Line
 
@@ -29,20 +29,28 @@ func GetTubeLines() ([]Line, error) {
 	// lines = append(lines, Line{Name: "Victoria", Code: "VIC", Status: "Status10", StatusCode: "StatusCode10", Type: []string{"Type10"}})
 	// lines = append(lines, Line{Name: "Waterloo & City", Code: "WAT", Status: "Status11", StatusCode: "StatusCode11", Type: []string{"Type11"}})
 
-	url := "https://api.tfl.gov.uk/Line/Mode/tube?&app_key=%v"
+	uri := "https://api.tfl.gov.uk/Line/Mode/tube?&app_key=%v"
 
-	url = fmt.Sprintf(url, api_key)
+	uri = fmt.Sprintf(uri, api_key)
 
-	fmt.Println("URL: ", url)
-	fmt.Println("URL: ", url)
-	fmt.Println("URL: ", url)
-	fmt.Println("URL: ", url)
-	fmt.Println("URL: ", url)
-	fmt.Println("URL: ", url)
-	fmt.Println("URL: ", url)
+	// fmt.Println("URL: ", uri)
+	// fmt.Println("URL: ", uri)
+	// fmt.Println("URL: ", uri)
+	// fmt.Println("URL: ", uri)
+	// fmt.Println("URL: ", uri)
+	// fmt.Println("URL: ", uri)
+	// fmt.Println("URL: ", uri)
+
+	req, err := http.NewRequest("GET", uri, nil)
+	if err != nil {
+		fmt.Println("ERROR :" + err.Error())
+		os.Exit(1)
+	}
+
+	req.Header.Set("User-Agent", "Golang_Spider_Bot/3.0")
 
 	// Send the HTTP request to the TfL API
-	resp, err := http.Get(url)
+	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Error fetching data:", err)
 		return []Line{}, err
@@ -57,16 +65,16 @@ func GetTubeLines() ([]Line, error) {
 		return []Line{}, errors.New("non-200 response code received")
 	}
 
-	spew.Dump(resp)
+	//spew.Dump(resp)
 	// Read and parse the response body
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Println("Error reading response:", err)
 		return []Line{}, err
 	}
-	spew.Dump(body)
-	os.Exit(1)
-	var lines []Line
+	//spew.Dump(body)
+	//os.Exit(1)
+	var lines LineImport
 	err = json.Unmarshal(body, &lines)
 	if err != nil {
 		fmt.Println("Error parsing JSON:", err)
@@ -78,9 +86,33 @@ func GetTubeLines() ([]Line, error) {
 		fmt.Printf("Line ID: %s, Name: %s\n", line.ID, line.Name)
 	}
 
-	spew.Dump(lines)
+	//spew.Dump(lines)
 
-	return lines, nil
+	var lineArray []Line
+	// loop thgouht the lines and populate the Line array
+	for _, line := range lines {
+		lineItem := Line{}
+		lineItem.ID = line.ID
+		lineItem.Code = line.ID
+		lineItem.Name = line.Name
+		for _, serviceType := range line.ServiceTypes {
+			lineItem.Type = append(lineItem.Type, serviceType.Name)
+		}
+		if len(line.Disruptions) > 0 {
+			lineItem.Status = "Issues" + line.Disruptions[0].(string)
+		} else {
+			lineItem.Status = "Good Service"
+		}
+		for _, lineDisrupt := range line.Disruptions {
+			//lineItem.Disruptions = []string{line.Disruptions[0]}
+			lineItem.Disruptions = append(lineItem.Disruptions, lineDisrupt.(string))
+		}
+		lineItem.LastUpdated = line.Modified
+		lineArray = append(lineArray, lineItem)
+		//spew.Dump(line)
+	}
+
+	return lineArray, nil
 }
 
 func IsValidLineName(lineIn string) (bool, error) {
