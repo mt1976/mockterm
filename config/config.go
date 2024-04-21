@@ -94,6 +94,7 @@ var Configuration = Config{}
 
 func init() {
 	viper.AddConfigPath(".")
+	viper.AddConfigPath("config")
 	viper.SetConfigName("mockterm")
 	viper.SetConfigType("env")
 	viper.AutomaticEnv()
