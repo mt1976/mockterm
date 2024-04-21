@@ -216,7 +216,7 @@ func GetTubeLineDetails(lineCode string) (LineDetail, error) {
 	lineDetail.Type = []string{"DummyType" + lineCode}
 	lineDetail.Narrative = "DummyNarrative" + lineCode
 
-	stationsList, err := GetStations(lineCode)
+	stationsList, err := GetStations(lineCode, lineDeets)
 	if err != nil {
 		return LineDetail{}, err
 	}
@@ -225,19 +225,29 @@ func GetTubeLineDetails(lineCode string) (LineDetail, error) {
 	return lineDetail, nil
 }
 
-func GetStations(lineCode string) ([]Station, error) {
+func GetStations(lineCode string, details LineImport) ([]Station, error) {
 	ok, err := IsValidLineCode(lineCode)
 	if !ok {
 		return []Station{}, err
 	}
+
 	var stations []Station
-	stations = append(stations, Station{Name: "Station1", Code: "Code1", Status: "Status1", Type: []string{"Type1"}, LineCode: lineCode})
-	stations = append(stations, Station{Name: "Station2", Code: "Code2", Status: "Status2", Type: []string{"Type2"}, LineCode: lineCode})
-	stations = append(stations, Station{Name: "Station3", Code: "Code3", Status: "Status3", Type: []string{"Type3"}, LineCode: lineCode})
-	stations = append(stations, Station{Name: "Station4", Code: "Code4", Status: "Status4", Type: []string{"Type4"}, LineCode: lineCode})
-	stations = append(stations, Station{Name: "Station5", Code: "Code5", Status: "Status5", Type: []string{"Type5"}, LineCode: lineCode})
-	stations = append(stations, Station{Name: "Station6", Code: "Code6", Status: "Status6", Type: []string{"Type6"}, LineCode: lineCode})
-	stations = append(stations, Station{Name: "Station7", Code: "Code7", Status: "Status7", Type: []string{"Type7"}, LineCode: lineCode})
+
+	for _, line := range details {
+		if line.ID == lineCode {
+			station := Station{Name: line.Name, Code: line.ID, Status: "Good Service", Type: []string{"Underground"}, LineCode: lineCode}
+			stations = append(stations, station)
+		}
+	}
+
+	spew.Dump(stations)
+	//	stations = append(stations, Station{Name: "Station1", Code: "Code1", Status: "Status1", Type: []string{"Type1"}, LineCode: lineCode})
+	//	stations = append(stations, Station{Name: "Station2", Code: "Code2", Status: "Status2", Type: []string{"Type2"}, LineCode: lineCode})
+	//	stations = append(stations, Station{Name: "Station3", Code: "Code3", Status: "Status3", Type: []string{"Type3"}, LineCode: lineCode})
+	//	stations = append(stations, Station{Name: "Station4", Code: "Code4", Status: "Status4", Type: []string{"Type4"}, LineCode: lineCode})
+	//	stations = append(stations, Station{Name: "Station5", Code: "Code5", Status: "Status5", Type: []string{"Type5"}, LineCode: lineCode})
+	//	stations = append(stations, Station{Name: "Station6", Code: "Code6", Status: "Status6", Type: []string{"Type6"}, LineCode: lineCode})
+	//	stations = append(stations, Station{Name: "Station7", Code: "Code7", Status: "Status7", Type: []string{"Type7"}, LineCode: lineCode})
 
 	return stations, nil
 }
