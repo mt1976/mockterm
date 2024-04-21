@@ -11,7 +11,7 @@ require (
 	github.com/jrudio/go-plex-client v0.0.0-20230508221844-834554e41d30
 	github.com/mmcdole/gofeed v1.3.0
 	github.com/moby/sys/mountinfo v0.7.1
-	github.com/mt1976/crt v1.1.3
+	github.com/mt1976/crt v1.1.4
 	github.com/prometheus-community/pro-bing v0.4.0
 	github.com/shirou/gopsutil v3.21.11+incompatible
 	github.com/shirou/gopsutil/v3 v3.24.3
@@ -72,7 +72,7 @@ require (
 	github.com/xeonx/timeago v1.0.0-rc5 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/exp v0.0.0-20240409090435-93d18d7e34b8 // indirect
+	golang.org/x/exp v0.0.0-20240416160154-fe59bbe5cc7f // indirect
 	golang.org/x/net v0.24.0 // indirect
 	golang.org/x/sync v0.7.0 // indirect
 	golang.org/x/sys v0.19.0 // indirect
