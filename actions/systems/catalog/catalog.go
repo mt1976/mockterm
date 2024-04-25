@@ -40,9 +40,10 @@ func Run(t *term.ViewPort) {
 
 	p.AddFieldValuePair("Current Path", path)
 	storeData(p, info, "Current Path", path)
-	p.AddBlankRow()
+	p.AddBreakRow()
 
 	p.AddFieldValuePair("Output file", outputFilename)
+	p.AddBreakRow()
 
 	ok, err := p.Display_Confirmation("Do you want to continue with the cataloging process")
 	if err != nil {
@@ -134,6 +135,7 @@ func Run(t *term.ViewPort) {
 		p.AddColumns(t.Formatters.Human(v.Mountpoint), t.Formatters.Human(v.FSType), t.Formatters.Human(v.Source), t.Formatters.Human(usage.Free), t.Formatters.Human(usage.Used), t.Formatters.Human(usage.UsedPercent))
 	}
 	p.Success("Cataloging complete")
+	p.AddBreakRow()
 	p.Add("Results have been saved to file: "+outputFilename, "", "")
 	debugMode = false
 	if !debugMode {
