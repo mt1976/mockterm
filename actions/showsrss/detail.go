@@ -2,7 +2,7 @@ package showsrss
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"log"
 	"os"
 	"os/exec"
@@ -99,7 +99,7 @@ func Detail(t *term.ViewPort, item RssItem) error {
 				log.Fatal(err)
 			}
 
-			slurp, _ := ioutil.ReadAll(stderr)
+			slurp, _ := io.ReadAll(stderr)
 			fmt.Printf("%s\n", slurp)
 
 			if err := cmd.Wait(); err != nil {
