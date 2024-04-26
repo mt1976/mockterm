@@ -1,3 +1,4 @@
 
 /dumps
 *.info
+data/dumps/dump_*.txt

@@ -6,9 +6,9 @@ import (
 
 	term "github.com/mt1976/crt"
 	file "github.com/mt1976/crt/filechooser"
-	bbcn "github.com/mt1976/mockterm/actions/bbcnews"
 	dash "github.com/mt1976/mockterm/actions/dashboard"
 	plex "github.com/mt1976/mockterm/actions/plexmediaserver"
+	srss "github.com/mt1976/mockterm/actions/showsrss"
 	news "github.com/mt1976/mockterm/actions/skynews"
 	syst "github.com/mt1976/mockterm/actions/systems"
 	tfl "github.com/mt1976/mockterm/actions/tfl"
@@ -24,7 +24,7 @@ func Run(terminal *term.ViewPort) {
 	p.AddBlankRow()
 	p.AddMenuOption(1, lang.TxtDashboardTitle, "", "")
 	p.AddMenuOption(2, lang.TxtSkyNewsMenuTitle, "", "")
-	p.AddMenuOption(3, lang.TxtBBCNewsMenuTitle, "", "")
+	p.AddMenuOption(3, "Shows RSS", "", "")
 	p.AddMenuOption(4, lang.TxtWeatherMenuTitle, "", "")
 	p.AddMenuOption(5, "TFL", "", "")
 	p.AddMenuOption(6, lang.TxtPlexMediaServersMenuTitle, "", "")
@@ -48,9 +48,9 @@ func Run(terminal *term.ViewPort) {
 		case "2":
 			news.Run(terminal)
 		case "3":
-			err := bbcn.Run(terminal)
+			err := srss.Run(terminal)
 			if err != nil {
-				terminal.Error(err, lang.TxtBBCError)
+				terminal.Error(err, "Error running showsrss")
 				return
 			}
 		case "4":
