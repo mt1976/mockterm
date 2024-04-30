@@ -4,6 +4,7 @@ import (
 	term "github.com/mt1976/crt"
 	catalog "github.com/mt1976/mockterm/actions/systems/catalog"
 	clean "github.com/mt1976/mockterm/actions/systems/cleanfilenames"
+	move "github.com/mt1976/mockterm/actions/systems/mover"
 	push "github.com/mt1976/mockterm/actions/systems/pushover"
 	tidy "github.com/mt1976/mockterm/actions/systems/tidymediafolders"
 	lang "github.com/mt1976/mockterm/language"
@@ -25,6 +26,10 @@ func Run(t *term.ViewPort) {
 	p.AddMenuOption(5, lang.TxtCleanFileNames+" (LIVE)", "", "")
 	p.AddBlankRow()
 	p.AddMenuOption(6, lang.TxtCatalogTitle, "", "")
+	p.AddBlankRow()
+	p.AddMenuOption(7, lang.TxtMoveFilesTitle+" (Trial Mode)", "", "")
+	p.AddMenuOption(8, lang.TxtMoveFilesTitle+" (LIVE)", "", "")
+
 	p.AddAction(lang.SymActionQuit)
 
 	// loop while ok
@@ -51,6 +56,10 @@ func Run(t *term.ViewPort) {
 			clean.Run(t, false, "")
 		case "6":
 			catalog.Run(t)
+		case "7":
+			move.Run(t, false)
+		case "8":
+			move.Run(t, true)
 
 		default:
 			p.Error(term.ErrInvalidAction, action)

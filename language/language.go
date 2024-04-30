@@ -317,3 +317,8 @@ var (
 	TxtCatalogPrompt       string   = "Choose a file to use"
 	TxtCatalogConfirmation string   = "Choose (S)end or (Q)uit"
 )
+
+// Mover
+var (
+	TxtMoveFilesTitle string = "Move Files"
+)
