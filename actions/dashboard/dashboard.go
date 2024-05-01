@@ -13,7 +13,7 @@ import (
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
-	probing "github.com/prometheus-community/pro-bing"
+	ping "github.com/prometheus-community/pro-bing"
 )
 
 var C = conf.Configuration
@@ -89,7 +89,7 @@ func CheckService(p *term.Page, i int) string {
 
 	// Ping the service
 	if dummy.Formatters.Upcase(operation) == "PING" {
-		pinger, err := probing.NewPinger(host)
+		pinger, err := ping.NewPinger(host)
 		if err != nil {
 			return lang.TxtStatusOffline + lang.Space + dummy.Formatters.PQuote(err.Error())
 		}
