@@ -10,39 +10,39 @@ import (
 	"unicode/utf8"
 
 	term "github.com/mt1976/crt"
-	files "github.com/mt1976/crt/filechooser"
+	f "github.com/mt1976/crt/filechooser"
 )
 
 func Run(t *term.ViewPort, liveMode bool) error {
-	page := t.NewPage("Move Files")
-	page.AddBlankRow()
+	p := t.NewPage("Move Files")
+	p.AddBlankRow()
 	if liveMode {
-		page.AddFieldValuePair("Mode", "LIVE")
+		p.AddFieldValuePair("Mode", "LIVE")
 	} else {
-		page.AddFieldValuePair("Mode", "Trial")
+		p.AddFieldValuePair("Mode", "Trial")
 	}
-	page.AddParagraph([]string{
+	p.AddParagraph([]string{
 		"This is a test", "This is a test"})
-	page.AddBlankRow()
-	proceed, err := page.Display_Confirmation("Are you sure you want to proceed?")
+	p.AddBlankRow()
+	proceed, err := p.Display_Confirmation("Are you sure you want to proceed?")
 	if err != nil {
 		return err
 	}
 	if !proceed {
-		page.Info("Quitting")
+		p.Info("Quitting")
 		return nil
 	}
-	fileName, isDir, err := files.FileChooser(".", files.FilesOnly)
+	fileName, isDir, err := f.FileChooser(".", f.FilesOnly)
 	if err != nil {
 		return err
 	}
 	if isDir {
-		page.Error(errors.New("this is a directory"), fileName)
+		p.Error(errors.New("this is a directory"), fileName)
 	} else {
-		page.Info("This is a file")
+		p.Info("This is a file")
 	}
-	page.AddFieldValuePair("File", fileName)
-	page.Display_Confirmation("Are you sure you want to process " + fileName)
+	p.AddFieldValuePair("File", fileName)
+	p.Display_Confirmation("Are you sure you want to process " + fileName)
 
 	// load the file from the os
 	// open the file and read the contents
@@ -50,7 +50,7 @@ func Run(t *term.ViewPort, liveMode bool) error {
 	// Open the file for reading
 	file, err := os.Open(fileName)
 	if err != nil {
-		page.Error(err, fileName)
+		p.Error(err, fileName)
 		//fmt.Println("Error opening file:", err)
 		return err
 	}
@@ -59,39 +59,39 @@ func Run(t *term.ViewPort, liveMode bool) error {
 	// read the file into a string
 	data, err := io.ReadAll(file)
 	if err != nil {
-		page.Error(err, fileName)
+		p.Error(err, fileName)
 		return err
 	}
 
 	lines := strings.Split(string(data), "\n")
-	page.AddFieldValuePair("No Items", strconv.Itoa(len(lines)))
+	p.AddFieldValuePair("No Items", strconv.Itoa(len(lines)))
 
-	move, err := page.Display_Confirmation("Are you sure you want to proceed")
+	move, err := p.Display_Confirmation("Are you sure you want to proceed")
 	if err != nil {
 		return err
 	}
 	if !move {
-		page.Info("Quitting")
+		p.Info("Quitting")
 		return nil
 	}
 
-	toFolder, isDir, err := files.FileChooser(".", files.DirectoriesOnly)
+	toFolder, isDir, err := f.FileChooser(".", f.DirectoriesOnly)
 	if err != nil {
 		return err
 	}
 	if !isDir {
-		page.Error(errors.New("this is a file"), toFolder)
+		p.Error(errors.New("this is a file"), toFolder)
 	} else {
-		page.Info("This is a directory", toFolder)
+		p.Info("This is a directory", toFolder)
 	}
-	page.AddFieldValuePair("Destination", toFolder)
-	page.Display_Confirmation("Are you sure you want to continue processing")
+	p.AddFieldValuePair("Destination", toFolder)
+	p.Display_Confirmation("Are you sure you want to continue processing")
 
 	// loop through each line in the data and read the line
 	for _, line := range lines {
-		err := moveFile(page, line, toFolder)
+		err := moveFile(p, line, toFolder)
 		if err != nil {
-			page.Error(err, line)
+			p.Error(err, line)
 			return err
 		}
 	}
@@ -126,6 +126,7 @@ func moveFile(page *term.Page, from string, to string) error {
 	time.Sleep(2 * time.Second)
 	return nil
 }
+
 func dquote(s string) string {
 	return "\"" + s + "\""
 }
