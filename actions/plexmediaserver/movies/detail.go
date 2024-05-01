@@ -1,21 +1,21 @@
 package movies
 
 import (
-	"github.com/jrudio/go-plex-client"
+	plexms "github.com/jrudio/go-plex-client"
 	term "github.com/mt1976/crt"
 	terr "github.com/mt1976/crt/errors"
 	lang "github.com/mt1976/mockterm/language"
-	pmms "github.com/mt1976/mockterm/plexsupport"
+	plex "github.com/mt1976/mockterm/plexsupport"
 )
 
-func Detail(t *term.ViewPort, info plex.Metadata) {
+func Detail(t *term.ViewPort, info plexms.Metadata) {
 	p := t.NewPage(info.Title)
 
 	p.AddFieldValuePair(lang.TxtPlexTitleLabel, info.Title)
 	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
-	dur := pmms.FormatPlexDuration(info.Duration)
+	dur := plex.FormatDuration(info.Duration)
 	p.AddFieldValuePair(lang.TxtPlexDurationLabel, dur)
-	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, pmms.FormatPlexDate(info.OriginallyAvailableAt))
+	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, plex.FormatDate(info.OriginallyAvailableAt))
 	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
 	//unix time to hrs mins secs
 	p.AddBlankRow()

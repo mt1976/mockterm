@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/jrudio/go-plex-client"
+	plexms "github.com/jrudio/go-plex-client"
 
 	term "github.com/mt1976/crt"
 	lang "github.com/mt1976/crt/language"
 	errs "github.com/mt1976/mockterm/errors"
 )
 
-func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
+func Run(t *term.ViewPort, mediaVault *plexms.Plex, wi *plexms.Directory) {
 
 	res, err := mediaVault.GetLibraryContent(wi.Key, "")
 	if err != nil {

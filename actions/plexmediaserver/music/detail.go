@@ -1,13 +1,12 @@
 package music
 
 import (
-	"github.com/jrudio/go-plex-client"
-
+	plexms "github.com/jrudio/go-plex-client"
 	term "github.com/mt1976/crt"
 	lang "github.com/mt1976/crt/language"
 )
 
-func Detail(t *term.ViewPort, info plex.Metadata) {
+func Detail(t *term.ViewPort, info plexms.Metadata) {
 
 	p := t.NewPage(info.Title)
 

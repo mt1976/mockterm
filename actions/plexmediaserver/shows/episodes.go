@@ -3,14 +3,14 @@ package shows
 import (
 	"os"
 
-	"github.com/jrudio/go-plex-client"
+	plexms "github.com/jrudio/go-plex-client"
 	term "github.com/mt1976/crt"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
-	pmss "github.com/mt1976/mockterm/plexsupport"
+	plex "github.com/mt1976/mockterm/plexsupport"
 )
 
-func Episodes(t *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, info plex.Metadata) {
+func Episodes(t *term.ViewPort, mediaVault *plexms.Plex, seriesTitle string, info plexms.Metadata) {
 	res, err := mediaVault.GetEpisodes(info.RatingKey)
 	if err != nil {
 		t.Error(errs.ErrLibraryResponse, err.Error())
@@ -37,7 +37,7 @@ func Episodes(t *term.ViewPort, mediaVault *plex.Plex, seriesTitle string, info 
 	}
 }
 
-func EpisodeDetail(t *term.ViewPort, info plex.Metadata) {
+func EpisodeDetail(t *term.ViewPort, info plexms.Metadata) {
 
 	title := info.GrandparentTitle + lang.Space + info.ParentTitle + lang.Space + info.Title
 	p := t.NewPage(title)
@@ -45,8 +45,8 @@ func EpisodeDetail(t *term.ViewPort, info plex.Metadata) {
 	p.AddFieldValuePair(lang.TxtPlexSeason, info.ParentTitle)
 	p.AddFieldValuePair(lang.TxtPlexEpisode, info.Title)
 	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
-	p.AddFieldValuePair(lang.TxtPlexDurationLabel, pmss.FormatPlexDuration(info.Duration))
-	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, pmss.FormatPlexDate(info.OriginallyAvailableAt))
+	p.AddFieldValuePair(lang.TxtPlexDurationLabel, plex.FormatDuration(info.Duration))
+	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, plex.FormatDate(info.OriginallyAvailableAt))
 	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
 	videoCodec := info.Media[0].VideoCodec
 	videoFrameRate := info.Media[0].VideoFrameRate

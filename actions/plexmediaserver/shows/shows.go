@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/jrudio/go-plex-client"
+	plexms "github.com/jrudio/go-plex-client"
 	term "github.com/mt1976/crt"
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
-	pmss "github.com/mt1976/mockterm/plexsupport"
+	plex "github.com/mt1976/mockterm/plexsupport"
 )
 
 var C = conf.Configuration
 
-func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
+func Run(t *term.ViewPort, mediaVault *plexms.Plex, wi *plexms.Directory) {
 
 	res, err := mediaVault.GetLibraryContent(wi.Key, "")
 	if err != nil {
@@ -45,13 +45,13 @@ func Run(t *term.ViewPort, mediaVault *plex.Plex, wi *plex.Directory) {
 	}
 }
 
-func Detail(t *term.ViewPort, info plex.Metadata, mediaVault *plex.Plex) {
+func Detail(t *term.ViewPort, info plexms.Metadata, mediaVault *plexms.Plex) {
 	p := t.NewPage(info.Title)
 
 	p.AddFieldValuePair(lang.TxtPlexTitleLabel, info.Title)
 	p.AddFieldValuePair(lang.TxtYear, t.Helpers.ToString(info.Year))
 	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
-	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, pmss.FormatPlexDate(info.OriginallyAvailableAt))
+	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, plex.FormatDate(info.OriginallyAvailableAt))
 	p.AddBlankRow()
 	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, "")
 	p.AddParagraphString(info.Summary)

@@ -22,7 +22,7 @@ func PlexDateToDate(date string) time.Time {
 	return t
 }
 
-func PlexDurationToTime(duration int) time.Duration {
+func DurationToTime(duration int) time.Duration {
 	//int to string
 	d := fmt.Sprintf("%d", duration)
 	//string to int
@@ -41,10 +41,10 @@ func PlexDurationToTime(duration int) time.Duration {
 	return t
 }
 
-func FormatPlexDate(t string) string {
+func FormatDate(t string) string {
 	return humanize.Time(PlexDateToDate(t)) + lang.Space + dummy.Formatters.DQuote(dummy.Formatters.FormatDate(PlexDateToDate(t)))
 }
 
-func FormatPlexDuration(t int) string {
-	return dummy.Formatters.FormatDuration(PlexDurationToTime(t))
+func FormatDuration(t int) string {
+	return dummy.Formatters.FormatDuration(DurationToTime(t))
 }
