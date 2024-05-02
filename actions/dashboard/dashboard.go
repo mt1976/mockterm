@@ -16,7 +16,7 @@ import (
 	ping "github.com/prometheus-community/pro-bing"
 )
 
-var C = conf.Configuration
+var props = conf.Configuration
 var dummy = term.New()
 
 // The main function initializes and runs a terminal-based news reader application called StarTerm,
@@ -29,10 +29,10 @@ func Run(terminal *term.ViewPort) {
 	c := 0
 	c++
 
-	for i := 0; i < C.DashboardURINoEntries; i++ {
-		p.Info(fmt.Sprintf(lang.TxtDashboardCheckingService, C.DashboardURIName[i]))
+	for i := 0; i < props.DashboardURINoEntries; i++ {
+		p.Info(fmt.Sprintf(lang.TxtDashboardCheckingService, props.DashboardURIName[i]))
 		result := CheckService(p, i)
-		p.AddFieldValuePair(C.DashboardURIName[i], result)
+		p.AddFieldValuePair(props.DashboardURIName[i], result)
 	}
 
 	p.AddAction(lang.SymActionQuit)
@@ -63,10 +63,10 @@ func Run(terminal *term.ViewPort) {
 func CheckService(p *term.Page, i int) string {
 
 	// Extract the configuration values for the service
-	protocol := C.DashboardURIProtocol[i]
-	host := C.DashboardURIHost[i]
+	protocol := props.DashboardURIProtocol[i]
+	host := props.DashboardURIHost[i]
 	if host == "" {
-		host = C.DashboardDefaultHost
+		host = props.DashboardDefaultHost
 	}
 	if host == "" {
 		p.Error(errs.ErrDashboardNoHost, "no host specified")
@@ -74,16 +74,16 @@ func CheckService(p *term.Page, i int) string {
 		return errs.ErrDashboardNoHost.Error()
 	}
 
-	port := C.DashboardURIPort[i]
+	port := props.DashboardURIPort[i]
 	if port == "" {
-		port = C.DashboardDefaultPort
+		port = props.DashboardDefaultPort
 	}
-	query := C.DashboardURIQuery[i]
-	operation := C.DashboardURIOperation[i]
-	success := C.DashboardURISuccess[i]
+	query := props.DashboardURIQuery[i]
+	operation := props.DashboardURIOperation[i]
+	success := props.DashboardURISuccess[i]
 
 	// Check if the operation is a valid operation
-	if !slices.Contains(C.DashboardURIValidActions, dummy.Formatters.Upcase(operation)) {
+	if !slices.Contains(props.DashboardURIValidActions, dummy.Formatters.Upcase(operation)) {
 		return term.ErrInvalidAction.Error()
 	}
 
