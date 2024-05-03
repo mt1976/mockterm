@@ -27,8 +27,8 @@ func Run(t *term.ViewPort) {
 	p.AddBlankRow()
 	p.AddMenuOption(6, lang.TxtCatalogTitle, "", "")
 	p.AddBlankRow()
-	p.AddMenuOption(7, lang.TxtMoveFilesTitle+" (Trial Mode)", "", "")
-	p.AddMenuOption(8, lang.TxtMoveFilesTitle+" (LIVE)", "", "")
+	p.AddMenuOption(7, lang.TxtFileMigratorTitle+" (Trial Mode)", "", "")
+	p.AddMenuOption(8, lang.TxtFileMigratorTitle+" (LIVE)", "", "")
 
 	p.AddAction(lang.SymActionQuit)
 

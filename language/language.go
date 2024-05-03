@@ -253,7 +253,7 @@ const (
 	TxtTidyFilesTypes                        string = "TYPES   : %v"
 	TxtTidyFilesEnd                          string = "END     : %v"
 	TxtResolvedPath                          string = "Resolved path: %v"
-	TxtDebugMode                             string = "DEBUG"
+	TxtDebugMode                             string = "TRIAL"
 	TxtLiveMode                              string = "LIVE"
 	TxtTidyFilesWouldHaveRemoved             string = TxtDebugMode + ": Would have removed empty directories"
 	TxtRemovingFilesWithExt                  string = "Removing all files with extension .%v"
@@ -321,7 +321,16 @@ var (
 	TxtCatalogDescription []string = []string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"}
 )
 
-// Mover
+// File Migrator
 const (
-	TxtMoveFilesTitle string = "Move Files"
+	TxtFileMigratorTitle            string = "File Migration"
+	TxtFileMigratorMode             string = "Mode"
+	TxtFileMigratorModeCheckPrompt  string = "Are you sure you want to proceed, select (Y) to continue..."
+	TxtFileMigratorFile             string = "File"
+	TxtFileMigratorNoFilesToProcess string = "No Files"
+	TxtFileMigratorDestination      string = "Destination"
+	TxtFileMigratorResults          string = "RESULTS"
+	TxtFileMigratorDonePrompt       string = "Processing Complete, select (Y) to continue..."
+	TxtFileMigratorMoving           string = "Moving"
+	TxtFileMigratorMovingArrow      string = " -> "
 )

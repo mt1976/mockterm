@@ -1,7 +1,6 @@
 package mover
 
 import (
-	"errors"
 	"io"
 	"os"
 	"strconv"
@@ -12,6 +11,8 @@ import (
 	gomv "github.com/draxil/gomv"
 	term "github.com/mt1976/crt"
 	f "github.com/mt1976/crt/filechooser"
+	errs "github.com/mt1976/mockterm/errors"
+	lang "github.com/mt1976/mockterm/language"
 )
 
 var mode bool
@@ -21,21 +22,21 @@ var LIVE_MODE = false
 func Run(t *term.ViewPort, inMode bool) error {
 
 	mode = !inMode
-	p := t.NewPage("Move Files")
+	p := t.NewPage(lang.TxtFileMigratorTitle)
 	p.AddBlankRow()
 	if mode == LIVE_MODE {
-		p.AddFieldValuePair("Mode", "LIVE")
+		p.AddFieldValuePair(lang.TxtFileMigratorMode, lang.TxtLiveMode)
 	} else {
-		p.AddFieldValuePair("Mode", "Trial")
+		p.AddFieldValuePair(lang.TxtFileMigratorMode, lang.TxtDebugMode)
 	}
 	//p.AddParagraph([]string{"This is a test", "This is a test"})
 	//p.AddBlankRow()
-	proceed, err := p.Display_Confirmation("Are you sure you want to proceed?")
+	proceed, err := p.Display_Confirmation(lang.TxtFileMigratorModeCheckPrompt)
 	if err != nil {
 		return err
 	}
 	if !proceed {
-		p.Info("Quitting")
+		p.Info(lang.TxtQuittingMessage)
 		return nil
 	}
 	fileName, isDir, err := f.FileChooser(".", f.FilesOnly)
@@ -43,12 +44,11 @@ func Run(t *term.ViewPort, inMode bool) error {
 		return err
 	}
 	if isDir {
-		p.Error(errors.New("this is a directory"), fileName)
-	} else {
-		p.Info("This is a file")
+		p.Error(errs.ErrFileMigratorDirectory, fileName)
+		return errs.ErrFileMigratorDirectory
 	}
-	p.AddFieldValuePair("File", fileName)
-	p.Display_Confirmation("Are you sure you want to process " + fileName)
+	p.AddFieldValuePair(lang.TxtFileMigratorFile, fileName)
+	p.Display_Confirmation(lang.TxtFileMigratorModeCheckPrompt + fileName)
 
 	// load the file from the os
 	// open the file and read the contents
@@ -69,15 +69,15 @@ func Run(t *term.ViewPort, inMode bool) error {
 		return err
 	}
 
-	lines := strings.Split(string(data), "\n")
-	p.AddFieldValuePair("No Items", strconv.Itoa(len(lines)))
+	lines := strings.Split(string(data), lang.SymNewline)
+	p.AddFieldValuePair(lang.TxtFileMigratorNoFilesToProcess, strconv.Itoa(len(lines)))
 
-	move, err := p.Display_Confirmation("Are you sure you want to proceed")
+	move, err := p.Display_Confirmation(lang.TxtFileMigratorModeCheckPrompt)
 	if err != nil {
 		return err
 	}
 	if !move {
-		p.Info("Quitting")
+		p.Info(lang.TxtQuittingMessage)
 		return nil
 	}
 
@@ -86,13 +86,12 @@ func Run(t *term.ViewPort, inMode bool) error {
 		return err
 	}
 	if !isDir {
-		p.Error(errors.New("this is a file"), toFolder)
-	} else {
-		p.Info("This is a directory", toFolder)
+		p.Error(errs.ErrFileMigratorFile, toFolder)
+		return errs.ErrFileMigratorFile
 	}
-	p.AddFieldValuePair("Destination", toFolder)
-	p.Display_Confirmation("Are you sure you want to continue processing")
-	p.Add("RESULTS", "", "")
+	p.AddFieldValuePair(lang.TxtFileMigratorDestination, toFolder)
+	p.Display_Confirmation(lang.TxtFileMigratorModeCheckPrompt)
+	p.Add(lang.TxtFileMigratorResults, "", "")
 	p.AddBreakRow()
 	// loop through each line in the data and read the line
 	for _, line := range lines {
@@ -102,7 +101,7 @@ func Run(t *term.ViewPort, inMode bool) error {
 			return err
 		}
 	}
-	p.Display_Confirmation("Processing Complete")
+	p.Display_Confirmation(lang.TxtFileMigratorDonePrompt)
 
 	// write the string to the console
 	//page.Dump(string(data))
@@ -139,10 +138,10 @@ func moveFile(page *term.Page, from string, to string) error {
 	lastPart := fromParts[lastPartPos-1]
 	destination := to + sep + lastPart
 
-	page.Info("Moving", dquote(from20Chars), dquote(to20Chars))
+	page.Info(lang.TxtFileMigratorMoving, dquote(from20Chars), dquote(to20Chars))
 	time.Sleep(2 * time.Second)
 
-	msg := from + " -> " + destination
+	msg := from + lang.TxtFileMigratorMovingArrow + destination
 	page.Add(msg, "", "")
 
 	if mode == TRIAL_MODE {
