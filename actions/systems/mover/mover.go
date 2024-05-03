@@ -1,6 +1,7 @@
 package mover
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"strconv"
@@ -21,7 +22,7 @@ var LIVE_MODE = false
 
 func Run(t *term.ViewPort, inMode bool) error {
 
-	mode = !inMode
+	mode = inMode
 	p := t.NewPage(lang.TxtFileMigratorTitle)
 	p.AddBlankRow()
 	if mode == LIVE_MODE {
@@ -94,8 +95,8 @@ func Run(t *term.ViewPort, inMode bool) error {
 	p.Add(lang.TxtFileMigratorResults, "", "")
 	p.AddBreakRow()
 	// loop through each line in the data and read the line
-	for _, line := range lines {
-		err := moveFile(p, line, toFolder)
+	for z, line := range lines {
+		err := moveFile(p, line, toFolder, z, len(lines))
 		if err != nil {
 			p.Error(err, line)
 			return err
@@ -125,12 +126,12 @@ func lastNChars(s string, n int) string {
 	return s[start:]
 }
 
-func moveFile(page *term.Page, from string, to string) error {
+func moveFile(page *term.Page, from, to string, pageNo, ofPages int) error {
 	mode = true
 	from20Chars := lastNChars(from, 20)
 	to20Chars := lastNChars(to, 20)
 
-	sep := "\\"
+	sep := string(os.PathSeparator)
 	//split from by sep
 
 	fromParts := strings.Split(from, sep)
@@ -138,7 +139,9 @@ func moveFile(page *term.Page, from string, to string) error {
 	lastPart := fromParts[lastPartPos-1]
 	destination := to + sep + lastPart
 
-	page.Info(lang.TxtFileMigratorMoving, dquote(from20Chars), dquote(to20Chars))
+	progressmsg := fmt.Sprintf(lang.TxtFileMigratorMoving, pageNo+1, ofPages, from20Chars, to20Chars)
+
+	page.Info(progressmsg)
 	time.Sleep(2 * time.Second)
 
 	msg := from + lang.TxtFileMigratorMovingArrow + destination
@@ -166,6 +169,6 @@ func moveFile(page *term.Page, from string, to string) error {
 	return nil
 }
 
-func dquote(s string) string {
-	return "\"" + s + "\""
-}
+// func dquote(s string) string {
+// 	return "\"" + s + "\""
+// }

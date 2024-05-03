@@ -331,6 +331,6 @@ const (
 	TxtFileMigratorDestination      string = "Destination"
 	TxtFileMigratorResults          string = "RESULTS"
 	TxtFileMigratorDonePrompt       string = "Processing Complete, select (Y) to continue..."
-	TxtFileMigratorMoving           string = "Moving"
+	TxtFileMigratorMoving           string = "Moving [%d/%d] [%20v][%20v]"
 	TxtFileMigratorMovingArrow      string = " -> "
 )
