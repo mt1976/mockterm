@@ -20,6 +20,7 @@ require (
 
 require (
 	github.com/bit101/go-ansi v1.5.4 // indirect
+	github.com/draxil/gomv v0.0.0-20160224112501-18db38460281 // indirect
 	github.com/fatih/color v1.16.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect

@@ -9,11 +9,15 @@ import (
 	"time"
 	"unicode/utf8"
 
+	gomv "github.com/draxil/gomv"
 	term "github.com/mt1976/crt"
 	f "github.com/mt1976/crt/filechooser"
 )
 
+var trailMode bool
+
 func Run(t *term.ViewPort, liveMode bool) error {
+	trailMode = !liveMode
 	p := t.NewPage("Move Files")
 	p.AddBlankRow()
 	if liveMode {
@@ -21,9 +25,8 @@ func Run(t *term.ViewPort, liveMode bool) error {
 	} else {
 		p.AddFieldValuePair("Mode", "Trial")
 	}
-	p.AddParagraph([]string{
-		"This is a test", "This is a test"})
-	p.AddBlankRow()
+	//p.AddParagraph([]string{"This is a test", "This is a test"})
+	//p.AddBlankRow()
 	proceed, err := p.Display_Confirmation("Are you sure you want to proceed?")
 	if err != nil {
 		return err
@@ -86,7 +89,8 @@ func Run(t *term.ViewPort, liveMode bool) error {
 	}
 	p.AddFieldValuePair("Destination", toFolder)
 	p.Display_Confirmation("Are you sure you want to continue processing")
-
+	p.Add("RESULTS", "", "")
+	p.AddBreakRow()
 	// loop through each line in the data and read the line
 	for _, line := range lines {
 		err := moveFile(p, line, toFolder)
@@ -95,6 +99,7 @@ func Run(t *term.ViewPort, liveMode bool) error {
 			return err
 		}
 	}
+	p.Display_Confirmation("Processing Complete")
 
 	// write the string to the console
 	//page.Dump(string(data))
@@ -119,11 +124,43 @@ func lastNChars(s string, n int) string {
 }
 
 func moveFile(page *term.Page, from string, to string) error {
+	trailMode = true
 	from20Chars := lastNChars(from, 20)
 	to20Chars := lastNChars(to, 20)
 
+	sep := "\\"
+	//split from by sep
+
+	fromParts := strings.Split(from, sep)
+	lastPartPos := len(fromParts)
+	lastPart := fromParts[lastPartPos-1]
+	destination := to + sep + lastPart
+
 	page.Info("Moving", dquote(from20Chars), dquote(to20Chars))
 	time.Sleep(2 * time.Second)
+
+	msg := from + " -> " + destination
+	page.Add(msg, "", "")
+
+	if trailMode {
+		//page.Info("Would have moved", dquote(from20Chars), dquote(destination))
+		// fmt.Println("Would have moved", dquote(from), dquote(destination))
+		// fmt.Println("from", from)
+		// fmt.Println("to", to)
+		// fmt.Println("fromParts", fromParts)
+		// fmt.Println("lastPartPos", lastPartPos)
+		// fmt.Println("lastPart", lastPart)
+		// fmt.Println("destination", destination)
+		// fmt.Println("sep", sep)
+		//os.Exit(0)
+
+		return nil
+	}
+	err := gomv.MoveFile(from, destination)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
 
