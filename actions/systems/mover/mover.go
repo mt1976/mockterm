@@ -92,6 +92,7 @@ func Run(t *term.ViewPort, inMode bool) error {
 	}
 	p.AddFieldValuePair(lang.TxtFileMigratorDestination, toFolder)
 	p.Display_Confirmation(lang.TxtFileMigratorModeCheckPrompt)
+	p.AddBlankRow()
 	p.Add(lang.TxtFileMigratorResults, "", "")
 	p.AddBreakRow()
 	// loop through each line in the data and read the line
