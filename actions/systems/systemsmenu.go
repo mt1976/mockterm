@@ -57,9 +57,9 @@ func Run(t *term.ViewPort) {
 		case "6":
 			catalog.Run(t)
 		case "7":
-			move.Run(t, false)
+			move.Run(t, move.TRIAL_MODE)
 		case "8":
-			move.Run(t, true)
+			move.Run(t, move.LIVE_MODE)
 
 		default:
 			p.Error(term.ErrInvalidAction, action)

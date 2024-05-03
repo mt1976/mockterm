@@ -14,13 +14,16 @@ import (
 	f "github.com/mt1976/crt/filechooser"
 )
 
-var trailMode bool
+var mode bool
+var TRIAL_MODE = true
+var LIVE_MODE = false
 
-func Run(t *term.ViewPort, liveMode bool) error {
-	trailMode = !liveMode
+func Run(t *term.ViewPort, inMode bool) error {
+
+	mode = !inMode
 	p := t.NewPage("Move Files")
 	p.AddBlankRow()
-	if liveMode {
+	if mode == LIVE_MODE {
 		p.AddFieldValuePair("Mode", "LIVE")
 	} else {
 		p.AddFieldValuePair("Mode", "Trial")
@@ -124,7 +127,7 @@ func lastNChars(s string, n int) string {
 }
 
 func moveFile(page *term.Page, from string, to string) error {
-	trailMode = true
+	mode = true
 	from20Chars := lastNChars(from, 20)
 	to20Chars := lastNChars(to, 20)
 
@@ -142,7 +145,7 @@ func moveFile(page *term.Page, from string, to string) error {
 	msg := from + " -> " + destination
 	page.Add(msg, "", "")
 
-	if trailMode {
+	if mode == TRIAL_MODE {
 		//page.Info("Would have moved", dquote(from20Chars), dquote(destination))
 		// fmt.Println("Would have moved", dquote(from), dquote(destination))
 		// fmt.Println("from", from)
