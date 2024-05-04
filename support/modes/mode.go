@@ -3,7 +3,7 @@ package modes
 import "fmt"
 
 type Modality struct {
-	Is int
+	is int
 }
 
 const (
@@ -13,29 +13,39 @@ const (
 )
 
 var (
-	DEBUG Modality = Modality{Is: debugMode}
-	LIVE  Modality = Modality{Is: liveMode}
-	TRIAL Modality = Modality{Is: trialMode}
+	DEBUG Modality = Modality{is: debugMode}
+	LIVE  Modality = Modality{is: liveMode}
+	TRIAL Modality = Modality{is: trialMode}
 )
 
+func (m *Modality) Is(q Modality) bool {
+	return m.is == q.is
+}
+
 func (m *Modality) String() string {
-	return fmt.Sprintf("%d", m.Is)
+	switch m.is {
+	case debugMode:
+		return "Debug"
+	case liveMode:
+		return "Live"
+	}
+	return fmt.Sprintf("Mode=(%d)", m.is)
 }
 
 func (m *Modality) IsDebug() bool {
-	return m.Is == debugMode
+	return m.is == debugMode
 }
 
 func (m *Modality) IsNotDebug() bool {
-	return m.Is != debugMode
+	return m.is != debugMode
 }
 
 func (m *Modality) IsLive() bool {
-	return m.Is == liveMode
+	return m.is == liveMode
 }
 
 func (m *Modality) IsNotLive() bool {
-	return m.Is != liveMode
+	return m.is != liveMode
 }
 
 func (m *Modality) IsTrialMode() bool {

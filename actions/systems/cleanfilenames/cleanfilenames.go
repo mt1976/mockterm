@@ -24,7 +24,7 @@ var cfg = conf.Configuration
 var results = []string{}
 
 func Run(t *term.ViewPort, m mode.Modality, basePath string) {
-	if m.IsDebug() {
+	if m.Is(mode.DEBUG) {
 		debugMode = true
 	}
 	p := t.NewPage(lang.TxtCleanFileNames)
