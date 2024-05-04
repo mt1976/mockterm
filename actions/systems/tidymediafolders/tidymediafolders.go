@@ -12,6 +12,7 @@ import (
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
+	mode "github.com/mt1976/mockterm/support/modes"
 	"github.com/ricochet2200/go-disk-usage/du"
 )
 
@@ -19,12 +20,10 @@ var (
 	fileExtensions = []string{"nfo", "jpeg", "jpg", "bif", "vob", "txt", "png", "me", "exe"}
 )
 
-var debugMode bool = true
 var cfg = conf.Configuration
 var results = []string{}
 
-func Run(t *term.ViewPort, debugModeIn bool, pathIn string) {
-	debugMode = debugModeIn
+func Run(t *term.ViewPort, m mode.Modality, pathIn string) {
 
 	//new page
 	p := t.NewPage(lang.TxtTidyFilesTitle)
@@ -59,7 +58,7 @@ func Run(t *term.ViewPort, debugModeIn bool, pathIn string) {
 		return
 	}
 
-	if !debugMode {
+	if m.IsDebug() {
 		p.AddFieldValuePair(lang.TxtMode, lang.TxtDebugMode)
 	} else {
 		p.AddFieldValuePair(lang.TxtMode, lang.TxtLiveMode)
@@ -99,41 +98,41 @@ func Run(t *term.ViewPort, debugModeIn bool, pathIn string) {
 	}
 
 	for _, fileExtension := range fileExtensions {
-		processFileTypes(p, fileExtension)
+		processFileTypes(p, m, fileExtension)
 	}
 
 	p.Info(lang.TxtTidyFilesDeletingDirectories)
 	startLoopIteration := time.Now()
-	if !debugMode {
-		removeEmptyDirectories(p)
+	if m.IsLive() {
+		removeEmptyDirectories(p, m)
 	} else {
-		findEmptyDirectories(p)
+		findEmptyDirectories(p, m)
 	}
 	endLoopIteration := time.Now()
 	runtime := endLoopIteration.Sub(startLoopIteration)
 	p.Success(fmt.Sprintf(lang.TxtTidyFilesDeletingDirectoriesCompleted, t.Formatters.Bold(runtime.String())))
 	diskSizeTotalAfter, diskSizeFreeAfter, diskPercentUsedAfter := getDiskInfo(p, pathIn)
 
-	printStorageReport(p, diskSizeTotalBefore, diskSizeFreeBefore, diskPercentUsedBefore, diskSizeTotalAfter, diskSizeFreeAfter, diskPercentUsedAfter)
+	printStorageReport(p, m, diskSizeTotalBefore, diskSizeFreeBefore, diskPercentUsedBefore, diskSizeTotalAfter, diskSizeFreeAfter, diskPercentUsedAfter)
 	q := t.NewPage(lang.TxtTidyFilesTitleResults)
 	q.AddParagraph(results)
 	q.Display_Actions()
 
 }
 
-func processFileTypes(p *term.Page, fileExtension string) {
+func processFileTypes(p *term.Page, m mode.Modality, fileExtension string) {
 	msg1 := fmt.Sprintf(lang.TxtProcessing, fileExtension)
 	p.Info(msg1)
 	resultsAdd(msg1)
 
 	startTime := time.Now()
 
-	if !debugMode {
+	if m.IsLive() {
 		p.Info(lang.TxtRemovingFilesWithExt + fileExtension)
-		removeFiles(p, fileExtension)
+		removeFiles(p, m, fileExtension)
 	} else {
 		p.Info(lang.TxtFindingFilesWithExt + fileExtension)
-		findFiles(p, fileExtension)
+		findFiles(p, m, fileExtension)
 	}
 	endTime := time.Now()
 	runtime := endTime.Sub(startTime)
@@ -165,12 +164,12 @@ func getDiskInfo(p *term.Page, path string) (total, free, percentUsed string) {
 	return total, free, percentUsed
 }
 
-func removeFiles(p *term.Page, fileExtension string) {
+func removeFiles(p *term.Page, m mode.Modality, fileExtension string) {
 	msg1 := fmt.Sprintf(lang.TxtRemovingFilesWithExt, fileExtension)
 	p.Info(msg1)
 	resultsAdd(msg1)
 	t := p.ViewPort()
-	if debugMode {
+	if m.IsDebug() {
 		//p.ViewPort()
 		t.Print(lang.TxtTidyFilesWouldHaveRemoved)
 		return
@@ -191,7 +190,7 @@ func removeFiles(p *term.Page, fileExtension string) {
 	resultsAdd(msg2)
 }
 
-func findFiles(p *term.Page, fileExt string) {
+func findFiles(p *term.Page, m mode.Modality, fileExt string) {
 	msg1 := fmt.Sprintf(lang.TxtFindingFilesWithExt, fileExt)
 	p.Info(msg1)
 	resultsAdd(msg1)
@@ -209,21 +208,21 @@ func findFiles(p *term.Page, fileExt string) {
 	resultsAdd(msg2)
 }
 
-func removeEmptyDirectories(p *term.Page) {
+func removeEmptyDirectories(p *term.Page, m mode.Modality) error {
 	msg1 := lang.TxtRemovingEmptyDirectories
 	p.Info(msg1)
 	resultsAdd(msg1)
 	t := p.ViewPort()
-	if debugMode {
+	if m.IsDebug() {
 		p.Info(lang.TxtTidyFilesWouldHaveRemoved)
-		return
+		return nil
 	}
 	findCmd := exec.Command("find", ".", "-type", "d", "-exec", "rmdir", "{}", "+")
 	err := findCmd.Run()
 	if err != nil {
 		//log.Fatal(fmt.Sprintf("%s Unable to remove empty directories: %v", PFY, err))
 		p.Error(errs.ErrUnableToRemoveDirectories, err.Error())
-		return
+		return err
 	}
 	t.Println(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
 	resultsAdd(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
@@ -233,9 +232,10 @@ func removeEmptyDirectories(p *term.Page) {
 	msg2 := fmt.Sprintf(lang.TxtOperationCompleteIncomplete, time.Now().Format(cfg.TimeStampFormat))
 	p.Success(msg2)
 	resultsAdd(msg2)
+	return nil
 }
 
-func findEmptyDirectories(p *term.Page) {
+func findEmptyDirectories(p *term.Page, m mode.Modality) error {
 	msg1 := lang.TxtFindingEmptyDirectories
 	p.Info(msg1)
 	resultsAdd(msg1)
@@ -245,19 +245,20 @@ func findEmptyDirectories(p *term.Page) {
 	if err != nil {
 		//log.Fatal(fmt.Sprintf("%s Unable to find empty directories: %v", PFY, err))
 		p.Error(errs.ErrNoEmptyDirectories, err.Error())
-		return
+		return errs.ErrNoEmptyDirectories
 	}
 	resultsAdd(fmt.Sprintf(lang.TxtCommandRun, findCmd.String()))
 	resultsAdd(string(output))
 	msg2 := fmt.Sprintf(lang.TxtOperationCompleteIncomplete, time.Now().Format(cfg.TimeStampFormat))
 	p.Success(msg2)
 	resultsAdd(msg2)
+	return nil
 }
 
-func printStorageReport(p *term.Page, beforeDiskSizeTotal, beforeDiskSizeFree, beforeDiskPercentUsed, afterDiskSizeTotal, afterDiskSizeFree, afterDiskPercentUsed string) {
+func printStorageReport(p *term.Page, m mode.Modality, beforeDiskSizeTotal, beforeDiskSizeFree, beforeDiskPercentUsed, afterDiskSizeTotal, afterDiskSizeFree, afterDiskPercentUsed string) {
 	t := p.ViewPort()
 	mode := lang.TxtDebugMode
-	if !debugMode {
+	if m.IsLive() {
 		mode = lang.TxtLiveMode
 	}
 

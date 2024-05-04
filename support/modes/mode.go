@@ -13,18 +13,10 @@ const (
 )
 
 var (
-	Debug Modality = Modality{Is: debugMode}
-	Live  Modality = Modality{Is: liveMode}
-	Trial Modality = Modality{Is: trialMode}
+	DEBUG Modality = Modality{Is: debugMode}
+	LIVE  Modality = Modality{Is: liveMode}
+	TRIAL Modality = Modality{Is: trialMode}
 )
-
-func (m *Modality) Set(n Modality) {
-	m.Is = n.Is
-}
-
-func (m *Modality) Get() Modality {
-	return Modality{Is: m.Is}
-}
 
 func (m *Modality) String() string {
 	return fmt.Sprintf("%d", m.Is)

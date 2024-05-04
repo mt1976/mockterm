@@ -48,9 +48,9 @@ func Run(t *term.ViewPort) {
 		case "1":
 			push.Run(t)
 		case "2":
-			tidy.Run(t, true, "")
+			tidy.Run(t, mode.TRIAL, "")
 		case "3":
-			tidy.Run(t, false, "")
+			tidy.Run(t, mode.TRIAL, "")
 		case "4":
 			clean.Run(t, true, "")
 		case "5":
@@ -58,9 +58,9 @@ func Run(t *term.ViewPort) {
 		case "6":
 			catalog.Run(t)
 		case "7":
-			move.Run(t, mode.Trial)
+			move.Run(t, mode.TRIAL)
 		case "8":
-			move.Run(t, mode.Live)
+			move.Run(t, mode.LIVE)
 
 		default:
 			p.Error(term.ErrInvalidAction, action)
