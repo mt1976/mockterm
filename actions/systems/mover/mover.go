@@ -14,18 +14,14 @@ import (
 	f "github.com/mt1976/crt/filechooser"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
+	mode "github.com/mt1976/mockterm/support/modes"
 )
 
-var mode bool
-var TRIAL_MODE = true
-var LIVE_MODE = false
+func Run(t *term.ViewPort, m mode.Modality) error {
 
-func Run(t *term.ViewPort, inMode bool) error {
-
-	mode = inMode
 	p := t.NewPage(lang.TxtFileMigratorTitle)
 	p.AddBlankRow()
-	if mode == LIVE_MODE {
+	if m.IsLive() {
 		p.AddFieldValuePair(lang.TxtFileMigratorMode, lang.TxtLiveMode)
 	} else {
 		p.AddFieldValuePair(lang.TxtFileMigratorMode, lang.TxtDebugMode)
@@ -96,10 +92,10 @@ func Run(t *term.ViewPort, inMode bool) error {
 	p.Add(lang.TxtFileMigratorResults, "", "")
 	p.AddBreakRow()
 	// loop through each line in the data and read the line
-	for z, line := range lines {
-		err := moveFile(p, line, toFolder, z, len(lines))
+	for z, from := range lines {
+		err := moveFile(p, m, from, toFolder, z, len(lines))
 		if err != nil {
-			p.Error(err, line)
+			p.Error(err, from)
 			return err
 		}
 	}
@@ -127,8 +123,7 @@ func lastNChars(s string, n int) string {
 	return s[start:]
 }
 
-func moveFile(page *term.Page, from, to string, pageNo, ofPages int) error {
-	mode = true
+func moveFile(page *term.Page, m mode.Modality, from, to string, pageNo, ofPages int) error {
 	from20Chars := lastNChars(from, 20)
 	to20Chars := lastNChars(to, 20)
 
@@ -148,7 +143,7 @@ func moveFile(page *term.Page, from, to string, pageNo, ofPages int) error {
 	msg := from + lang.TxtFileMigratorMovingArrow + destination
 	page.Add(msg, "", "")
 
-	if mode == TRIAL_MODE {
+	if m.IsTrialMode() {
 		//page.Info("Would have moved", dquote(from20Chars), dquote(destination))
 		// fmt.Println("Would have moved", dquote(from), dquote(destination))
 		// fmt.Println("from", from)

@@ -8,6 +8,7 @@ import (
 	push "github.com/mt1976/mockterm/actions/systems/pushover"
 	tidy "github.com/mt1976/mockterm/actions/systems/tidymediafolders"
 	lang "github.com/mt1976/mockterm/language"
+	mode "github.com/mt1976/mockterm/support/modes"
 )
 
 // The Run function displays a main menu and allows the user to navigate through different sub-menus
@@ -57,9 +58,9 @@ func Run(t *term.ViewPort) {
 		case "6":
 			catalog.Run(t)
 		case "7":
-			move.Run(t, move.TRIAL_MODE)
+			move.Run(t, mode.Trial)
 		case "8":
-			move.Run(t, move.LIVE_MODE)
+			move.Run(t, mode.Live)
 
 		default:
 			p.Error(term.ErrInvalidAction, action)
