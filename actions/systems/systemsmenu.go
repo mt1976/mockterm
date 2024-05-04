@@ -50,11 +50,11 @@ func Run(t *term.ViewPort) {
 		case "2":
 			tidy.Run(t, mode.TRIAL, "")
 		case "3":
-			tidy.Run(t, mode.TRIAL, "")
+			tidy.Run(t, mode.LIVE, "")
 		case "4":
-			clean.Run(t, true, "")
+			clean.Run(t, mode.TRIAL, "")
 		case "5":
-			clean.Run(t, false, "")
+			clean.Run(t, mode.LIVE, "")
 		case "6":
 			catalog.Run(t)
 		case "7":

@@ -15,6 +15,7 @@ import (
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
 	sppt "github.com/mt1976/mockterm/support"
+	mode "github.com/mt1976/mockterm/support/modes"
 )
 
 var itemCount int = 0
@@ -22,10 +23,10 @@ var debugMode bool = false
 var cfg = conf.Configuration
 var results = []string{}
 
-func Run(t *term.ViewPort, debugModeIn bool, basePath string) {
-
-	debugMode = debugModeIn
-
+func Run(t *term.ViewPort, debugModeIn mode.Modality, basePath string) {
+	if debugModeIn.IsDebug() {
+		debugMode = true
+	}
 	p := t.NewPage(lang.TxtCleanFileNames)
 	resultsAdd(upcase(p, lang.TxtCleanFileNamesReport))
 
