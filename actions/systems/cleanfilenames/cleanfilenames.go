@@ -38,15 +38,12 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 		basePath = home
 	}
 
-	//	if debugMode {
 	p.AddFieldValuePair(lang.TxtMode, m.String())
-	//	} else {
-	//		p.AddFieldValuePair(lang.TxtMode, lang.TxtLiveMode)
-	//	}
 
 	baseFolder, _, err := file.FileChooser(basePath, file.DirectoriesOnly)
 	if err != nil {
 		p.Error(err, "file chooser error")
+		return
 	}
 
 	p.AddFieldValuePair(lang.TxtPath, baseFolder)
