@@ -23,8 +23,8 @@ var debugMode bool = false
 var cfg = conf.Configuration
 var results = []string{}
 
-func Run(t *term.ViewPort, debugModeIn mode.Modality, basePath string) {
-	if debugModeIn.IsDebug() {
+func Run(t *term.ViewPort, m mode.Modality, basePath string) {
+	if m.IsDebug() {
 		debugMode = true
 	}
 	p := t.NewPage(lang.TxtCleanFileNames)
