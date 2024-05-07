@@ -2,9 +2,12 @@ package language
 
 // General
 // TxtPlexTitleLabel represents the label for the title of a Plex item.
-const (
+var (
 	//	ErrLibraryResponse    string = "library fetch error"
-	TxtPlexTitleLabel            string = "Title"   // TODO: Change to Title
+	PlexTitleLabel *Text = New("Title") // TODO: Change to Title
+)
+
+const (
 	TxtPlexSummaryLabel          string = "Summary" // TODO: Change to Summary
 	TxtPlexContainerLabel        string = "Container"
 	TxtPlexResolutionLabel       string = "Resolution"
@@ -236,7 +239,8 @@ const (
 )
 
 var (
-	TxtCleanFileNamesDescription []string = []string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"}
+	//	TxtCleanFileNamesDescription []string   = []string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"}
+	CleanFileNamesDescription *Paragraph = NewParagraph([]string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"})
 )
 
 // TidyFiles

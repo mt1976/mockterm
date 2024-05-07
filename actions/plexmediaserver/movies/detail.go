@@ -11,7 +11,7 @@ import (
 func Detail(t *term.ViewPort, info plexms.Metadata) {
 	p := t.NewPage(info.Title)
 
-	p.AddFieldValuePair(lang.TxtPlexTitleLabel, info.Title)
+	p.AddFieldValuePair(lang.PlexTitleLabel.String(), info.Title)
 	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
 	dur := plex.FormatDuration(info.Duration)
 	p.AddFieldValuePair(lang.TxtPlexDurationLabel, dur)

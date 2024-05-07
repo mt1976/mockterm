@@ -49,7 +49,7 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 	p.AddFieldValuePair(lang.TxtPath, baseFolder)
 	resultsAdd(lang.TxtPath + " " + baseFolder)
 	p.AddBlankRow()
-	p.AddParagraph(lang.TxtCleanFileNamesDescription)
+	p.AddParagraph(lang.CleanFileNamesDescription.String())
 
 	msg := lang.TxtStartingCleanFileNames + t.Formatters.DQuote(t.Formatters.Bold(basePath))
 	p.Info(msg)
