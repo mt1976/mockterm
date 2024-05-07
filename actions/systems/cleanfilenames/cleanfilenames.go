@@ -14,7 +14,7 @@ import (
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
-	sppt "github.com/mt1976/mockterm/support"
+	files "github.com/mt1976/mockterm/support/files"
 	mode "github.com/mt1976/mockterm/support/modes"
 )
 
@@ -67,7 +67,7 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 		return
 	}
 
-	fileList := sppt.GetFilesList(t, baseFolder)
+	fileList := files.GetList(t, baseFolder)
 	if len(fileList) == 0 {
 		p.Error(errs.ErrDirectoryEmpty, baseFolder)
 		resultsAdd(errs.ErrDirectoryEmpty.Error())

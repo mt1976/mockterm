@@ -8,6 +8,7 @@ import (
 	term "github.com/mt1976/crt"
 	lang "github.com/mt1976/mockterm/language"
 	supt "github.com/mt1976/mockterm/support"
+	files "github.com/mt1976/mockterm/support/files"
 	mem "github.com/shirou/gopsutil/mem"
 	cpu "github.com/shirou/gopsutil/v3/cpu"
 	dsk "github.com/shirou/gopsutil/v3/disk"
@@ -140,12 +141,12 @@ func Run(t *term.ViewPort) {
 	debugMode = false
 	if !debugMode {
 		// Open output file
-		file, err := supt.OpenFile(t, outputFilename)
+		file, err := files.Open(p, outputFilename)
 		if err != nil {
 			return
 		}
 		defer file.Close()
-		err = supt.WriteStringSliceToFile(t, file, info.data)
+		err = files.WriteStringSlice(p, file, info.data)
 		if err != nil {
 			return
 		}
