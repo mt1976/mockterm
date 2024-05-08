@@ -5,7 +5,7 @@ import (
 	"os"
 
 	plexms "github.com/jrudio/go-plex-client"
-	term "github.com/mt1976/crt"
+	term "github.com/mt1976/crt/terminal"
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"

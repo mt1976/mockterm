@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/jrudio/go-plex-client"
-	term "github.com/mt1976/crt"
+	term "github.com/mt1976/crt/terminal"
 	movies "github.com/mt1976/mockterm/actions/plexmediaserver/movies"
 	music "github.com/mt1976/mockterm/actions/plexmediaserver/music"
 	shows "github.com/mt1976/mockterm/actions/plexmediaserver/shows"

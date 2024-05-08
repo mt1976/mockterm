@@ -5,23 +5,24 @@ import (
 	"os"
 
 	"github.com/davecgh/go-spew/spew"
-	terminal "github.com/mt1976/crt"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
+	term "github.com/mt1976/crt/terminal"
 	tfl "github.com/mt1976/mockterm/actions/tfl/tfler"
-	lang "github.com/mt1976/mockterm/language"
 )
 
 var isNumeric func(string) bool
 var toInt func(string) int
 
-func Run(terminal *terminal.ViewPort) {
+func Run(t *term.ViewPort) {
 
 	// var isNumeric func(string) bool
-	isNumeric = terminal.Helpers.IsInt
-	toInt = terminal.Helpers.ToInt
+	isNumeric = t.Helpers.IsInt
+	toInt = t.Helpers.ToInt
 
-	terminal.Print("TFL API")
+	t.Print("TFL API")
 
-	page := terminal.NewPage("Transport for London - Line Status")
+	p := page.NewPage(t, "Transport for London - Line Status")
 
 	tubeLines, _ := tfl.GetTubeLines()
 	// lineTitle := "Line"
@@ -31,33 +32,34 @@ func Run(terminal *terminal.ViewPort) {
 	//	title := "TFL Tube Line Status"
 	//	page.AddParagraphString(title)
 	//	page.AddParagraphString(strings.Repeat("=", len(title)))
-	page.AddBlankRow()
+	p.AddBlankRow()
 	for i, s := range tubeLines {
 		//page.AddFieldValuePair(s.Name, s.Status)
 		row := fmt.Sprintf("%-20v %v", s.Name, s.Status)
-		page.AddMenuOption(i+1, row, s.Code, "")
+		p.AddMenuOption(i+1, row, s.Code, "")
 	}
 	spew.Dump(tubeLines)
 	for {
-		action := page.Display_Actions()
+		action := p.Display_Actions()
 		switch {
-		case terminal.Formatters.Upcase(action) == lang.SymActionQuit:
+		case action.Is(acts.Quit):
+			//terminal.Formatters.Upcase(action) == lang.SymActionQuit:
 			return
-		case isNumeric(action):
-			num := toInt(action)
+		case action.IsInt():
+			num := toInt(action.Action())
 			if num >= 0 && num <= len(tubeLines) {
-				LineDetail(terminal, tubeLines[num-1])
+				LineDetail(t, tubeLines[num-1])
 			}
 		}
 	}
 }
 
-func LineDetail(terminal *terminal.ViewPort, line tfl.Line) {
-	page := terminal.NewPage("Transport for London - Line Details")
+func LineDetail(t *term.ViewPort, line tfl.Line) {
+	page := page.NewPage(t, "Transport for London - Line Details")
 
 	lineDetail, err := tfl.GetTubeLineDetails(line.Code)
 	if err != nil {
-		terminal.Error(err, "Error: "+err.Error())
+		t.Error(err, "Error: "+err.Error())
 		os.Exit(1)
 		return
 	}
@@ -76,35 +78,36 @@ func LineDetail(terminal *terminal.ViewPort, line tfl.Line) {
 	for {
 		action := page.Display_Actions()
 		switch {
-		case terminal.Formatters.Upcase(action) == lang.SymActionQuit:
+		case action.Is(acts.Quit):
 			return
-		case isNumeric(action):
-			num := toInt(action)
+		case action.IsInt():
+			num := toInt(action.Action())
 			if num >= 0 && num <= len(lineDetail.Stations) {
-				StationDetail(terminal, lineDetail.Stations[num-1])
+				StationDetail(t, lineDetail.Stations[num-1])
 			}
 		}
 	}
 }
 
-func StationDetail(terminal *terminal.ViewPort, station tfl.Station) {
-	page := terminal.NewPage("Transport for London - Station Status")
+func StationDetail(t *term.ViewPort, station tfl.Station) {
+	p := page.NewPage(t, "Transport for London - Station Status")
 	stationDetail, err := tfl.GetStationDetails(station.Code)
 	if err != nil {
-		terminal.Error(err, "Error getting station details")
+		t.Error(err, "Error getting station details")
 		return
 	}
 	spew.Dump(stationDetail)
 
-	page.AddFieldValuePair("Station", stationDetail.Name)
-	page.AddFieldValuePair("Code", stationDetail.Code)
-	page.AddFieldValuePair("Status", stationDetail.Status)
-	page.AddBreakRow()
+	p.AddFieldValuePair("Station", stationDetail.Name)
+	p.AddFieldValuePair("Code", stationDetail.Code)
+	p.AddFieldValuePair("Status", stationDetail.Status)
+	p.AddBreakRow()
 
 	for {
-		action := page.Display_Actions()
+		action := p.Display_Actions()
 		switch {
-		case terminal.Formatters.Upcase(action) == lang.SymActionQuit:
+		case action.Is(acts.Quit):
+			//t.Formatters.Upcase(action) == lang.SymActionQuit:
 			return
 		}
 	}

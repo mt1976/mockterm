@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/gregdel/pushover"
-	term "github.com/mt1976/crt"
+	term "github.com/mt1976/crt/terminal"
 )
 
 type cConfig struct {

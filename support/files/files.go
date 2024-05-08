@@ -4,7 +4,8 @@ import (
 	"io"
 	"os"
 
-	term "github.com/mt1976/crt"
+	page "github.com/mt1976/crt/page"
+	term "github.com/mt1976/crt/terminal"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
 )
@@ -28,7 +29,7 @@ func GetList(t *term.ViewPort, baseFolder string) []os.DirEntry {
 //
 // Returns:
 // a file pointer, or an error if any occurred while opening the file.
-func Open(p *term.Page, filename string) (*os.File, error) {
+func Open(p *page.Page, filename string) (*os.File, error) {
 	file, err := os.Open(filename)
 	//, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
@@ -50,7 +51,7 @@ func Open(p *term.Page, filename string) (*os.File, error) {
 //
 // Returns:
 // an error if any occurred while writing to the file.
-func WriteStringSlice(p *term.Page, file *os.File, content []string) error {
+func WriteStringSlice(p *page.Page, file *os.File, content []string) error {
 	for _, line := range content {
 		// _, err := file.WriteString(line + lang.SymNewline)
 		// if err != nil {
@@ -65,7 +66,7 @@ func WriteStringSlice(p *term.Page, file *os.File, content []string) error {
 	return nil
 }
 
-func WriteString(p *term.Page, file *os.File, content string) error {
+func WriteString(p *page.Page, file *os.File, content string) error {
 	_, err := file.WriteString(content)
 	if err != nil {
 		p.Error(errs.ErrWritingFile, file.Name(), err.Error())
@@ -74,7 +75,7 @@ func WriteString(p *term.Page, file *os.File, content string) error {
 	return nil
 }
 
-func ReadFile(p *term.Page, fileName string) ([]byte, error) {
+func ReadFile(p *page.Page, fileName string) ([]byte, error) {
 
 	// // Open the file for reading
 	// file, err := os.Open(fileName)
@@ -100,7 +101,7 @@ func ReadFile(p *term.Page, fileName string) ([]byte, error) {
 	return data, nil
 }
 
-func Read(p *term.Page, file *os.File) ([]byte, error) {
+func Read(p *page.Page, file *os.File) ([]byte, error) {
 	// read the file into a string
 	data, err := io.ReadAll(file)
 	if err != nil {

@@ -1,8 +1,8 @@
 package skynews
 
 import (
-	term "github.com/mt1976/crt"
 	lang "github.com/mt1976/crt/language"
+	term "github.com/mt1976/crt/terminal"
 	conf "github.com/mt1976/mockterm/config"
 )
 

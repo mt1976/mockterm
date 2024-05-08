@@ -3,10 +3,10 @@ package main
 import (
 	"time"
 
-	viewPort "github.com/mt1976/crt"
-	text "github.com/mt1976/crt/language"
+	term "github.com/mt1976/crt/terminal"
 	menu "github.com/mt1976/mockterm/actions/mainmenu"
 	cnfg "github.com/mt1976/mockterm/config"
+	text "github.com/mt1976/mockterm/language"
 	strt "github.com/mt1976/mockterm/start"
 )
 
@@ -21,7 +21,7 @@ func main() {
 
 	// create a new instance of the ViewPort
 
-	vp := viewPort.NewWithSize(C.TerminalWidth, C.TerminalHeight)
+	vp := term.NewWithSize(C.TerminalWidth, C.TerminalHeight)
 
 	// start a timer
 	start := time.Now()

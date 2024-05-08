@@ -9,12 +9,13 @@ import (
 	"os"
 
 	"github.com/davecgh/go-spew/spew"
-	term "github.com/mt1976/crt"
+	page "github.com/mt1976/crt/page"
+	term "github.com/mt1976/crt/terminal"
 )
 
 func Run(t *term.ViewPort) (err error) {
 
-	page := t.NewPage("BBC News")
+	page := page.NewPage(t, "BBC News")
 
 	uri := "https://feeds.bbci.co.uk/news/rss.xml"
 
@@ -40,8 +41,8 @@ func Run(t *term.ViewPort) (err error) {
 	}
 
 	na := page.Display_Actions()
-	if t.Helpers.IsInt(na) {
-		op := yy.Item[t.Helpers.ToInt(na)-1]
+	if na.IsInt() {
+		op := yy.Item[t.Helpers.ToInt(na.Action())-1]
 		spew.Dump(op)
 		os.Exit(0)
 	}

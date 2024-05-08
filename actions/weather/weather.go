@@ -6,7 +6,10 @@ import (
 	"strings"
 
 	owm "github.com/briandowns/openweathermap"
-	term "github.com/mt1976/crt"
+	terr "github.com/mt1976/crt/errors"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
+	term "github.com/mt1976/crt/terminal"
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
@@ -20,7 +23,7 @@ var C = conf.Configuration
 func Run(t *term.ViewPort) {
 
 	//t.Clear()
-	p := t.NewPage(lang.TxtWeatherTitle + lang.Space + lang.TxtSourceService)
+	p := page.NewPage(t, lang.TxtWeatherTitle+lang.Space+lang.TxtSourceService)
 	w, err := owm.NewCurrent(C.OpenWeatherMapApiUnits, C.OpenWeatherMapApiLang, C.OpenWeatherMapApiKey)
 	if err != nil {
 		p.Error(errs.ErrOpenWeather, err.Error())
@@ -56,24 +59,24 @@ func Run(t *term.ViewPort) {
 	p.Add(hr(t), "", "")
 	p.Add(fmt.Sprintf(lang.SymWeatherFormat2, lang.TxtSourceLabel, t.Formatters.Bold(lang.TxtSourceService)), "", "")
 	// INSERT CONTENT ABOVE
-	p.AddAction(lang.SymActionQuit)
-	p.AddAction(lang.SymActionForward)
-	p.AddAction(lang.SymActionBack)
+	p.AddAction(acts.Quit)
+	p.AddAction(acts.Forward)
+	p.AddAction(acts.Back)
 	p.Dump()
 	ok := false
 	for !ok {
 
 		nextAction := p.Display_Actions()
 		switch nextAction {
-		case lang.SymActionForward:
+		case acts.Forward:
 			p.Forward()
-		case lang.SymActionBack:
+		case acts.Back:
 			p.Back()
-		case lang.SymActionQuit:
+		case acts.Quit:
 			ok = true
 			return
 		default:
-			p.Error(term.ErrInvalidAction, nextAction)
+			p.Error(terr.ErrInvalidAction, nextAction.Action())
 		}
 	}
 

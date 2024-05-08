@@ -10,8 +10,8 @@ import (
 	"unicode/utf8"
 
 	gomv "github.com/draxil/gomv"
-	term "github.com/mt1976/crt"
 	f "github.com/mt1976/crt/filechooser"
+	term "github.com/mt1976/crt/terminal"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
 	mode "github.com/mt1976/mockterm/support/modes"

@@ -1,7 +1,10 @@
 package skynews
 
 import (
-	term "github.com/mt1976/crt"
+	terr "github.com/mt1976/crt/errors"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
+	term "github.com/mt1976/crt/terminal"
 	conf "github.com/mt1976/mockterm/config"
 	lang "github.com/mt1976/mockterm/language"
 )
@@ -14,7 +17,7 @@ func Run(t *term.ViewPort) {
 
 	t.Clear()
 
-	p := t.NewPage(lang.TxtTorrentsMenuTitle)
+	p := page.NewPage(t, lang.TxtTorrentsMenuTitle)
 	c := 0
 	c++
 	p.AddMenuOption(c, lang.TxtTransmission, C.TransmissionURI, "")
@@ -22,25 +25,27 @@ func Run(t *term.ViewPort) {
 	p.AddMenuOption(c, lang.TxtQTorrent, C.QTorrentURI, "")
 	c++
 
-	p.AddAction(lang.SymActionQuit)
+	p.AddAction(acts.Quit)
 
 	action := p.Display_Actions()
 
-	if action == lang.SymActionQuit {
+	if action == acts.Quit {
 		return
 	}
 
-	if t.Helpers.IsInt(action) {
-		switch action {
+	if action.IsInt() {
+		switch action.Action() {
 		case "1":
 			//	Trans(t, nextLevel.AlternateID, nextLevel.Title)
-			action = ""
+			//action = ""
+			return
 		case "2":
 			//QTor(t, nextLevel.AlternateID, nextLevel.Title)
-			action = ""
+			//action = ""
+			return
 		default:
-			p.Error(term.ErrInvalidAction, action)
-			action = ""
+			p.Error(terr.ErrInvalidAction, action.Action())
+			return
 		}
 	}
 }

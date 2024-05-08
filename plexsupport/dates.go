@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/dustin/go-humanize"
-	term "github.com/mt1976/crt"
+	term "github.com/mt1976/crt/terminal"
 	conf "github.com/mt1976/mockterm/config"
 	lang "github.com/mt1976/mockterm/language"
 )

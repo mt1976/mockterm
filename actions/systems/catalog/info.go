@@ -3,7 +3,7 @@ package catalog
 import (
 	"fmt"
 
-	term "github.com/mt1976/crt"
+	term "github.com/mt1976/crt/terminal"
 )
 
 type info struct {

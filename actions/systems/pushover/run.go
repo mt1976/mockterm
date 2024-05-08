@@ -5,7 +5,7 @@ import (
 	"runtime"
 
 	"github.com/gregdel/pushover"
-	term "github.com/mt1976/crt"
+	term "github.com/mt1976/crt/terminal"
 	lang "github.com/mt1976/mockterm/language"
 )
 

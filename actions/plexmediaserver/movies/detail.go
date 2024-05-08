@@ -2,8 +2,8 @@ package movies
 
 import (
 	plexms "github.com/jrudio/go-plex-client"
-	term "github.com/mt1976/crt"
 	terr "github.com/mt1976/crt/errors"
+	term "github.com/mt1976/crt/terminal"
 	lang "github.com/mt1976/mockterm/language"
 	plex "github.com/mt1976/mockterm/plexsupport"
 )

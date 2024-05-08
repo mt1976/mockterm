@@ -2,8 +2,8 @@ package skynews
 
 import (
 	"github.com/mmcdole/gofeed"
-	term "github.com/mt1976/crt"
 	lang "github.com/mt1976/crt/language"
+	term "github.com/mt1976/crt/terminal"
 )
 
 // The function "Topic" takes in a ViewPort object, a topic, and a title as parameters, and then retrieves

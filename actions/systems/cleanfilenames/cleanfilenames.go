@@ -9,8 +9,8 @@ import (
 	"time"
 
 	uuid "github.com/lithammer/shortuuid/v3"
-	term "github.com/mt1976/crt"
 	file "github.com/mt1976/crt/filechooser"
+	term "github.com/mt1976/crt/terminal"
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"

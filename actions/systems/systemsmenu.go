@@ -1,7 +1,7 @@
 package systemsmenu
 
 import (
-	term "github.com/mt1976/crt"
+	term "github.com/mt1976/crt/terminal"
 	catalog "github.com/mt1976/mockterm/actions/systems/catalog"
 	clean "github.com/mt1976/mockterm/actions/systems/cleanfilenames"
 	move "github.com/mt1976/mockterm/actions/systems/mover"

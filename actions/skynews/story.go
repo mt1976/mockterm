@@ -2,8 +2,8 @@ package skynews
 
 import (
 	"github.com/gocolly/colly"
-	term "github.com/mt1976/crt"
 	lang "github.com/mt1976/crt/language"
+	term "github.com/mt1976/crt/terminal"
 )
 
 // The function "Story" displays a story link and allows the user to interact with a menu until they

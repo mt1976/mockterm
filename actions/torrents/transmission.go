@@ -1,8 +1,9 @@
 package skynews
 
 import (
-	term "github.com/mt1976/crt"
-	lang "github.com/mt1976/crt/language"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
+	term "github.com/mt1976/crt/terminal"
 )
 
 // The function "Trans" takes in a ViewPort object, a topic, and a title as parameters, and then retrieves
@@ -10,8 +11,8 @@ import (
 // news item to view.
 func Trans(t *term.ViewPort, uri, title string) {
 	// Get the news for the topic
-	t.InfoMessage(lang.TxtLoadingTorrentsTransmission)
-	p := t.NewPage(lang.TxtTransmission)
+	t.InfoMessage("TxtLoadingTorrentsTransmission")
+	p := page.NewPage(t, "TxtTransmission")
 	// get the news for the topic from an rss feed
 	// endpoint, err := url.Parse(uri)
 	// if err != nil {
@@ -39,13 +40,13 @@ func Trans(t *term.ViewPort, uri, title string) {
 	for !ok {
 		action := p.Display_Actions()
 
-		if action == lang.SymActionQuit {
+		if action == acts.Quit {
 			ok = true
 			continue
 		}
-		if t.Helpers.IsInt(action) {
+		if action.IsInt() {
 			ok = false
-			action = ""
+			return
 		}
 
 		//log.Println("Action: ", action)

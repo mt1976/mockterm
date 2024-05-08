@@ -4,8 +4,11 @@ import (
 	"errors"
 	"fmt"
 
-	term "github.com/mt1976/crt"
+	errs "github.com/mt1976/crt/errors"
 	file "github.com/mt1976/crt/filechooser"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
+	term "github.com/mt1976/crt/terminal"
 	dash "github.com/mt1976/mockterm/actions/dashboard"
 	plex "github.com/mt1976/mockterm/actions/plexmediaserver"
 	srss "github.com/mt1976/mockterm/actions/showsrss"
@@ -20,7 +23,7 @@ import (
 // and perform various actions.
 func Run(terminal *term.ViewPort) {
 	//log.Println("Starting Main Menu")
-	p := terminal.NewPage(lang.TxtMainMenuTitle)
+	p := page.NewPage(terminal, lang.TxtMainMenuTitle)
 	p.AddBlankRow()
 	p.AddMenuOption(1, lang.TxtDashboardTitle, "", "")
 	p.AddMenuOption(2, lang.TxtSkyNewsMenuTitle, "", "")
@@ -32,36 +35,36 @@ func Run(terminal *term.ViewPort) {
 	p.AddMenuOption(7, lang.TxtRemoteSystemsAccessMenuTitle, "", "")
 	p.AddMenuOption(8, lang.TxtSystemsMaintenanceMenuTitle, "", "")
 	//p.AddMenuOption(9, lang.SymBlank, "", "")
-	p.AddAction(lang.SymActionQuit)
+	p.AddAction(acts.Quit)
 
 	ok := false
 	for !ok {
 
 		action := p.Display_Actions()
-		switch action {
-		case lang.SymActionQuit:
+		switch {
+		case acts.Quit.Is(action):
 			p.Info(lang.TxtQuittingMessage + " - " + lang.TxtThankYouForUsing + " " + lang.TxtApplicationName)
 			ok = true
 			continue
-		case "1":
+		case action.IsInt() || action.Action() == "1":
 			dash.Run(terminal)
-		case "2":
+		case action.IsInt() || action.Action() == "2":
 			news.Run(terminal)
-		case "3":
+		case action.IsInt() || action.Action() == "3":
 			err := srss.Run(terminal)
 			if err != nil {
 				terminal.Error(err, "Error running showsrss")
 				return
 			}
-		case "4":
+		case action.IsInt() || action.Action() == "4":
 			wthr.Run(terminal)
-		case "5":
+		case action.IsInt() || action.Action() == "5":
 			tfl.Run(terminal)
-		case "6":
+		case action.IsInt() || action.Action() == "6":
 			plex.Run(terminal)
-		case "8":
+		case action.IsInt() || action.Action() == "8":
 			syst.Run(terminal)
-		case "10":
+		case action.IsInt() || action.Action() == "10":
 			userHome, err := file.UserHome()
 			if err != nil {
 				terminal.Error(err)
@@ -80,7 +83,7 @@ func Run(terminal *term.ViewPort) {
 			p.Error(errors.New("testing"), prn)
 
 		default:
-			p.Error(term.ErrInvalidAction, action)
+			p.Error(errs.ErrInvalidAction, action.Action())
 		}
 	}
 }

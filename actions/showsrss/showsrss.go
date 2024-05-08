@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
-	term "github.com/mt1976/crt"
 	lang "github.com/mt1976/crt/language"
+	term "github.com/mt1976/crt/terminal"
 	conf "github.com/mt1976/mockterm/config"
 )
 

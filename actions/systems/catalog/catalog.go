@@ -5,7 +5,7 @@ import (
 	"os"
 
 	mnt "github.com/moby/sys/mountinfo"
-	term "github.com/mt1976/crt"
+	term "github.com/mt1976/crt/terminal"
 	lang "github.com/mt1976/mockterm/language"
 	supt "github.com/mt1976/mockterm/support"
 	files "github.com/mt1976/mockterm/support/files"

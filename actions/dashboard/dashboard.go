@@ -8,8 +8,10 @@ import (
 	"slices"
 	"strconv"
 
-	term "github.com/mt1976/crt"
 	terr "github.com/mt1976/crt/errors"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
+	term "github.com/mt1976/crt/terminal"
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
@@ -24,7 +26,7 @@ var dummy = term.New()
 // articles.
 func Run(terminal *term.ViewPort) {
 
-	p := terminal.NewPage(lang.TxtDashboardTitle)
+	p := page.NewPage(terminal, lang.TxtDashboardTitle)
 	p.Info(lang.TxtDashboardChecking)
 	c := 0
 	c++
@@ -35,9 +37,9 @@ func Run(terminal *term.ViewPort) {
 		p.AddFieldValuePair(props.DashboardURIName[i], result)
 	}
 
-	p.AddAction(lang.SymActionQuit)
-	p.AddAction(lang.SymActionForward)
-	p.AddAction(lang.SymActionBack)
+	p.AddAction(acts.Quit)
+	p.AddAction(acts.Forward)
+	p.AddAction(acts.Back)
 
 	ok := false
 	for !ok {
@@ -45,22 +47,22 @@ func Run(terminal *term.ViewPort) {
 		nextAction := p.Display_Actions()
 
 		switch nextAction {
-		case lang.SymActionForward:
+		case acts.Forward:
 			p.Forward()
-		case lang.SymActionBack:
+		case acts.Back:
 			p.Back()
-		case lang.SymActionQuit:
+		case acts.Quit:
 			ok = true
 			return
 		default:
-			p.Error(terr.ErrInvalidAction, nextAction)
+			p.Error(terr.ErrInvalidAction, nextAction.Action())
 		}
 
 	}
 }
 
 // CheckService checks the status of a service
-func CheckService(p *term.Page, i int) string {
+func CheckService(p *page.Page, i int) string {
 
 	// Extract the configuration values for the service
 	protocol := props.DashboardURIProtocol[i]
@@ -84,7 +86,7 @@ func CheckService(p *term.Page, i int) string {
 
 	// Check if the operation is a valid operation
 	if !slices.Contains(props.DashboardURIValidActions, dummy.Formatters.Upcase(operation)) {
-		return term.ErrInvalidAction.Error()
+		return terr.ErrInvalidAction.Error()
 	}
 
 	// Ping the service

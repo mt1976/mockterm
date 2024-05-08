@@ -8,8 +8,8 @@ import (
 	"os/exec"
 	"time"
 
-	term "github.com/mt1976/crt"
 	lang "github.com/mt1976/crt/language"
+	term "github.com/mt1976/crt/terminal"
 )
 
 // The Run function displays a menu of news topics and allows the user to select a topic to view the

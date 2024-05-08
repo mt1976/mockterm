@@ -2,8 +2,8 @@ package music
 
 import (
 	plexms "github.com/jrudio/go-plex-client"
-	term "github.com/mt1976/crt"
 	lang "github.com/mt1976/crt/language"
+	term "github.com/mt1976/crt/terminal"
 )
 
 func Detail(t *term.ViewPort, info plexms.Metadata) {

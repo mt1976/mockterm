@@ -6,8 +6,8 @@ import (
 
 	plexms "github.com/jrudio/go-plex-client"
 
-	term "github.com/mt1976/crt"
 	lang "github.com/mt1976/crt/language"
+	term "github.com/mt1976/crt/terminal"
 	errs "github.com/mt1976/mockterm/errors"
 )
 
