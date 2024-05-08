@@ -4,6 +4,9 @@ import (
 	"os"
 
 	plexms "github.com/jrudio/go-plex-client"
+	terr "github.com/mt1976/crt/errors"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
@@ -16,7 +19,7 @@ func Episodes(t *term.ViewPort, mediaVault *plexms.Plex, seriesTitle string, inf
 		t.Error(errs.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
-	p := t.NewPage(seriesTitle + lang.Space + info.Title)
+	p := page.NewPage(t, seriesTitle+lang.Space+info.Title)
 
 	noEps := len(res.MediaContainer.Metadata)
 	for i := 0; i < noEps; i++ {
@@ -27,12 +30,12 @@ func Episodes(t *term.ViewPort, mediaVault *plexms.Plex, seriesTitle string, inf
 	for {
 		nextAction := p.Display_Actions()
 		switch {
-		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
+		case nextAction.Is(acts.Quit):
 			return
-		case t.Helpers.IsInt(nextAction):
-			EpisodeDetail(t, res.MediaContainer.Metadata[t.Helpers.ToInt(nextAction)-1])
+		case nextAction.IsInt():
+			EpisodeDetail(t, res.MediaContainer.Metadata[t.Helpers.ToInt(nextAction.Action())-1])
 		default:
-			p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
+			p.Error(terr.ErrInvalidAction, t.Formatters.SQuote(nextAction.Action()))
 		}
 	}
 }
@@ -40,7 +43,7 @@ func Episodes(t *term.ViewPort, mediaVault *plexms.Plex, seriesTitle string, inf
 func EpisodeDetail(t *term.ViewPort, info plexms.Metadata) {
 
 	title := info.GrandparentTitle + lang.Space + info.ParentTitle + lang.Space + info.Title
-	p := t.NewPage(title)
+	p := page.NewPage(t, title)
 	p.AddFieldValuePair(lang.TxtPlexShow, info.GrandparentTitle)
 	p.AddFieldValuePair(lang.TxtPlexSeason, info.ParentTitle)
 	p.AddFieldValuePair(lang.TxtPlexEpisode, info.Title)
@@ -65,7 +68,7 @@ func EpisodeDetail(t *term.ViewPort, info plexms.Metadata) {
 
 	nextAction := p.Display_Actions()
 	switch nextAction {
-	case lang.SymActionQuit:
+	case acts.Quit:
 		return
 	}
 }

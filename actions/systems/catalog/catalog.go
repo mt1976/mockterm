@@ -5,6 +5,7 @@ import (
 	"os"
 
 	mnt "github.com/moby/sys/mountinfo"
+	page "github.com/mt1976/crt/page"
 	term "github.com/mt1976/crt/terminal"
 	lang "github.com/mt1976/mockterm/language"
 	supt "github.com/mt1976/mockterm/support"
@@ -22,7 +23,7 @@ var results = []string{}
 
 func Run(t *term.ViewPort) {
 
-	p := t.NewPage("Cataloging System Resources")
+	p := page.NewPage(t, "Cataloging System Resources")
 
 	debugMode = false
 	hostname := t.Helpers.GetHostName()
@@ -36,8 +37,12 @@ func Run(t *term.ViewPort) {
 	p.AddFieldValuePair("Machine Name", t.Helpers.GetSytemInfo())
 	storeData(p, info, "Machine Name", t.Helpers.GetSytemInfo())
 
-	p.AddFieldValuePair("Username", t.Helpers.GetUsername())
-	storeData(p, info, "Username", t.Helpers.GetUsername())
+	un, err := t.Helpers.GetUserName()
+	if err != nil {
+		p.Error(err, "unable to get user name")
+	}
+	p.AddFieldValuePair("Username", un)
+	storeData(p, info, "Username", un)
 
 	p.AddFieldValuePair("Current Path", path)
 	storeData(p, info, "Current Path", path)

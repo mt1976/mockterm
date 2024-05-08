@@ -1,6 +1,9 @@
 package systemsmenu
 
 import (
+	terr "github.com/mt1976/crt/errors"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
 	catalog "github.com/mt1976/mockterm/actions/systems/catalog"
 	clean "github.com/mt1976/mockterm/actions/systems/cleanfilenames"
@@ -15,7 +18,7 @@ import (
 // and perform various actions.
 func Run(t *term.ViewPort) {
 
-	p := t.NewPage(lang.TxtSystemsMaintenanceMenuTitle)
+	p := page.NewPage(t, lang.TxtSystemsMaintenanceMenuTitle)
 	p.AddParagraph(lang.TxtServiceMenuDescription)
 	p.AddBlankRow()
 	p.AddMenuOption(1, lang.TxtPushoverTitle, "", "")
@@ -31,7 +34,7 @@ func Run(t *term.ViewPort) {
 	p.AddMenuOption(7, lang.TxtFileMigratorTitle+" (Trial Mode)", "", "")
 	p.AddMenuOption(8, lang.TxtFileMigratorTitle+" (LIVE)", "", "")
 
-	p.AddAction(lang.SymActionQuit)
+	p.AddAction(acts.Quit)
 
 	// loop while ok
 	ok := false
@@ -40,30 +43,30 @@ func Run(t *term.ViewPort) {
 		t.Clear()
 
 		action := p.Display_Actions()
-		switch action {
-		case lang.SymActionQuit:
+		switch {
+		case action.Is(acts.Quit):
 			p.Info(lang.TxtQuittingMessage)
 			ok = true
 			continue
-		case "1":
+		case action.Equals("1"):
 			push.Run(t)
-		case "2":
+		case action.Equals("2"):
 			tidy.Run(t, mode.TRIAL, "")
-		case "3":
+		case action.Equals("3"):
 			tidy.Run(t, mode.LIVE, "")
-		case "4":
+		case action.Equals("4"):
 			clean.Run(t, mode.TRIAL, "")
-		case "5":
+		case action.Equals("5"):
 			clean.Run(t, mode.LIVE, "")
-		case "6":
+		case action.Equals("6"):
 			catalog.Run(t)
-		case "7":
+		case action.Equals("7"):
 			move.Run(t, mode.TRIAL)
-		case "8":
+		case action.Equals("8"):
 			move.Run(t, mode.LIVE)
 
 		default:
-			p.Error(term.ErrInvalidAction, action)
+			p.Error(terr.ErrInvalidAction, action.Action())
 		}
 	}
 }

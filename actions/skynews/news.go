@@ -1,9 +1,12 @@
 package skynews
 
 import (
-	lang "github.com/mt1976/crt/language"
+	terr "github.com/mt1976/crt/errors"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
 	conf "github.com/mt1976/mockterm/config"
+	lang "github.com/mt1976/mockterm/language"
 )
 
 var C = conf.Configuration
@@ -23,7 +26,7 @@ func Run(t *term.ViewPort) {
 	// Strange News
 
 	t.Clear()
-	p := t.NewPage(lang.TxtMenuTitle)
+	p := page.NewPage(t, lang.TxtMenuTitle)
 	p.AddBlankRow()
 	c := 0
 	c++
@@ -44,16 +47,16 @@ func Run(t *term.ViewPort) {
 	p.AddMenuOption(c, lang.TxtTopicEntertainment, C.URISkyNews+C.URISkyNewsEntertainment, "")
 	c++
 	p.AddMenuOption(c, lang.TxtTopicStrange, C.URISkyNews+C.URISkyNewsStrange, "")
-	p.AddAction(lang.SymActionQuit)
+	p.AddAction(acts.Quit)
 
 	for {
 		action := p.Display_Actions()
 
-		if p.ViewPort().Formatters.Upcase(action) == lang.SymActionQuit {
+		if action.Is(acts.Quit) {
 			break
 		}
-		if t.Helpers.IsInt(action) {
-			switch action {
+		if action.IsInt() {
+			switch action.Action() {
 			case "1":
 				Topic(p, C.URISkyNews+C.URISkyNewsHome, lang.TxtTopicHome)
 			case "2":
@@ -73,7 +76,7 @@ func Run(t *term.ViewPort) {
 			case "9":
 				Topic(p, C.URISkyNews+C.URISkyNewsStrange, lang.TxtTopicStrange)
 			default:
-				p.Error(term.ErrInvalidAction, action)
+				p.Error(terr.ErrInvalidAction, action.Action())
 			}
 		}
 	}

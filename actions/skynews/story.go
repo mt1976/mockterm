@@ -2,16 +2,17 @@ package skynews
 
 import (
 	"github.com/gocolly/colly"
-	lang "github.com/mt1976/crt/language"
-	term "github.com/mt1976/crt/terminal"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
+	lang "github.com/mt1976/mockterm/language"
 )
 
 // The function "Story" displays a story link and allows the user to interact with a menu until they
 // choose to quit.
-func Story(p *term.Page, storyLink, title string) {
+func Story(p *page.Page, storyLink, title string) {
 
 	t := p.ViewPort()
-	np := t.NewPage("")
+	np := page.NewPage(&t, "")
 	np.Clear()
 	np.AddFieldValuePair("Title", title)
 	np.AddFieldValuePair("Story", storyLink)
@@ -25,7 +26,7 @@ func Story(p *term.Page, storyLink, title string) {
 	for {
 		x := np.Display_Actions()
 
-		if np.ViewPort().Formatters.Upcase(x) == lang.SymActionQuit {
+		if x.Is(acts.Quit) {
 			return
 		}
 	}
@@ -33,7 +34,7 @@ func Story(p *term.Page, storyLink, title string) {
 
 // buildPage creates a new page with the given title and adds a link to the given story to the page.
 // It uses the colly library to fetch the story content and extract the title.
-func buildPage(p *term.Page, storyLink string) *term.Page {
+func buildPage(p *page.Page, storyLink string) *page.Page {
 	// Get html from storyLink
 	// Parse html for story
 	// Create page with story

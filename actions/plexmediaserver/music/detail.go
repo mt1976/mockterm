@@ -2,15 +2,18 @@ package music
 
 import (
 	plexms "github.com/jrudio/go-plex-client"
-	lang "github.com/mt1976/crt/language"
+	terr "github.com/mt1976/crt/errors"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
+	lang "github.com/mt1976/mockterm/language"
 )
 
 func Detail(t *term.ViewPort, info plexms.Metadata) {
 
-	p := t.NewPage(info.Title)
+	p := page.NewPage(t, info.Title)
 
-	p.AddFieldValuePair(lang.TxtPlexTitleLabel, info.Title)
+	p.AddFieldValuePair(lang.PlexTitleLabel, info.Title)
 	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
 
 	count := 0
@@ -26,10 +29,10 @@ func Detail(t *term.ViewPort, info plexms.Metadata) {
 	for {
 		nextAction := p.Display_Actions()
 		switch {
-		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
+		case nextAction.Is(acts.Quit):
 			return
 		default:
-			p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
+			p.Error(terr.ErrInvalidAction, t.Formatters.SQuote(nextAction.Action()))
 		}
 	}
 }

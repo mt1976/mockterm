@@ -6,9 +6,12 @@ import (
 
 	plexms "github.com/jrudio/go-plex-client"
 
-	lang "github.com/mt1976/crt/language"
+	terr "github.com/mt1976/crt/errors"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
 	errs "github.com/mt1976/mockterm/errors"
+	lang "github.com/mt1976/mockterm/language"
 )
 
 func Run(t *term.ViewPort, mediaVault *plexms.Plex, wi *plexms.Directory) {
@@ -21,7 +24,7 @@ func Run(t *term.ViewPort, mediaVault *plexms.Plex, wi *plexms.Directory) {
 
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
 
-	p := t.NewPage(res.MediaContainer.LibrarySectionTitle + lang.Space + t.Formatters.PQuote(noItems))
+	p := page.NewPage(t, res.MediaContainer.LibrarySectionTitle+lang.Space+t.Formatters.PQuote(noItems))
 	count := 0
 
 	for range res.MediaContainer.Metadata {
@@ -31,12 +34,12 @@ func Run(t *term.ViewPort, mediaVault *plexms.Plex, wi *plexms.Directory) {
 	for {
 		nextAction := p.Display_Actions()
 		switch {
-		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
+		case nextAction.Is(acts.Quit):
 			return
-		case t.Helpers.IsInt(nextAction):
-			Detail(t, res.MediaContainer.Metadata[t.Helpers.ToInt(nextAction)-1])
+		case nextAction.IsInt():
+			Detail(t, res.MediaContainer.Metadata[t.Helpers.ToInt(nextAction.Action())-1])
 		default:
-			p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
+			p.Error(terr.ErrInvalidAction, t.Formatters.SQuote(nextAction.Action()))
 		}
 	}
 }

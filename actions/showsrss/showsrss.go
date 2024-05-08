@@ -8,7 +8,9 @@ import (
 	"time"
 
 	"github.com/davecgh/go-spew/spew"
-	lang "github.com/mt1976/crt/language"
+	terr "github.com/mt1976/crt/errors"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
 	conf "github.com/mt1976/mockterm/config"
 )
@@ -27,7 +29,7 @@ func Run(t *term.ViewPort) error {
 	}
 
 	t.Clear()
-	p := t.NewPage("Shows RSS Feed")
+	p := page.NewPage(t, "Shows RSS Feed")
 	p.AddBlankRow()
 	c := 0
 
@@ -59,25 +61,25 @@ func Run(t *term.ViewPort) error {
 	//c++
 	//p.AddMenuOption(c, lang.TxtTopicHome, C.URISkyNews+C.URISkyNewsHome, "")
 
-	p.AddAction(lang.SymActionQuit)
+	p.AddAction(acts.Quit)
 
 	p.Dump("Shows RSS Feed", spew.Sdump(rss))
 
 	for {
 		action := p.Display_Actions()
 
-		if p.ViewPort().Formatters.Upcase(action) == lang.SymActionQuit {
+		if action.Is(acts.Quit) {
 			break
 		}
-		if t.Helpers.IsInt(action) {
+		if action.IsInt() {
 			switch {
-			case t.Helpers.IsInt(action):
-				i := t.Helpers.ToInt(action)
+			case action.IsInt():
+				i := t.Helpers.ToInt(action.Action())
 				item := rss.Channel.Item[i-1]
 				Detail(t, item)
 
 			default:
-				p.Error(term.ErrInvalidAction, action)
+				p.Error(terr.ErrInvalidAction, action.Action())
 			}
 		}
 	}

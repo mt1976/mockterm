@@ -10,6 +10,7 @@ import (
 
 	uuid "github.com/lithammer/shortuuid/v3"
 	file "github.com/mt1976/crt/filechooser"
+	page "github.com/mt1976/crt/page"
 	term "github.com/mt1976/crt/terminal"
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
@@ -27,7 +28,7 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 	if m.Is(mode.DEBUG) {
 		debugMode = true
 	}
-	p := t.NewPage(lang.TxtCleanFileNames)
+	p := page.NewPage(t, lang.TxtCleanFileNames)
 	resultsAdd(upcase(p, lang.TxtCleanFileNamesReport))
 
 	if basePath == "" {
@@ -99,13 +100,13 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 		resultsAdd(msg)
 	}
 
-	q := t.NewPage(lang.TxtCleanFileNamesResults)
+	q := page.NewPage(t, lang.TxtCleanFileNamesResults)
 	q.AddParagraph(results)
 	q.Display_Actions()
 
 }
 
-func cleanFileName(p *term.Page, info fs.DirEntry, path string) error {
+func cleanFileName(p *page.Page, info fs.DirEntry, path string) error {
 	resultsAdd("Processing : " + info.Name())
 	cleanName, err := getCleanName(p, info.Name())
 	if err != nil {
@@ -130,7 +131,7 @@ func cleanFileName(p *term.Page, info fs.DirEntry, path string) error {
 	return nil
 }
 
-func getCleanName(p *term.Page, fileName string) (string, error) {
+func getCleanName(p *page.Page, fileName string) (string, error) {
 	//fmt.Printf("%s Cleaning file name '%s'\n", support.PFX, name)
 	t := p.ViewPort()
 	f := t.Formatters
@@ -158,7 +159,7 @@ func getCleanName(p *term.Page, fileName string) (string, error) {
 	return newFileName, nil
 }
 
-func renameFile(p *term.Page, path string, newFileName string, oldFileName string) {
+func renameFile(p *page.Page, path string, newFileName string, oldFileName string) {
 	newPath := filepath.Join(filepath.Dir(path), newFileName)
 	oldPath := filepath.Join(filepath.Dir(path), oldFileName)
 	err := error(nil)
@@ -178,6 +179,6 @@ func resultsAdd(msg string) {
 	results = append(results, msg)
 }
 
-func upcase(t *term.Page, msg string) string {
+func upcase(t *page.Page, msg string) string {
 	return t.ViewPort().Formatters.Upcase(msg)
 }

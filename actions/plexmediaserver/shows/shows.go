@@ -5,6 +5,9 @@ import (
 	"os"
 
 	plexms "github.com/jrudio/go-plex-client"
+	terr "github.com/mt1976/crt/errors"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
@@ -24,7 +27,7 @@ func Run(t *term.ViewPort, mediaVault *plexms.Plex, wi *plexms.Directory) {
 
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
 
-	p := t.NewPage(res.MediaContainer.LibrarySectionTitle + lang.Space + t.Formatters.PQuote(noItems))
+	p := page.NewPage(t, res.MediaContainer.LibrarySectionTitle+lang.Space+t.Formatters.PQuote(noItems))
 	count := 0
 
 	for range res.MediaContainer.Metadata {
@@ -35,18 +38,18 @@ func Run(t *term.ViewPort, mediaVault *plexms.Plex, wi *plexms.Directory) {
 	for {
 		nextAction := p.Display_Actions()
 		switch {
-		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
+		case nextAction.Is(acts.Quit):
 			return
-		case t.Helpers.IsInt(nextAction):
-			Detail(t, res.MediaContainer.Metadata[t.Helpers.ToInt(nextAction)-1], mediaVault)
+		case nextAction.IsInt():
+			Detail(t, res.MediaContainer.Metadata[t.Helpers.ToInt(nextAction.Action())-1], mediaVault)
 		default:
-			p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
+			p.Error(terr.ErrInvalidAction, t.Formatters.SQuote(nextAction.Action()))
 		}
 	}
 }
 
 func Detail(t *term.ViewPort, info plexms.Metadata, mediaVault *plexms.Plex) {
-	p := t.NewPage(info.Title)
+	p := page.NewPage(t, info.Title)
 
 	p.AddFieldValuePair(lang.PlexTitleLabel.String(), info.Title)
 	p.AddFieldValuePair(lang.TxtYear, t.Helpers.ToString(info.Year))
@@ -56,7 +59,7 @@ func Detail(t *term.ViewPort, info plexms.Metadata, mediaVault *plexms.Plex) {
 	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, "")
 	p.AddParagraphString(info.Summary)
 
-	//p.AddAction(lang.SymActionSeasons) //Drilldown to episodes
+	//p.AddAction(acts.Seasons) //Drilldown to episodes
 	p.SetPrompt(lang.TxtPlexSeasonsPrompt)
 	p.AddBlankRow()
 	yy, err := mediaVault.GetEpisodes(info.RatingKey)
@@ -74,15 +77,15 @@ func Detail(t *term.ViewPort, info plexms.Metadata, mediaVault *plexms.Plex) {
 	for {
 		nextAction := p.Display_Actions()
 		switch {
-		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
+		case nextAction.Is(acts.Quit):
 			return
-		case t.Helpers.IsInt(nextAction):
-			Episodes(t, mediaVault, info.Title, yy.MediaContainer.Metadata[t.Helpers.ToInt(nextAction)-1])
-			//	case t.Formatters.Upcase(nextAction) == lang.SymActionSeasons:
+		case nextAction.IsInt():
+			Episodes(t, mediaVault, info.Title, yy.MediaContainer.Metadata[t.Helpers.ToInt(nextAction.Action())-1])
+			//	case t.Formatters.Upcase(nextAction) == acts.Seasons:
 			//		SeasonDetails(t, mediaVault, info)
 			//	}
 		default:
-			p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
+			p.Error(terr.ErrInvalidAction, t.Formatters.SQuote(nextAction.Action()))
 		}
 	}
 }

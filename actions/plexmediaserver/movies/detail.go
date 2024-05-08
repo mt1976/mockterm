@@ -3,13 +3,15 @@ package movies
 import (
 	plexms "github.com/jrudio/go-plex-client"
 	terr "github.com/mt1976/crt/errors"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
 	lang "github.com/mt1976/mockterm/language"
 	plex "github.com/mt1976/mockterm/plexsupport"
 )
 
 func Detail(t *term.ViewPort, info plexms.Metadata) {
-	p := t.NewPage(info.Title)
+	p := page.NewPage(t, info.Title)
 
 	p.AddFieldValuePair(lang.PlexTitleLabel.String(), info.Title)
 	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
@@ -56,10 +58,10 @@ func Detail(t *term.ViewPort, info plexms.Metadata) {
 	for {
 		nextAction := p.Display_Actions()
 		switch {
-		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
+		case nextAction.Is(acts.Quit):
 			return
 		default:
-			p.Error(terr.ErrInvalidAction, t.Formatters.SQuote(nextAction))
+			p.Error(terr.ErrInvalidAction, t.Formatters.SQuote(nextAction.Action()))
 		}
 	}
 }

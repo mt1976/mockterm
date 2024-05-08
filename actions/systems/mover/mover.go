@@ -11,6 +11,7 @@ import (
 
 	gomv "github.com/draxil/gomv"
 	f "github.com/mt1976/crt/filechooser"
+	page "github.com/mt1976/crt/page"
 	term "github.com/mt1976/crt/terminal"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
@@ -19,7 +20,7 @@ import (
 
 func Run(t *term.ViewPort, m mode.Modality) error {
 
-	p := t.NewPage(lang.TxtFileMigratorTitle)
+	p := page.NewPage(t, lang.TxtFileMigratorTitle)
 	p.AddBlankRow()
 	if m.IsLive() {
 		p.AddFieldValuePair(lang.TxtFileMigratorMode, lang.TxtLiveMode)
@@ -123,7 +124,7 @@ func lastNChars(s string, n int) string {
 	return s[start:]
 }
 
-func moveFile(page *term.Page, m mode.Modality, from, to string, pageNo, ofPages int) error {
+func moveFile(page *page.Page, m mode.Modality, from, to string, pageNo, ofPages int) error {
 	from20Chars := lastNChars(from, 20)
 	to20Chars := lastNChars(to, 20)
 

@@ -3,7 +3,7 @@ package catalog
 import (
 	"fmt"
 
-	term "github.com/mt1976/crt/terminal"
+	page "github.com/mt1976/crt/page"
 )
 
 type info struct {
@@ -16,7 +16,7 @@ func New() *info {
 }
 
 // breakData adds a new section to the info struct with the given title and adds a line break
-func breakData(p *term.Page, i info, title string) (info, term.Page) {
+func breakData(p *page.Page, i info, title string) (info, page.Page) {
 	t := p.ViewPort()
 	// add a new section to the info struct
 	i.data = append(i.data, t.Format("", ""))
@@ -31,7 +31,7 @@ func breakData(p *term.Page, i info, title string) (info, term.Page) {
 }
 
 // storeData adds a new key-value pair to the info struct as a new section with the given title and data
-func storeData(p *term.Page, i *info, title string, data string) {
+func storeData(p *page.Page, i *info, title string, data string) {
 	t := p.ViewPort()
 	//p.AddFieldValuePair(title, data)
 	// Padd title to 15 characters

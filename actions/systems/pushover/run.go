@@ -5,6 +5,8 @@ import (
 	"runtime"
 
 	"github.com/gregdel/pushover"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
 	lang "github.com/mt1976/mockterm/language"
 )
@@ -22,6 +24,7 @@ var messages = make(map[string]string)
 var titles = make(map[string]string)
 var hostName string
 var t term.ViewPort
+var sendAction = acts.New("S")
 
 //var debugMode bool
 
@@ -56,7 +59,7 @@ func init() {
 }
 
 func Run(t *term.ViewPort) {
-	optionsScreen := t.NewPage(lang.TxtPushoverTitle)
+	optionsScreen := page.NewPage(t, lang.TxtPushoverTitle)
 	optionsScreen.AddParagraph(lang.TxtPushoverDescription)
 	optionsScreen.AddBlankRow()
 	optionsScreen.AddMenuOption(1, lang.TxtPushoverMsgPriorityNormal, "", "")
@@ -65,12 +68,12 @@ func Run(t *term.ViewPort) {
 	optionsScreen.AddMenuOption(4, lang.TxtPushoverMsgPriorityEmergency, "", "")
 	optionsScreen.SetPrompt(lang.TxtPushoverPrompt)
 	optionsScreen.ShowOptions()
-	optionsScreen.AddAction(lang.SymActionQuit)
+	optionsScreen.AddAction(acts.Quit)
 	action := optionsScreen.Display_Actions()
-	if action == lang.SymActionQuit {
+	if action.Is(acts.Quit) {
 		return
 	}
-	if t.Helpers.IsInt(action) {
+	if action.IsInt() {
 
 		err := processMessage(t, action)
 		if err != nil {
@@ -81,44 +84,44 @@ func Run(t *term.ViewPort) {
 	}
 }
 
-func processMessage(t *term.ViewPort, action string) error {
+func processMessage(t *term.ViewPort, action *acts.Action) error {
 
 	var priority int
-	switch action {
-	case "1":
+	switch action.Int() {
+	case 1:
 		priority = pushover.PriorityNormal
-	case "2":
+	case 2:
 		priority = pushover.PriorityHigh
-	case "3":
+	case 3:
 		priority = pushover.PriorityLow
-	case "4":
+	case 4:
 		priority = pushover.PriorityEmergency
 	default:
 		priority = pushover.PriorityNormal
 	}
 
 	//messageBody := "Message Body"
-	messageTitle, action, err := getMessageTitle(t)
+	messageTitle, na, err := getMessageTitle(t)
 	if err != nil {
-		t.InputError(err)
+		t.InputError(err, na)
 		return err
 	}
-	if t.Helpers.IsActionIn(action, lang.SymActionQuit) {
+	if acts.Quit.Equals(na) {
 		return nil
 	}
 
-	messageBody, action, err := getMessageBody(t, messageTitle)
+	messageBody, fa, err := getMessageBody(t, messageTitle)
 	if err != nil {
 		t.InputError(err)
 		return err
 	}
-	if t.Helpers.IsActionIn(action, lang.SymActionQuit) {
+	if t.Helpers.IsActionIn(fa, acts.Quit) {
 		return nil
 	}
 
 	app, recipient, message := buildPushoverMessage(messageBody, messageTitle, priority)
 
-	p := t.NewPage(lang.TxtPushoverTitle)
+	p := page.NewPage(t, lang.TxtPushoverTitle)
 	p.AddBlankRow()
 	p.AddFieldValuePair("Title", message.Title)
 	p.AddFieldValuePair("Message", message.Message)
@@ -133,14 +136,14 @@ func processMessage(t *term.ViewPort, action string) error {
 	p.AddFieldValuePair("URL", message.URL)
 	p.AddFieldValuePair("CallbackURL", message.CallbackURL)
 	p.AddFieldValuePair("Sound", message.Sound)
-	p.AddAction("S")
-	p.AddAction(lang.SymActionQuit)
+	p.AddAction(sendAction)
+	p.AddAction(acts.Quit)
 	p.SetPrompt(lang.TxtPushoverConfirmation)
 	p.ShowOptions()
 
 	for {
-		sendAction := p.Display_Actions()
-		if upcase(p, sendAction) == "S" {
+		act := p.Display_Actions()
+		if act.Is(sendAction) {
 			p.Info(lang.TxtPushoverMessageSending)
 			_, err = app.SendMessage(message, recipient)
 			if err != nil {
@@ -149,19 +152,19 @@ func processMessage(t *term.ViewPort, action string) error {
 			}
 			p.Info(lang.TxtPushoverMessageSent)
 		}
-		if upcase(p, sendAction) == lang.SymActionQuit {
+		if act.Is(acts.Quit) {
 			return nil
 		}
 	}
 	return nil
 }
 
-func upcase(p *term.Page, in string) string {
+func upcase(p *page.Page, in string) string {
 	return p.ViewPort().Formatters.Upcase(in)
 }
 
 func getMessageTitle(t *term.ViewPort) (string, string, error) {
-	p := t.NewPage(lang.TxtPushoverTitle)
+	p := page.NewPage(t, lang.TxtPushoverTitle)
 	p.AddBlankRow()
 	p.AddFieldValuePair("Title", "")
 	p.AddBlankRow()
@@ -172,8 +175,8 @@ func getMessageTitle(t *term.ViewPort) (string, string, error) {
 	for {
 		op, _ := p.Display_Input(3, 15)
 		//op := t.Input("", "")
-		if op == lang.SymActionQuit {
-			return "", lang.SymActionQuit, nil
+		if acts.Quit.Equals(op) {
+			return "", acts.Quit.Action(), nil
 		}
 		if op != "" {
 			return op, "", nil
@@ -185,7 +188,7 @@ func getMessageTitle(t *term.ViewPort) (string, string, error) {
 
 func getMessageBody(t *term.ViewPort, title string) (string, string, error) {
 
-	p := t.NewPage(lang.TxtPushoverTitle)
+	p := page.NewPage(t, lang.TxtPushoverTitle)
 	p.AddBlankRow()
 	p.AddFieldValuePair("Title", title)
 	p.AddFieldValuePair("Message", "")
@@ -199,8 +202,8 @@ func getMessageBody(t *term.ViewPort, title string) (string, string, error) {
 	for {
 		op, _ := p.Display_Input(3, 20)
 		//op := t.Input("", "")
-		if op == lang.SymActionQuit {
-			return "", lang.SymActionQuit, nil
+		if acts.Quit.Equals(op) {
+			return "", acts.Quit.Action(), nil
 		}
 		if op != "" {
 			return op, "", nil

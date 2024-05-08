@@ -42,29 +42,29 @@ func Run(terminal *term.ViewPort) {
 
 		action := p.Display_Actions()
 		switch {
-		case acts.Quit.Is(action):
+		case action.Is(acts.Quit):
 			p.Info(lang.TxtQuittingMessage + " - " + lang.TxtThankYouForUsing + " " + lang.TxtApplicationName)
 			ok = true
 			continue
-		case action.IsInt() || action.Action() == "1":
+		case action.IsInt() && action.Int() == 1:
 			dash.Run(terminal)
-		case action.IsInt() || action.Action() == "2":
+		case action.IsInt() && action.Int() == 2:
 			news.Run(terminal)
-		case action.IsInt() || action.Action() == "3":
+		case action.IsInt() && action.Int() == 3:
 			err := srss.Run(terminal)
 			if err != nil {
-				terminal.Error(err, "Error running showsrss")
+				terminal.Error(err, "error running showsrss")
 				return
 			}
-		case action.IsInt() || action.Action() == "4":
+		case action.IsInt() && action.Int() == 4:
 			wthr.Run(terminal)
-		case action.IsInt() || action.Action() == "5":
+		case action.IsInt() && action.Int() == 5:
 			tfl.Run(terminal)
-		case action.IsInt() || action.Action() == "6":
+		case action.IsInt() && action.Int() == 6:
 			plex.Run(terminal)
-		case action.IsInt() || action.Action() == "8":
+		case action.IsInt() && action.Int() == 8:
 			syst.Run(terminal)
-		case action.IsInt() || action.Action() == "10":
+		case action.IsInt() && action.Int() == 10:
 			userHome, err := file.UserHome()
 			if err != nil {
 				terminal.Error(err)

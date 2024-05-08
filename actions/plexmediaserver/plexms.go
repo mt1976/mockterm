@@ -5,6 +5,9 @@ import (
 	"strconv"
 
 	"github.com/jrudio/go-plex-client"
+	terr "github.com/mt1976/crt/errors"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
 	movies "github.com/mt1976/mockterm/actions/plexmediaserver/movies"
 	music "github.com/mt1976/mockterm/actions/plexmediaserver/music"
@@ -66,7 +69,7 @@ func Run(t *term.ViewPort) {
 		os.Exit(1)
 	}
 
-	p := t.NewPage(lang.TxtPlexTitle + lang.SymDelimiter + mediaVaultProperties.Name)
+	p := page.NewPage(t, lang.TxtPlexTitle+lang.SymDelimiter+mediaVaultProperties.Name)
 	count := 0
 	for mvLibrary := range mvLibraries.MediaContainer.Directory {
 		xx := mvLibraries.MediaContainer.Directory[mvLibrary]
@@ -74,23 +77,23 @@ func Run(t *term.ViewPort) {
 		p.AddMenuOption(count, xx.Title, "", "")
 	}
 
-	p.AddAction(lang.SymActionQuit)
-	p.AddAction(lang.SymActionForward)
-	p.AddAction(lang.SymActionBack)
+	p.AddAction(acts.Quit)
+	p.AddAction(acts.Forward)
+	p.AddAction(acts.Back)
 
 	for {
 		nextAction := p.Display_Actions()
 		switch {
-		case t.Formatters.Upcase(nextAction) == lang.SymActionQuit:
+		case nextAction.Is(acts.Quit):
 			return
 
-		case t.Helpers.IsInt(nextAction):
-			naInt, _ := strconv.Atoi(nextAction)
+		case nextAction.IsInt():
+			naInt, _ := strconv.Atoi(nextAction.Action())
 			wi := mvLibraries.MediaContainer.Directory[naInt-1]
 			Action(t, mediaVault, &wi)
 
 		default:
-			p.Error(term.ErrInvalidAction, t.Formatters.SQuote(nextAction))
+			p.Error(terr.ErrInvalidAction, t.Formatters.SQuote(nextAction.Action()))
 		}
 	}
 }

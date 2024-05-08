@@ -8,7 +8,9 @@ import (
 	"os/exec"
 	"time"
 
-	lang "github.com/mt1976/crt/language"
+	terr "github.com/mt1976/crt/errors"
+	page "github.com/mt1976/crt/page"
+	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
 )
 
@@ -17,7 +19,7 @@ import (
 func Detail(t *term.ViewPort, item RssItem) error {
 
 	t.Clear()
-	p := t.NewPage(item.Title)
+	p := page.NewPage(t, item.Title)
 	p.AddBlankRow()
 	//c := 0
 
@@ -73,20 +75,21 @@ func Detail(t *term.ViewPort, item RssItem) error {
 	//c++
 	//p.AddMenuOption(c, lang.TxtTopicHome, C.URISkyNews+C.URISkyNewsHome, "")
 
-	p.AddAction(lang.SymActionQuit)
-	p.AddAction("A")
+	p.AddAction(acts.Quit)
+	addTorrentAction := acts.New("A")
+	p.AddAction(acts.New("A"))
 	p.SetPrompt("Choose (A)dd Torrent, (F)orward, (B)ack or (Q)uit")
 
 	for {
 		action := p.Display_Actions()
 
-		if p.ViewPort().Formatters.Upcase(action) == lang.SymActionQuit {
+		if action.Is(acts.Quit) {
 			break
 		}
 		switch action {
-		case lang.SymActionQuit:
+		case acts.Quit:
 			return nil
-		case "A":
+		case addTorrentAction:
 			cmd := exec.Command("open", item.Link)
 			// cmd := exec.Command("sh", "-c", "echo stdout; echo 1>&2 stderr")
 			stderr, err := cmd.StderrPipe()
@@ -106,7 +109,7 @@ func Detail(t *term.ViewPort, item RssItem) error {
 				log.Fatal(err)
 			}
 		default:
-			p.Error(term.ErrInvalidAction, action)
+			p.Error(terr.ErrInvalidAction, action.Action())
 		}
 	}
 	return nil
