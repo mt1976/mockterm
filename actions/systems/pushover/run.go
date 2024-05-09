@@ -7,6 +7,7 @@ import (
 	"github.com/gregdel/pushover"
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
+	symb "github.com/mt1976/crt/strings/symbols"
 	term "github.com/mt1976/crt/terminal"
 	lang "github.com/mt1976/mockterm/language"
 )
@@ -168,7 +169,7 @@ func getMessageTitle(t *term.ViewPort) (string, string, error) {
 	p.AddBlankRow()
 	p.AddFieldValuePair("Title", "")
 	p.AddBlankRow()
-	xx := []string{lang.SymBlank, "Enter a title of the message to be sent to pushover", lang.SymBlank, "e.g. :-", "Test Pushover Message", "System Pushover Message", "Heartbeat Message"}
+	xx := []string{symb.Blank.Symbol(), "Enter a title of the message to be sent to pushover", symb.Blank.Symbol(), "e.g. :-", "Test Pushover Message", "System Pushover Message", "Heartbeat Message"}
 	p.AddParagraph(xx)
 	p.AddBlankRow()
 	p.SetPrompt(lang.TxtPushoverMessageTitlePrompt)
@@ -193,7 +194,7 @@ func getMessageBody(t *term.ViewPort, title string) (string, string, error) {
 	p.AddFieldValuePair("Title", title)
 	p.AddFieldValuePair("Message", "")
 	p.AddBlankRow()
-	xx := []string{lang.SymBlank, "Enter a message to be sent to pushover", lang.SymBlank, "e.g. :-", "This is a test message", "This is a system message", "This is a heartbeat message"}
+	xx := []string{symb.Blank.Symbol(), "Enter a message to be sent to pushover", symb.Blank.Symbol(), "e.g. :-", "This is a test message", "This is a system message", "This is a heartbeat message"}
 	p.AddParagraph(xx)
 	p.AddBlankRow()
 	p.SetPrompt(lang.TxtPushoverMessageBodyPrompt)

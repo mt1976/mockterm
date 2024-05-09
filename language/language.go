@@ -66,8 +66,8 @@ const (
 	TxtQuittingMessage              string = "Quitting"
 	TxtThankYouForUsing             string = "Thank you for using"
 	TxtSubMenuTitle                 string = "Sub Menu"
-	SymBlank                        string = "-"
-	TxtTorrentsMenuTitle            string = "Torrents"
+	//SymBlank                        string = "-"
+	TxtTorrentsMenuTitle string = "Torrents"
 )
 
 // SkyNews
@@ -140,12 +140,13 @@ var TxtSnow3Hr string = TxtSnowLabel + TxtThreeHour
 const TxtPagingPrompt string = "Choose (F)orward, (B)ack or (Q)uit"
 
 const (
-	SymActionQuit    string = "Q"
-	SymActionForward string = "F"
-	SymActionBack    string = "B"
-	SymActionExit    string = "EX"
-	SymTruncate      string = "..."
-	SymWildcardBlank string = "{{blank}}"
+//	SymActionQuit    string = "Q"
+//
+// SymActionForward string = "F"
+// SymActionBack    string = "B"
+// SymActionExit    string = "EX"
+// SymTruncate      string = "..."
+// SymWildcardBlank string = "{{blank}}"
 )
 
 // Plex Seasons
@@ -170,10 +171,10 @@ const (
 	TxtMillisecondsShort  string = "ms"
 	TxtApplicationVersion string = "StarTerm - Utilities 1.0 %s"
 	TxtApplicationName    string = "StarTerm"
-	SymPromptSymbol       string = "? "
-	TxtError              string = "ERROR : "
-	TxtInfo               string = "INFO : "
-	TxtPaging             string = "Page %v of %v"
+	//	SymPromptSymbol       string = "? "
+	//	TxtError  string = "ERROR : "
+	//TxtInfo   string = "INFO : "
+	//TxtPaging string = "Page %v of %v"
 )
 
 var ApplicationHeader []string = []string{
@@ -186,20 +187,20 @@ var ApplicationHeader []string = []string{
 
 // General
 const (
-	BoxCharacterNormal      string = "┃"
-	BoxCharacterBreak       string = "┣"
-	BoxCharacterStart       string = "┏"
-	BoxCharacterBar         string = "━"
-	BoxCharacterBarBreak    string = "┗"
-	TableCharacterUnderline string = "-"
-	TextStyleBold           string = "\033[1m"
-	TextStyleReset          string = "\033[0m"
-	TextStyleUnderline      string = "\033[4m"
-	TextColorRed            string = "\033[31m"
-	ConsoleClearLine        string = "\033[2K"
-	TextLineConstructor     string = "%s%s%s"
-	MACAddressConstructor   string = "%v:%v:%v:%v:%v:%v"
-	IPAddressConstructor    string = "%v.%v.%v.%v"
+	// BoxCharacterNormal      string = "┃"
+	// BoxCharacterBreak       string = "┣"
+	// BoxCharacterStart       string = "┏"
+	// BoxCharacterBar         string = "━"
+	// BoxCharacterBarBreak    string = "┗"
+	//	TableCharacterUnderline string = "-"
+	// TextStyleBold         string = "\033[1m"
+	// TextStyleReset        string = "\033[0m"
+	// TextStyleUnderline    string = "\033[4m"
+	// TextColorRed          string = "\033[31m"
+	// ConsoleClearLine      string = "\033[2K"
+	TextLineConstructor   string = "%s%s%s"
+	MACAddressConstructor string = "%v:%v:%v:%v:%v:%v"
+	IPAddressConstructor  string = "%v.%v.%v.%v"
 )
 
 // Dashboard
@@ -306,9 +307,9 @@ const (
 // FileChooser
 const (
 	TxtFileChooserTitle string = "File Chooser"
-	TxtFolderIcon       string = "+"
-	TxtFileIcon         string = "#"
-	TxtSymLinkIcon      string = "~"
+	// TxtFolderIcon       string = "+"
+	// TxtFileIcon         string = "#"
+	// TxtSymLinkIcon      string = "~"
 )
 
 var (
