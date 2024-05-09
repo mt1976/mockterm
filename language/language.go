@@ -1,10 +1,14 @@
 package language
 
+import (
+	lang "github.com/mt1976/crt/language"
+)
+
 // General
 // TxtPlexTitleLabel represents the label for the title of a Plex item.
 var (
 	//	ErrLibraryResponse    string = "library fetch error"
-	PlexTitleLabel *Text = New("Title") // TODO: Change to Title
+	PlexTitleLabel *lang.Text = lang.New("Title") // TODO: Change to Title
 )
 
 const (
@@ -240,7 +244,7 @@ const (
 
 var (
 	//	TxtCleanFileNamesDescription []string   = []string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"}
-	CleanFileNamesDescription *Paragraph = NewParagraph([]string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"})
+	CleanFileNamesDescription *lang.Paragraph = lang.NewParagraph([]string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"})
 )
 
 // TidyFiles

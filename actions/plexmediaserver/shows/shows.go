@@ -51,7 +51,7 @@ func Run(t *term.ViewPort, mediaVault *plexms.Plex, wi *plexms.Directory) {
 func Detail(t *term.ViewPort, info plexms.Metadata, mediaVault *plexms.Plex) {
 	p := page.NewPage(t, info.Title)
 
-	p.AddFieldValuePair(lang.PlexTitleLabel.String(), info.Title)
+	p.AddFieldValuePair(lang.PlexTitleLabel.Text(), info.Title)
 	p.AddFieldValuePair(lang.TxtYear, t.Helpers.ToString(info.Year))
 	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
 	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, plex.FormatDate(info.OriginallyAvailableAt))
