@@ -287,22 +287,22 @@ var (
 
 // Catalog
 var (
-	TxtCatalogTitle        string   = "Systems Catalog"
-	TxtCatalogPrompt       string   = "Choose a file to use"
-	TxtCatalogConfirmation string   = "Choose (S)end or (Q)uit"
-	TxtCatalogDescription  []string = []string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"}
+	CatalogTitle        *lang.Text      = lang.New("Systems Catalog")
+	CatalogPrompt       *lang.Text      = lang.New("Choose a file to use")
+	CatalogConfirmation *lang.Text      = lang.New("Choose (S)end or (Q)uit")
+	CatalogDescription  *lang.Paragraph = lang.NewParagraph([]string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"})
 )
 
 // File Migrator
-const (
-	TxtFileMigratorTitle            string = "File Migration"
-	TxtFileMigratorMode             string = "Mode"
-	TxtFileMigratorModeCheckPrompt  string = "Are you sure you want to proceed, select (Y) to continue..."
-	TxtFileMigratorFile             string = "File"
-	TxtFileMigratorNoFilesToProcess string = "No Files"
-	TxtFileMigratorDestination      string = "Destination"
-	TxtFileMigratorResults          string = "RESULTS"
-	TxtFileMigratorDonePrompt       string = "Processing Complete, select (Y) to continue..."
-	TxtFileMigratorMoving           string = "Moving [%d/%d] [%20v][%20v]"
-	TxtFileMigratorMovingArrow      string = " -> "
+var (
+	FileMigratorTitle            *lang.Text = lang.New("File Migration")
+	FileMigratorMode             *lang.Text = lang.New("Mode")
+	FileMigratorModeCheckPrompt  *lang.Text = lang.New("Are you sure you want to proceed, select (Y) to continue...")
+	FileMigratorFile             *lang.Text = lang.New("File")
+	FileMigratorNoFilesToProcess *lang.Text = lang.New("No Files")
+	FileMigratorDestination      *lang.Text = lang.New("Destination")
+	FileMigratorResults          *lang.Text = lang.New("RESULTS")
+	FileMigratorDonePrompt       *lang.Text = lang.New("Processing Complete, select (Y) to continue...")
+	FileMigratorMoving           *lang.Text = lang.New("Moving [%d/%d] [%20v][%20v]")
+	FileMigratorMovingArrow      *lang.Text = lang.New(" -> ")
 )

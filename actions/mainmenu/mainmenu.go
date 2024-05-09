@@ -5,10 +5,10 @@ import (
 	"fmt"
 
 	errs "github.com/mt1976/crt/errors"
-	file "github.com/mt1976/crt/filechooser"
+	f "github.com/mt1976/crt/filechooser"
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
-	term "github.com/mt1976/crt/terminal"
+	"github.com/mt1976/crt/terminal"
 	dash "github.com/mt1976/mockterm/actions/dashboard"
 	plex "github.com/mt1976/mockterm/actions/plexmediaserver"
 	srss "github.com/mt1976/mockterm/actions/showsrss"
@@ -16,24 +16,24 @@ import (
 	syst "github.com/mt1976/mockterm/actions/systems"
 	tfl "github.com/mt1976/mockterm/actions/tfl"
 	wthr "github.com/mt1976/mockterm/actions/weather"
-	lang "github.com/mt1976/mockterm/language"
+	l "github.com/mt1976/mockterm/language"
 )
 
 // The Run function displays a main menu and allows the user to navigate through different sub-menus
 // and perform various actions.
-func Run(terminal *term.ViewPort) {
+func Run(terminal *terminal.ViewPort) {
 	//log.Println("Starting Main Menu")
-	p := page.NewPage(terminal, lang.TxtMainMenuTitle)
+	p := page.NewPage(terminal, l.TxtMainMenuTitle)
 	p.AddBlankRow()
-	p.AddMenuOption(1, lang.TxtDashboardTitle, "", "")
-	p.AddMenuOption(2, lang.TxtSkyNewsMenuTitle, "", "")
+	p.AddMenuOption(1, l.TxtDashboardTitle, "", "")
+	p.AddMenuOption(2, l.TxtSkyNewsMenuTitle, "", "")
 	p.AddMenuOption(3, "Shows RSS", "", "")
-	p.AddMenuOption(4, lang.TxtWeatherMenuTitle, "", "")
+	p.AddMenuOption(4, l.TxtWeatherMenuTitle, "", "")
 	p.AddMenuOption(5, "TFL", "", "")
-	p.AddMenuOption(6, lang.TxtPlexMediaServersMenuTitle, "", "")
+	p.AddMenuOption(6, l.TxtPlexMediaServersMenuTitle, "", "")
 	p.AddBlankRow()
-	p.AddMenuOption(7, lang.TxtRemoteSystemsAccessMenuTitle, "", "")
-	p.AddMenuOption(8, lang.TxtSystemsMaintenanceMenuTitle, "", "")
+	p.AddMenuOption(7, l.TxtRemoteSystemsAccessMenuTitle, "", "")
+	p.AddMenuOption(8, l.TxtSystemsMaintenanceMenuTitle, "", "")
 	//p.AddMenuOption(9, lang.SymBlank, "", "")
 	p.AddAction(acts.Quit)
 
@@ -43,7 +43,7 @@ func Run(terminal *term.ViewPort) {
 		action := p.Display_Actions()
 		switch {
 		case action.Is(acts.Quit):
-			p.Info(lang.TxtQuittingMessage + " - " + lang.TxtThankYouForUsing + " " + lang.TxtApplicationName)
+			p.Info(l.TxtQuittingMessage + " - " + l.TxtThankYouForUsing + " " + l.TxtApplicationName)
 			ok = true
 			continue
 		case action.IsInt() && action.Int() == 1:
@@ -65,16 +65,16 @@ func Run(terminal *term.ViewPort) {
 		case action.IsInt() && action.Int() == 8:
 			syst.Run(terminal)
 		case action.IsInt() && action.Int() == 10:
-			userHome, err := file.UserHome()
+			userHome, err := f.UserHome()
 			if err != nil {
 				terminal.Error(err)
 			}
-			selected, isDir, err := file.FileChooser(userHome, file.All)
+			selected, isDir, err := f.FileChooser(userHome, f.All)
 			if err != nil {
 				p.Error(err, "file chooser error")
 			}
 			if isDir {
-				_, _, err := file.FileChooser(selected, file.All)
+				_, _, err := f.FileChooser(selected, f.All)
 				if err != nil {
 					p.Error(err, "file chooser error")
 				}

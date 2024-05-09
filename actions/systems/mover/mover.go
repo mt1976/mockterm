@@ -21,16 +21,16 @@ import (
 
 func Run(t *term.ViewPort, m mode.Modality) error {
 
-	p := page.NewPage(t, lang.TxtFileMigratorTitle)
+	p := page.NewPage(t, lang.FileMigratorTitle.Text())
 	p.AddBlankRow()
 	if m.IsLive() {
-		p.AddFieldValuePair(lang.TxtFileMigratorMode, lang.TxtLiveMode)
+		p.AddFieldValuePair(lang.FileMigratorMode, lang.TxtLiveMode)
 	} else {
-		p.AddFieldValuePair(lang.TxtFileMigratorMode, lang.TxtDebugMode)
+		p.AddFieldValuePair(lang.FileMigratorMode, lang.TxtDebugMode)
 	}
 	//p.AddParagraph([]string{"This is a test", "This is a test"})
 	//p.AddBlankRow()
-	proceed, err := p.Display_Confirmation(lang.TxtFileMigratorModeCheckPrompt)
+	proceed, err := p.Display_Confirmation(lang.FileMigratorModeCheckPrompt.Text())
 	if err != nil {
 		return err
 	}
@@ -46,8 +46,8 @@ func Run(t *term.ViewPort, m mode.Modality) error {
 		p.Error(errs.ErrFileMigratorDirectory, fileName)
 		return errs.ErrFileMigratorDirectory
 	}
-	p.AddFieldValuePair(lang.TxtFileMigratorFile, fileName)
-	p.Display_Confirmation(lang.TxtFileMigratorModeCheckPrompt + fileName)
+	p.AddFieldValuePair(lang.FileMigratorFile, fileName)
+	p.Display_Confirmation(lang.FileMigratorModeCheckPrompt.Text() + fileName)
 
 	// load the file from the os
 	// open the file and read the contents
@@ -69,9 +69,9 @@ func Run(t *term.ViewPort, m mode.Modality) error {
 	}
 
 	lines := strings.Split(string(data), symb.Newline.Symbol())
-	p.AddFieldValuePair(lang.TxtFileMigratorNoFilesToProcess, strconv.Itoa(len(lines)))
+	p.AddFieldValuePair(lang.FileMigratorNoFilesToProcess, strconv.Itoa(len(lines)))
 
-	move, err := p.Display_Confirmation(lang.TxtFileMigratorModeCheckPrompt)
+	move, err := p.Display_Confirmation(lang.FileMigratorModeCheckPrompt.Text())
 	if err != nil {
 		return err
 	}
@@ -88,10 +88,10 @@ func Run(t *term.ViewPort, m mode.Modality) error {
 		p.Error(errs.ErrFileMigratorFile, toFolder)
 		return errs.ErrFileMigratorFile
 	}
-	p.AddFieldValuePair(lang.TxtFileMigratorDestination, toFolder)
-	p.Display_Confirmation(lang.TxtFileMigratorModeCheckPrompt)
+	p.AddFieldValuePair(lang.FileMigratorDestination, toFolder)
+	p.Display_Confirmation(lang.FileMigratorModeCheckPrompt.Text())
 	p.AddBlankRow()
-	p.Add(lang.TxtFileMigratorResults, "", "")
+	p.Add(lang.FileMigratorResults.Text(), "", "")
 	p.AddBreakRow()
 	// loop through each line in the data and read the line
 	for z, from := range lines {
@@ -101,7 +101,7 @@ func Run(t *term.ViewPort, m mode.Modality) error {
 			return err
 		}
 	}
-	p.Display_Confirmation(lang.TxtFileMigratorDonePrompt)
+	p.Display_Confirmation(lang.FileMigratorDonePrompt.Text())
 
 	// write the string to the console
 	//page.Dump(string(data))
@@ -137,12 +137,12 @@ func moveFile(page *page.Page, m mode.Modality, from, to string, pageNo, ofPages
 	lastPart := fromParts[lastPartPos-1]
 	destination := to + sep + lastPart
 
-	progressmsg := fmt.Sprintf(lang.TxtFileMigratorMoving, pageNo+1, ofPages, from20Chars, to20Chars)
+	progressmsg := fmt.Sprintf(lang.FileMigratorMoving.Text(), pageNo+1, ofPages, from20Chars, to20Chars)
 
 	page.Info(progressmsg)
 	time.Sleep(2 * time.Second)
 
-	msg := from + lang.TxtFileMigratorMovingArrow + destination
+	msg := from + lang.FileMigratorMovingArrow.Text() + destination
 	page.Add(msg, "", "")
 
 	if m.IsTrialMode() {

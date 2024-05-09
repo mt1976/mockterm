@@ -3,11 +3,11 @@ package main
 import (
 	"time"
 
-	term "github.com/mt1976/crt/terminal"
+	"github.com/mt1976/crt/terminal"
 	menu "github.com/mt1976/mockterm/actions/mainmenu"
-	cnfg "github.com/mt1976/mockterm/config"
-	text "github.com/mt1976/mockterm/language"
-	strt "github.com/mt1976/mockterm/start"
+	cfg "github.com/mt1976/mockterm/config"
+	l "github.com/mt1976/mockterm/language"
+	startup "github.com/mt1976/mockterm/start"
 )
 
 // config is used to store configuration settings for the program, including terminal
@@ -17,30 +17,30 @@ import (
 // Main is the entry point for the program.
 func main() {
 
-	C := cnfg.Configuration
+	C := cfg.Configuration
 
 	// create a new instance of the ViewPort
 
-	vp := term.NewWithSize(C.TerminalWidth, C.TerminalHeight)
+	t := terminal.NewWithSize(C.TerminalWidth, C.TerminalHeight)
 
 	// start a timer
 	start := time.Now()
 
 	// run the startup sequence
 
-	vp.SetDelayInSec(C.Delay)
+	t.SetDelayInSec(C.Delay)
 
-	strt.Run(&vp)
+	startup.Run(&t)
 
-	vp.ResetDelay()
+	t.ResetDelay()
 
 	// run the main menu
-	menu.Run(&vp)
+	menu.Run(&t)
 
 	// stop the timer
 	elapsed := time.Since(start)
 
 	// output the elapsed time
-	vp.Shout(vp.Formatters.Bold(text.TxtDone) + text.Space + elapsed.String())
+	t.Shout(t.Formatters.Bold(l.Done.Text()) + l.Space + elapsed.String())
 
 }

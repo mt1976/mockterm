@@ -29,10 +29,10 @@ func Run(t *term.ViewPort) {
 	p.AddMenuOption(4, lang.TxtCleanFileNames+" (Trial Mode)", "", "")
 	p.AddMenuOption(5, lang.TxtCleanFileNames+" (LIVE)", "", "")
 	p.AddBlankRow()
-	p.AddMenuOption(6, lang.TxtCatalogTitle, "", "")
+	p.AddMenuOption(6, lang.CatalogTitle.Text(), "", "")
 	p.AddBlankRow()
-	p.AddMenuOption(7, lang.TxtFileMigratorTitle+" (Trial Mode)", "", "")
-	p.AddMenuOption(8, lang.TxtFileMigratorTitle+" (LIVE)", "", "")
+	p.AddMenuOption(7, lang.FileMigratorTitle.Text()+" (Trial Mode)", "", "")
+	p.AddMenuOption(8, lang.FileMigratorTitle.Text()+" (LIVE)", "", "")
 
 	p.AddAction(acts.Quit)
 
