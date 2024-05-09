@@ -14,7 +14,7 @@ func Detail(t *term.ViewPort, info plexms.Metadata) {
 	p := page.NewPage(t, info.Title)
 
 	p.AddFieldValuePair(lang.PlexTitleLabel, info.Title)
-	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
+	p.AddFieldValuePair(lang.PlexSummaryLabel, info.Summary)
 
 	count := 0
 	p.AddBlankRow()

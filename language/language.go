@@ -7,12 +7,11 @@ import (
 // General
 // TxtPlexTitleLabel represents the label for the title of a Plex item.
 var (
-	//	ErrLibraryResponse    string = "library fetch error"
 	PlexTitleLabel *lang.Text = lang.New("Title") // TODO: Change to Title
 )
 
 const (
-	TxtPlexSummaryLabel          string = "Summary" // TODO: Change to Summary
+	PlexSummaryLabel             string = "Summary"
 	TxtPlexContainerLabel        string = "Container"
 	TxtPlexResolutionLabel       string = "Resolution"
 	TxtPlexCodecLabel            string = "Codec"
@@ -44,13 +43,6 @@ const (
 	TxtConnected                 string = "Connected."
 	ErrorMessageConnectionFailed string = "Connection failed. Retrying..."
 	TxtComplete                  string = "Complete"
-	// SymNewline                   string = "\n"
-	// SymCarridgeReturn            string = "\r"
-	// SymTab                       string = "\t"
-	// SymDoubleQuote               string = "\""
-	// SymSingleQuote               string = "'"
-	// SymOpenBracket               string = "("
-	// SymCloseBracket              string = ")"
 )
 
 // Mainmenu
@@ -66,8 +58,7 @@ const (
 	TxtQuittingMessage              string = "Quitting"
 	TxtThankYouForUsing             string = "Thank you for using"
 	TxtSubMenuTitle                 string = "Sub Menu"
-	//SymBlank                        string = "-"
-	TxtTorrentsMenuTitle string = "Torrents"
+	TxtTorrentsMenuTitle            string = "Torrents"
 )
 
 // SkyNews
@@ -139,25 +130,12 @@ var TxtSnow3Hr string = TxtSnowLabel + TxtThreeHour
 
 const TxtPagingPrompt string = "Choose (F)orward, (B)ack or (Q)uit"
 
-const (
-//	SymActionQuit    string = "Q"
-//
-// SymActionForward string = "F"
-// SymActionBack    string = "B"
-// SymActionExit    string = "EX"
-// SymTruncate      string = "..."
-// SymWildcardBlank string = "{{blank}}"
-)
-
 // Plex Seasons
-
 const (
-	//SymActionSeasons     string = "S"
 	TxtPlexSeasonsPrompt string = "Choose (1...n)Season, (F)orward, (B)ack or (Q)uit"
 )
 
 // Support
-
 const (
 	TxtOneWord      string = "one"
 	TxtOneNumeric   string = "1"
@@ -171,10 +149,6 @@ const (
 	TxtMillisecondsShort  string = "ms"
 	TxtApplicationVersion string = "StarTerm - Utilities 1.0 %s"
 	TxtApplicationName    string = "StarTerm"
-	//	SymPromptSymbol       string = "? "
-	//	TxtError  string = "ERROR : "
-	//TxtInfo   string = "INFO : "
-	//TxtPaging string = "Page %v of %v"
 )
 
 var ApplicationHeader []string = []string{
@@ -184,24 +158,6 @@ var ApplicationHeader []string = []string{
 	"     ██    ██    ██   ██ ██   ██    ██    ██      ██   ██ ██  ██  ██ ",
 	"███████    ██    ██   ██ ██   ██    ██    ███████ ██   ██ ██      ██ ",
 }
-
-// General
-const (
-	// BoxCharacterNormal      string = "┃"
-	// BoxCharacterBreak       string = "┣"
-	// BoxCharacterStart       string = "┏"
-	// BoxCharacterBar         string = "━"
-	// BoxCharacterBarBreak    string = "┗"
-	//	TableCharacterUnderline string = "-"
-	// TextStyleBold         string = "\033[1m"
-	// TextStyleReset        string = "\033[0m"
-	// TextStyleUnderline    string = "\033[4m"
-	// TextColorRed          string = "\033[31m"
-	// ConsoleClearLine      string = "\033[2K"
-	TextLineConstructor   string = "%s%s%s"
-	MACAddressConstructor string = "%v:%v:%v:%v:%v:%v"
-	IPAddressConstructor  string = "%v.%v.%v.%v"
-)
 
 // Dashboard
 const (
@@ -224,27 +180,23 @@ const (
 )
 
 // CleanFileNames
-const (
-	TxtCleanFileNames           string = "Clean File Names"
-	TxtCleanFileNamesResults    string = "Clean File Names - Results"
-	TxtCleanFileNamesReport     string = "Clean File Names - Report"
-	TxtStartingCleanFileNames   string = "Starting file name cleanse"
-	TxtNoFilesFoundInFolder     string = "No files found in folder %s\n"
-	TxtProcessingNFilesIn       string = "Processing %d files in %v"
-	TxtProcessedNFilesIn        string = "Cleaned %d filenames in %s"
-	TxtNoFilesProcessed         string = "No files cleaned in %s"
-	TxtOnlyFans                 string = "OnlyFans"
-	FileExtensionMP4            string = ".mp4"
-	TxtOnlyFansFilename         string = TxtOnlyFans + FileExtensionMP4
-	TxtRemamedFile              string = "Renamed file [%s -> %s]"
-	TxtProcessing               string = "Processing %v type files"
-	TxtRemovingEmptyDirectories string = "Removing empty directories"
-	TxtFindingEmptyDirectories  string = "Finding empty directories"
-)
-
 var (
-	//	TxtCleanFileNamesDescription []string   = []string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"}
-	CleanFileNamesDescription *lang.Paragraph = lang.NewParagraph([]string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"})
+	TxtCleanFileNames           string          = "Clean File Names"
+	TxtCleanFileNamesResults    string          = "Clean File Names - Results"
+	TxtCleanFileNamesReport     string          = "Clean File Names - Report"
+	TxtStartingCleanFileNames   string          = "Starting file name cleanse"
+	TxtNoFilesFoundInFolder     string          = "No files found in folder %s\n"
+	TxtProcessingNFilesIn       string          = "Processing %d files in %v"
+	TxtProcessedNFilesIn        string          = "Cleaned %d filenames in %s"
+	TxtNoFilesProcessed         string          = "No files cleaned in %s"
+	TxtOnlyFans                 string          = "OnlyFans"
+	FileExtensionMP4            string          = ".mp4"
+	TxtOnlyFansFilename         string          = TxtOnlyFans + FileExtensionMP4
+	TxtRemamedFile              string          = "Renamed file [%s -> %s]"
+	TxtProcessing               string          = "Processing %v type files"
+	TxtRemovingEmptyDirectories string          = "Removing empty directories"
+	TxtFindingEmptyDirectories  string          = "Finding empty directories"
+	CleanFileNamesDescription   *lang.Paragraph = lang.NewParagraph([]string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"})
 )
 
 // TidyFiles
@@ -282,51 +234,36 @@ const (
 	TxtPath                                  string = "Path"
 )
 
-const (
-	TxtPushoverTitle string = "Pushover Messaging Service"
-)
-
 var (
-	TxtServiceMenuDescription []string = []string{"This menu shows the list of services available for maintenance.", "Select the service you wish to use. PLEASE BE CAREFUL!"}
-	TxtPushoverDescription    []string = []string{"Pushover is a service to receive instant push notifications on your phone or tablet from a variety of sources."}
-)
-
-const (
-	TxtPushoverMsgPriorityEmergency string = "Emergency Message"
-	TxtPushoverMsgPriorityNormal    string = "Normal Priority"
-	TxtPushoverMsgPriorityHigh      string = "High Priority"
-	TxtPushoverMsgPriorityLow       string = "Low Priority"
-	TxtPushoverPrompt               string = "Choose a message type to send"
-	TxtPushoverConfirmation         string = "Choose (S)end or (Q)uit"
-	TxtPushoverMessageTitlePrompt   string = "Enter the title of the message, or (Q)uit"
-	TxtPushoverMessageBodyPrompt    string = "Enter the body of the message, or (Q)uit"
-	TxtPushoverMessageSending       string = "Sending Pushover Message"
-	TxtPushoverMessageSent          string = "Pushover Message Sent"
+	TxtPushoverTitle                string   = "Pushover Messaging Service"
+	TxtServiceMenuDescription       []string = []string{"This menu shows the list of services available for maintenance.", "Select the service you wish to use. PLEASE BE CAREFUL!"}
+	TxtPushoverDescription          []string = []string{"Pushover is a service to receive instant push notifications on your phone or tablet from a variety of sources."}
+	TxtPushoverMsgPriorityEmergency string   = "Emergency Message"
+	TxtPushoverMsgPriorityNormal    string   = "Normal Priority"
+	TxtPushoverMsgPriorityHigh      string   = "High Priority"
+	TxtPushoverMsgPriorityLow       string   = "Low Priority"
+	TxtPushoverPrompt               string   = "Choose a message type to send"
+	TxtPushoverConfirmation         string   = "Choose (S)end or (Q)uit"
+	TxtPushoverMessageTitlePrompt   string   = "Enter the title of the message, or (Q)uit"
+	TxtPushoverMessageBodyPrompt    string   = "Enter the body of the message, or (Q)uit"
+	TxtPushoverMessageSending       string   = "Sending Pushover Message"
+	TxtPushoverMessageSent          string   = "Pushover Message Sent"
 )
 
 // FileChooser
-const (
-	TxtFileChooserTitle string = "File Chooser"
-	// TxtFolderIcon       string = "+"
-	// TxtFileIcon         string = "#"
-	// TxtSymLinkIcon      string = "~"
-)
-
 var (
+	TxtFileChooserTitle        string   = "File Chooser"
 	TxtFileChooserDescription  []string = []string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"}
 	TxtFileChooserPrompt       string   = "Choose a file to use"
 	TxtFileChooserConfirmation string   = "Choose (S)end or (Q)uit"
 )
 
 // Catalog
-const (
-	TxtCatalogTitle        string = "Systems Catalog"
-	TxtCatalogPrompt       string = "Choose a file to use"
-	TxtCatalogConfirmation string = "Choose (S)end or (Q)uit"
-)
-
 var (
-	TxtCatalogDescription []string = []string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"}
+	TxtCatalogTitle        string   = "Systems Catalog"
+	TxtCatalogPrompt       string   = "Choose a file to use"
+	TxtCatalogConfirmation string   = "Choose (S)end or (Q)uit"
+	TxtCatalogDescription  []string = []string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"}
 )
 
 // File Migrator

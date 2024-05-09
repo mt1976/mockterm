@@ -18,7 +18,7 @@ func Detail(t *term.ViewPort, info plexms.Metadata) {
 	dur := plex.FormatDuration(info.Duration)
 	p.AddFieldValuePair(lang.TxtPlexDurationLabel, dur)
 	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, plex.FormatDate(info.OriginallyAvailableAt))
-	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
+	p.AddFieldValuePair(lang.PlexSummaryLabel, info.Summary)
 	//unix time to hrs mins secs
 	p.AddBlankRow()
 	for i := 0; i < len(info.Director); i++ {

@@ -56,7 +56,7 @@ func Detail(t *term.ViewPort, info plexms.Metadata, mediaVault *plexms.Plex) {
 	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
 	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, plex.FormatDate(info.OriginallyAvailableAt))
 	p.AddBlankRow()
-	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, "")
+	p.AddFieldValuePair(lang.PlexSummaryLabel, "")
 	p.AddParagraphString(info.Summary)
 
 	//p.AddAction(acts.Seasons) //Drilldown to episodes

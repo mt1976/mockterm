@@ -47,7 +47,7 @@ func EpisodeDetail(t *term.ViewPort, info plexms.Metadata) {
 	p.AddFieldValuePair(lang.TxtPlexShow, info.GrandparentTitle)
 	p.AddFieldValuePair(lang.TxtPlexSeason, info.ParentTitle)
 	p.AddFieldValuePair(lang.TxtPlexEpisode, info.Title)
-	p.AddFieldValuePair(lang.TxtPlexSummaryLabel, info.Summary)
+	p.AddFieldValuePair(lang.PlexSummaryLabel, info.Summary)
 	p.AddFieldValuePair(lang.TxtPlexDurationLabel, plex.FormatDuration(info.Duration))
 	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, plex.FormatDate(info.OriginallyAvailableAt))
 	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
