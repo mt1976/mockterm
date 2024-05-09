@@ -12,6 +12,7 @@ import (
 	gomv "github.com/draxil/gomv"
 	f "github.com/mt1976/crt/filechooser"
 	page "github.com/mt1976/crt/page"
+	symb "github.com/mt1976/crt/strings/symbols"
 	term "github.com/mt1976/crt/terminal"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
@@ -67,7 +68,7 @@ func Run(t *term.ViewPort, m mode.Modality) error {
 		return err
 	}
 
-	lines := strings.Split(string(data), lang.SymNewline)
+	lines := strings.Split(string(data), symb.Newline.Symbol())
 	p.AddFieldValuePair(lang.TxtFileMigratorNoFilesToProcess, strconv.Itoa(len(lines)))
 
 	move, err := p.Display_Confirmation(lang.TxtFileMigratorModeCheckPrompt)

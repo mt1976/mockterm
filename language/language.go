@@ -31,7 +31,6 @@ const (
 	TxtPlexShow                  string = "Show"
 	TxtPlexSeason                string = "Season"
 	TxtPlexEpisode               string = "Episode"
-	SymDelimiter                 string = " - "
 	TxtDone                      string = "DONE"
 	TxtStarting                  string = "Starting..."
 	TxtStartingTerminal          string = "Starting Terminal..."
@@ -45,13 +44,13 @@ const (
 	TxtConnected                 string = "Connected."
 	ErrorMessageConnectionFailed string = "Connection failed. Retrying..."
 	TxtComplete                  string = "Complete"
-	SymNewline                   string = "\n"
-	SymCarridgeReturn            string = "\r"
-	SymTab                       string = "\t"
-	SymDoubleQuote               string = "\""
-	SymSingleQuote               string = "'"
-	SymOpenBracket               string = "("
-	SymCloseBracket              string = ")"
+	// SymNewline                   string = "\n"
+	// SymCarridgeReturn            string = "\r"
+	// SymTab                       string = "\t"
+	// SymDoubleQuote               string = "\""
+	// SymSingleQuote               string = "'"
+	// SymOpenBracket               string = "("
+	// SymCloseBracket              string = ")"
 )
 
 // Mainmenu

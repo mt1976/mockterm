@@ -8,6 +8,7 @@ import (
 	terr "github.com/mt1976/crt/errors"
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
+	symb "github.com/mt1976/crt/strings/symbols"
 	term "github.com/mt1976/crt/terminal"
 	movies "github.com/mt1976/mockterm/actions/plexmediaserver/movies"
 	music "github.com/mt1976/mockterm/actions/plexmediaserver/music"
@@ -69,7 +70,7 @@ func Run(t *term.ViewPort) {
 		os.Exit(1)
 	}
 
-	p := page.NewPage(t, lang.TxtPlexTitle+lang.SymDelimiter+mediaVaultProperties.Name)
+	p := page.NewPage(t, lang.TxtPlexTitle+symb.TextDelimiter.Symbol()+mediaVaultProperties.Name)
 	count := 0
 	for mvLibrary := range mvLibraries.MediaContainer.Directory {
 		xx := mvLibraries.MediaContainer.Directory[mvLibrary]

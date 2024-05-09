@@ -5,9 +5,9 @@ import (
 	"os"
 
 	page "github.com/mt1976/crt/page"
+	symb "github.com/mt1976/crt/strings/symbols"
 	term "github.com/mt1976/crt/terminal"
 	errs "github.com/mt1976/mockterm/errors"
-	lang "github.com/mt1976/mockterm/language"
 )
 
 // GetList returns a list of files in the specified base folder.
@@ -57,7 +57,7 @@ func WriteStringSlice(p *page.Page, file *os.File, content []string) error {
 		// if err != nil {
 		// 	return err
 		// }
-		err := WriteString(p, file, line+lang.SymNewline)
+		err := WriteString(p, file, line+symb.Newline.Symbol())
 		if err != nil {
 			p.Error(errs.ErrWritingFile, file.Name(), err.Error())
 			return err
