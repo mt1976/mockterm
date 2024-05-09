@@ -39,7 +39,7 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 		basePath = home
 	}
 
-	p.AddFieldValuePair(lang.TxtMode, m.String())
+	p.AddFieldValuePair(lang.Mode.Text(), m.String())
 
 	baseFolder, _, err := file.FileChooser(basePath, file.DirectoriesOnly)
 	if err != nil {
@@ -47,8 +47,8 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 		return
 	}
 
-	p.AddFieldValuePair(lang.TxtPath, baseFolder)
-	resultsAdd(lang.TxtPath + " " + baseFolder)
+	p.AddFieldValuePair(lang.Path.Text(), baseFolder)
+	resultsAdd(lang.Path.Text() + " " + baseFolder)
 	p.AddBlankRow()
 	p.AddParagraph(lang.CleanFileNamesDescription.String())
 

@@ -5,32 +5,59 @@ import (
 )
 
 // General
-// TxtPlexTitleLabel represents the label for the title of a Plex item.
 var (
-	PlexTitleLabel *lang.Text = lang.New("Title") // TODO: Change to Title
+	YouSelected *lang.Text = lang.New("you selected: ")
+	Done        *lang.Text = lang.New("DONE")
+	LiveRun     *lang.Text = lang.New("This is a live run. PLEASE BE CAREFUL!")
+	TrailRun    *lang.Text = lang.New("This is a trial run.")
+	Mode        *lang.Text = lang.New("Mode")
+	Path        *lang.Text = lang.New("Path")
+)
+
+// PLEX represents the label for the title of a Plex item.
+var (
+	PlexTitle         *lang.Text = lang.New("PMS") // TODO: Change to Title
+	PlexSummary       *lang.Text = lang.New("Summary")
+	PlexContainer                = lang.New("Container")
+	PlexResolution               = lang.New("Resolution")
+	PlexCodec                    = lang.New("Codec")
+	PlexAspectRatio              = lang.New("Aspect Ratio")
+	PlexFrameRate                = lang.New("Frame Rate")
+	PlexDuration                 = lang.New("Duration")
+	PlexReleased                 = lang.New("Released")
+	PlexDirector                 = lang.New("Director")
+	PlexWriter                   = lang.New("Writer")
+	PlexMedia                    = lang.New("Media")
+	PlexContentRating            = lang.New("Content Rating")
+	PlexShow                     = lang.New("Show")
+	PlexSeason                   = lang.New("Season")
+	PlexEpisode                  = lang.New("Episode")
+	PlexSeasons                  = lang.New("Seasons")
+	PlexEpisodes                 = lang.New("Episodes")
+	PlexYear                     = lang.New("Year")
 )
 
 const (
-	PlexSummaryLabel             string = "Summary"
-	TxtPlexContainerLabel        string = "Container"
-	TxtPlexResolutionLabel       string = "Resolution"
-	TxtPlexCodecLabel            string = "Codec"
-	TxtPlexAspectRatioLabel      string = "Aspect Ratio"
-	TxtPlexFrameRateLabel        string = "Frame Rate"
-	TxtPlexDurationLabel         string = "Duration"
-	TxtPlexReleasedLabel         string = "Released"
-	TxtPlexDirectorLabel         string = "Director"
-	TxtPlexWriterLabel           string = "Writer"
-	TxtPlexMediaLabel            string = "Media"
-	TxtPlexContentRatingLabel    string = "Content Rating"
-	TxtPlexTitle                 string = "PMS"
-	TxtYouSelected               string = "you selected: "
-	TxtYear                      string = "Year"
-	TxtPlexSeasons               string = "Seasons - "
-	TxtPlexShow                  string = "Show"
-	TxtPlexSeason                string = "Season"
-	TxtPlexEpisode               string = "Episode"
-	TxtDone                      string = "DONE"
+	//	PlexSummaryLabel             string = "Summary"
+	//TxtPlexContainerLabel        string = "Container"
+	//TxtPlexResolutionLabel       string = "Resolution"
+	//TxtPlexCodecLabel            string = "Codec"
+	// TxtPlexAspectRatioLabel      string = "Aspect Ratio"
+	// TxtPlexFrameRateLabel        string = "Frame Rate"
+	// TxtPlexDurationLabel         string = "Duration"
+	// TxtPlexReleasedLabel         string = "Released"
+	// TxtPlexDirectorLabel         string = "Director"
+	// TxtPlexWriterLabel           string = "Writer"
+	// TxtPlexMediaLabel            string = "Media"
+	// TxtPlexContentRatingLabel    string = "Content Rating"
+	// TxtPlexTitle   string = "PMS"
+	// TxtYouSelected string = "you selected: "
+	// TxtYear        string = "Year"
+	// TxtPlexSeasons               string = "Seasons - "
+	// TxtPlexShow                  string = "Show"
+	// TxtPlexSeason                string = "Season"
+	// TxtPlexEpisode               string = "Episode"
+	//TxtDone                      string = "DONE"
 	TxtStarting                  string = "Starting..."
 	TxtStartingTerminal          string = "Starting Terminal..."
 	TxtSelfTesting               string = "Self Testing..."
@@ -228,10 +255,10 @@ const (
 	TxtTidyFilesDeletingDirectories          string = "Deleting empty directories"
 	TxtTidyFilesDeletingDirectoriesCompleted string = "Deleting empty directories completed in %v seconds"
 	TxtCommandRun                            string = "Command run: %v"
-	TxtLiveRun                               string = "This is a live run. Files will be deleted."
-	TxtTrailRun                              string = "This is a trial run. Files & Folders will not be deleted."
-	TxtMode                                  string = "Mode"
-	TxtPath                                  string = "Path"
+	// TxtLiveRun                               string = "This is a live run. Files will be deleted."
+	// TxtTrailRun                              string = "This is a trial run. Files & Folders will not be deleted."
+	// TxtMode                                  string = "Mode"
+	// TxtPath                                  string = "Path"
 )
 
 var (

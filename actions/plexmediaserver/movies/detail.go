@@ -13,17 +13,17 @@ import (
 func Detail(t *term.ViewPort, info plexms.Metadata) {
 	p := page.NewPage(t, info.Title)
 
-	p.AddFieldValuePair(lang.PlexTitleLabel.Text(), info.Title)
-	p.AddFieldValuePair(lang.TxtPlexContentRatingLabel, info.ContentRating)
+	p.AddFieldValuePair(lang.PlexTitle.Text(), info.Title)
+	p.AddFieldValuePair(lang.PlexContentRating.Text(), info.ContentRating)
 	dur := plex.FormatDuration(info.Duration)
-	p.AddFieldValuePair(lang.TxtPlexDurationLabel, dur)
-	p.AddFieldValuePair(lang.TxtPlexReleasedLabel, plex.FormatDate(info.OriginallyAvailableAt))
-	p.AddFieldValuePair(lang.PlexSummaryLabel, info.Summary)
+	p.AddFieldValuePair(lang.PlexDuration.Text(), dur)
+	p.AddFieldValuePair(lang.PlexReleased.Text(), plex.FormatDate(info.OriginallyAvailableAt))
+	p.AddFieldValuePair(lang.PlexSummary, info.Summary)
 	//unix time to hrs mins secs
 	p.AddBlankRow()
 	for i := 0; i < len(info.Director); i++ {
 		data := info.Director[i]
-		lbl := lang.TxtPlexDirectorLabel
+		lbl := lang.PlexDirector.Text()
 		if i > 0 {
 			lbl = ""
 		}
@@ -32,7 +32,7 @@ func Detail(t *term.ViewPort, info plexms.Metadata) {
 
 	for i := 0; i < len(info.Writer); i++ {
 		poobum := info.Writer[i]
-		lbl := lang.TxtPlexWriterLabel
+		lbl := lang.PlexWriter.Text()
 		if i > 0 {
 			lbl = ""
 		}
@@ -41,7 +41,7 @@ func Detail(t *term.ViewPort, info plexms.Metadata) {
 
 	count := 0
 	p.AddBlankRow()
-	p.AddColumnsTitle(lang.TxtPlexContainerLabel, lang.TxtPlexResolutionLabel, lang.TxtPlexCodecLabel, lang.TxtPlexAspectRatioLabel, lang.TxtPlexFrameRateLabel)
+	p.AddColumnsTitle(lang.PlexContainer.Text(), lang.PlexResolution.Text(), lang.PlexCodec.Text(), lang.PlexAspectRatio.Text(), lang.PlexFrameRate.Text())
 
 	for range info.Media {
 		med := info.Media[count]
@@ -51,7 +51,7 @@ func Detail(t *term.ViewPort, info plexms.Metadata) {
 
 	//range trhough parts
 	p.AddBlankRow()
-	p.AddColumnsTitle(lang.TxtPlexMediaLabel)
+	p.AddColumnsTitle(lang.PlexMedia.Text())
 	for _, v := range info.Media {
 		p.AddColumns(v.Part[0].File)
 	}

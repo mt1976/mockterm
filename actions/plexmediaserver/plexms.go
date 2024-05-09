@@ -70,7 +70,7 @@ func Run(t *term.ViewPort) {
 		os.Exit(1)
 	}
 
-	p := page.NewPage(t, lang.TxtPlexTitle+symb.TextDelimiter.Symbol()+mediaVaultProperties.Name)
+	p := page.NewPage(t, lang.PlexTitle.Text()+symb.TextDelimiter.Symbol()+mediaVaultProperties.Name)
 	count := 0
 	for mvLibrary := range mvLibraries.MediaContainer.Directory {
 		xx := mvLibraries.MediaContainer.Directory[mvLibrary]

@@ -13,12 +13,12 @@ func Detail(t *term.ViewPort, info plexms.Metadata) {
 
 	p := page.NewPage(t, info.Title)
 
-	p.AddFieldValuePair(lang.PlexTitleLabel, info.Title)
-	p.AddFieldValuePair(lang.PlexSummaryLabel, info.Summary)
+	p.AddFieldValuePair(lang.PlexTitle, info.Title)
+	p.AddFieldValuePair(lang.PlexSummary, info.Summary)
 
 	count := 0
 	p.AddBlankRow()
-	p.AddColumnsTitle(lang.TxtPlexContainerLabel, lang.TxtPlexResolutionLabel, lang.TxtPlexCodecLabel, lang.TxtPlexAspectRatioLabel, lang.TxtPlexFrameRateLabel)
+	p.AddColumnsTitle(lang.PlexContainer.Text(), lang.PlexResolution.Text(), lang.PlexCodec.Text(), lang.PlexAspectRatio.Text(), lang.PlexFrameRate.Text())
 
 	for range info.Media {
 		med := info.Media[count]

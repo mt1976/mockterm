@@ -60,14 +60,14 @@ func Run(t *term.ViewPort, m mode.Modality, pathIn string) {
 	}
 
 	if m.IsDebug() {
-		p.AddFieldValuePair(lang.TxtMode, lang.TxtDebugMode)
+		p.AddFieldValuePair(lang.Mode.Text(), lang.TxtDebugMode)
 	} else {
-		p.AddFieldValuePair(lang.TxtMode, lang.TxtLiveMode)
+		p.AddFieldValuePair(lang.Mode.Text(), lang.TxtLiveMode)
 	}
 
-	p.AddFieldValuePair(lang.TxtPath, realpath(p, pathIn))
+	p.AddFieldValuePair(lang.Path.Text(), realpath(p, pathIn))
 	p.AddFieldValuePair(lang.TxtFileTypes, strings.Join(fileExtensions, " "))
-	resultsAdd(lang.TxtPath + " : " + pathIn)
+	resultsAdd(lang.Path.Text() + " : " + pathIn)
 	resultsAdd(lang.TxtFileTypes + " : " + strings.Join(fileExtensions, " "))
 
 	p.AddBlankRow()
