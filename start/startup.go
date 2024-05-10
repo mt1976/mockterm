@@ -41,7 +41,7 @@ func Run(t *terminal.ViewPort) {
 	t.Wait()
 
 	// Print a message.
-	fmt.Println(l.PleaseWait)
+	fmt.Println(l.PleaseWait.Text())
 	t.Wait()
 
 	// Check if the terminal has a baud rate set.
