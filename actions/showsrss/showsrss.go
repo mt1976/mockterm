@@ -13,6 +13,8 @@ import (
 	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
 	conf "github.com/mt1976/mockterm/config"
+	errs "github.com/mt1976/mockterm/errors"
+	lang "github.com/mt1976/mockterm/language"
 )
 
 var C = conf.Configuration
@@ -24,12 +26,12 @@ func Run(t *term.ViewPort) error {
 	url := "https://showrss.info/user/282183.rss?magnets=true&namespaces=true&name=null&quality=null&re=null"
 	rss, err := fetchXML(url)
 	if err != nil {
-		fmt.Println("Error fetching XML:", err)
+		fmt.Println(errs.FetchingXML, err)
 		return err
 	}
 
 	t.Clear()
-	p := page.NewPage(t, "Shows RSS Feed")
+	p := page.NewPage(t, lang.ShowsRssPageTitle.Text())
 	p.AddBlankRow()
 	c := 0
 
@@ -41,7 +43,7 @@ func Run(t *term.ViewPort) error {
 
 		dt, err := time.Parse(layout, item.PubDate)
 		if err != nil {
-			p.Error(err, "Error parsing date")
+			p.Error(errs.ParsingDate, err.Error())
 		}
 
 		d := vp.Formatters.HumanFromUnixDate(dt.Unix())
