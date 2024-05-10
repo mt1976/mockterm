@@ -60,7 +60,7 @@ func Detail(t *term.ViewPort, info plexms.Metadata, mediaVault *plexms.Plex) {
 	p.AddParagraphString(info.Summary)
 
 	//p.AddAction(acts.Seasons) //Drilldown to episodes
-	p.SetPrompt(lang.TxtPlexSeasonsPrompt)
+	p.SetPrompt(lang.PlexSeasonsPrompt.Text())
 	p.AddBlankRow()
 	yy, err := mediaVault.GetEpisodes(info.RatingKey)
 	if err != nil {

@@ -114,37 +114,9 @@ var TxtRain3Hr string = TxtRainLabel + TxtThreeHour
 var TxtSnow1Hr string = TxtSnowLabel + TxtOneHour
 var TxtSnow3Hr string = TxtSnowLabel + TxtThreeHour
 
-// PLEX - Media Server
-var (
-	PlexTitle         *lang.Text = lang.New("PMS") // TODO: Change to Title
-	PlexSummary       *lang.Text = lang.New("Summary")
-	PlexContainer                = lang.New("Container")
-	PlexResolution               = lang.New("Resolution")
-	PlexCodec                    = lang.New("Codec")
-	PlexAspectRatio              = lang.New("Aspect Ratio")
-	PlexFrameRate                = lang.New("Frame Rate")
-	PlexDuration                 = lang.New("Duration")
-	PlexReleased                 = lang.New("Released")
-	PlexDirector                 = lang.New("Director")
-	PlexWriter                   = lang.New("Writer")
-	PlexMedia                    = lang.New("Media")
-	PlexContentRating            = lang.New("Content Rating")
-	PlexShow                     = lang.New("Show")
-	PlexSeason                   = lang.New("Season")
-	PlexEpisode                  = lang.New("Episode")
-	PlexSeasons                  = lang.New("Seasons")
-	PlexEpisodes                 = lang.New("Episodes")
-	PlexYear                     = lang.New("Year")
-)
-
 // Page - Paging
 
 const TxtPagingPrompt string = "Choose (F)orward, (B)ack or (Q)uit"
-
-// Plex Seasons
-const (
-	TxtPlexSeasonsPrompt string = "Choose (1...n)Season, (F)orward, (B)ack or (Q)uit"
-)
 
 // Support
 const (
