@@ -37,7 +37,7 @@ var (
 	PlexYear                     = lang.New("Year")
 )
 
-const (
+var (
 	//	PlexSummaryLabel             string = "Summary"
 	//TxtPlexContainerLabel        string = "Container"
 	//TxtPlexResolutionLabel       string = "Resolution"
@@ -58,18 +58,19 @@ const (
 	// TxtPlexSeason                string = "Season"
 	// TxtPlexEpisode               string = "Episode"
 	//TxtDone                      string = "DONE"
-	TxtStarting                  string = "Starting..."
-	TxtStartingTerminal          string = "Starting Terminal..."
-	TxtSelfTesting               string = "Self Testing..."
-	TxtCurrentDate               string = "Current Date: "
-	TxtCurrentTime               string = "Current Time: "
-	TxtPleaseWait                string = "Please Wait..."
-	TxtBaudRate                  string = "Baud Rate Set to %v kbps"
-	TxtConnecting                string = "Connecting..."
-	TxtDialing                   string = "Dialing... %v:%v"
-	TxtConnected                 string = "Connected."
-	ErrorMessageConnectionFailed string = "Connection failed. Retrying..."
-	TxtComplete                  string = "Complete"
+	//TxtStarting                  string     = "Starting..."
+	Initialise       *lang.Text = lang.New("Initialise...")
+	StartingTerminal *lang.Text = lang.New("Starting Terminal...")
+	SelfTesting      *lang.Text = lang.New("Self Testing...")
+	CurrentDate      *lang.Text = lang.New("Current Date: ")
+	CurrentTime      *lang.Text = lang.New("Current Time: ")
+	PleaseWait       *lang.Text = lang.New("Please Wait...")
+	BaudRate         *lang.Text = lang.New("Baud Rate Set to %v kbps")
+	Connecting       *lang.Text = lang.New("Connecting...")
+	Dialing          *lang.Text = lang.New("Dialing... %v:%v")
+	Connected        *lang.Text = lang.New("Connected.")
+	ConnectionFailed *lang.Text = lang.New("Connection failed. Retrying...")
+	Complete         *lang.Text = lang.New("Complete")
 )
 
 // Mainmenu
