@@ -24,8 +24,8 @@ func Topic(t *page.Page, topic, title string) {
 
 	p.AddBlankRow()
 	noNewsItems := len(feed.Items)
-	if noNewsItems > C.MaxContentRows {
-		noNewsItems = C.MaxContentRows
+	if noNewsItems > CFG.MaxContentRows {
+		noNewsItems = CFG.MaxContentRows
 	}
 
 	for i := range noNewsItems {
