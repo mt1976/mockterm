@@ -26,7 +26,7 @@ var dummy = term.New()
 // articles.
 func Run(terminal *term.ViewPort) {
 
-	p := page.NewPage(terminal, lang.TxtDashboardTitle)
+	p := page.NewPage(terminal, lang.Dashboard.Text())
 	p.Info(lang.TxtDashboardChecking)
 	c := 0
 	c++

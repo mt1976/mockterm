@@ -14,7 +14,7 @@ func Topic(t *page.Page, topic, title string) {
 
 	vp := t.ViewPort()
 	// Get the news for the topic
-	t.Info(lang.TxtLoadingTopic + title)
+	t.Info(lang.SkyNewsLoadingTopic.Text() + title)
 	// get the news for the topic from an rss feed
 	fp := gofeed.NewParser()
 	feed, _ := fp.ParseURL(topic)
@@ -41,8 +41,8 @@ func Topic(t *page.Page, topic, title string) {
 			break
 		}
 		if action.IsInt() {
-			i := (vp.Helpers.ToInt(action.Action()) - 1)
-			p.Dump(string(i), string(vp.Helpers.ToInt(action.Action())), action.Action())
+			i := action.Int() - 1
+			p.Dump(string(i), string(action.Action()), action.Action())
 			//os.Exit(1)
 			Story(p, feed.Items[i].Link, feed.Items[i].Title)
 			//action = ""

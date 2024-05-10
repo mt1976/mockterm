@@ -12,6 +12,7 @@ var (
 	TrailRun    *lang.Text = lang.New("This is a trial run.")
 	Mode        *lang.Text = lang.New("Mode")
 	Path        *lang.Text = lang.New("Path")
+	Title       *lang.Text = lang.New("Title")
 )
 
 // Starter - Terminal Startup Simulator
@@ -30,38 +31,40 @@ var (
 	Complete         *lang.Text = lang.New("Complete")
 )
 
-// Mainmenu
-
-const (
-	TxtMainMenuTitle                string = "Main Menu"
-	TxtSkyNewsMenuTitle             string = "SKY News"
-	TxtBBCNewsMenuTitle             string = "BBC News"
-	TxtWeatherMenuTitle             string = "Weather"
-	TxtRemoteSystemsAccessMenuTitle string = "Remote Systems Access"
-	TxtSystemsMaintenanceMenuTitle  string = "Systems Maintenance"
-	TxtPlexMediaServersMenuTitle    string = "Plex Media Server"
-	TxtQuittingMessage              string = "Quitting"
-	TxtThankYouForUsing             string = "Thank you for using"
-	TxtSubMenuTitle                 string = "Sub Menu"
-	TxtTorrentsMenuTitle            string = "Torrents"
+// Mainmenu - Main Menu Page for MockTerm
+var (
+	MainMenuTitle       *lang.Text = lang.New("Main Menu")
+	SkyNews             *lang.Text = lang.New("SKY News")
+	TxtBBCNewsMenuTitle *lang.Text = lang.New("BBC News")
+	Weather             *lang.Text = lang.New("Weather")
+	RemoteSystemsAccess *lang.Text = lang.New("Remote Systems Access")
+	SystemsMaintenance  *lang.Text = lang.New("Systems Maintenance")
+	PlexMediaServer     *lang.Text = lang.New("Plex Media Server")
+	Quitting            *lang.Text = lang.New("Quitting")
+	ThankYouForUsing    *lang.Text = lang.New("Thank you for using %v")
+	Torrents            *lang.Text = lang.New("Torrents")
+	TFL                 *lang.Text = lang.New("TFL")
+	ShowsRSS            *lang.Text = lang.New("ShowsRSS")
 )
 
 // SkyNews
-const (
-	TxtMenuTitle          string = "SKY News"
-	TxtTopicHome          string = "Home"
-	TxtTopicUK            string = "UK"
-	TxtTopicWorld         string = "World"
-	TxtTopicUS            string = "US"
-	TxtTopicBusiness      string = "Business"
-	TxtTopicPolitics      string = "Politics"
-	TxtTopicTechnology    string = "Technology"
-	TxtTopicEntertainment string = "Entertainment"
-	TxtTopicStrange       string = "Strange News"
-	TxtLoadingTopic       string = "Loading news for topic: "
-	TxtLoadingStory       string = "Loading news for story..."
-	HTMLTagTitle          string = "title"
-	HTMLTagTagP           string = "p"
+var (
+	SkyNewsTitle              *lang.Text = lang.New("SKY News")
+	SkyNewsTopicHome          *lang.Text = lang.New("Home")
+	SkyNewsTopicUK            *lang.Text = lang.New("UK")
+	SkyNewsTopicWorld         *lang.Text = lang.New("World")
+	SkyNewsTopicUS            *lang.Text = lang.New("US")
+	SkyNewsTopicBusiness      *lang.Text = lang.New("Business")
+	SkyNewsTopicPolitics      *lang.Text = lang.New("Politics")
+	SkyNewsTopicTechnology    *lang.Text = lang.New("Technology")
+	SkyNewsTopicEntertainment *lang.Text = lang.New("Entertainment")
+	SkyNewsTopicStrange       *lang.Text = lang.New("Strange News")
+	SkyNewsLoadingTopic       *lang.Text = lang.New("Loading news for topic: ")
+	SkyNewsLoadingStory       *lang.Text = lang.New("Loading news for story...")
+	SkyNewsHTMLTagTitle       string     = "title"
+	SkyNewsHTMLTagP           string     = "p"
+	SkyNewsTopic              *lang.Text = lang.New("Topic")
+	SkyNewsStory              *lang.Text = lang.New("Story")
 )
 
 // Torrents
@@ -153,10 +156,10 @@ const (
 	TxtHourShort    string = "hr"
 )
 
-const (
-	TxtMillisecondsShort  string = "ms"
-	TxtApplicationVersion string = "StarTerm - Utilities 1.0 %s"
-	TxtApplicationName    string = "StarTerm"
+var (
+	TxtMillisecondsShort  string     = "ms"
+	TxtApplicationVersion string     = "StarTerm - Utilities 1.0 %s"
+	ApplicationName       *lang.Text = lang.New("StarTerm")
 )
 
 var ApplicationHeader []string = []string{
@@ -167,14 +170,14 @@ var ApplicationHeader []string = []string{
 	"███████    ██    ██   ██ ██   ██    ██    ███████ ██   ██ ██      ██ ",
 }
 
-// Dashboard
-const (
-	TxtDashboardTitle           string = "Server Dashboard"
-	TxtStatusOnline             string = "Online "
-	TxtStatusOffline            string = "Offline"
-	TxtDashboardChecking        string = "Please wait... Checking Services"
-	TxtDashboardCheckingService string = "Checking %v..."
-	TxtNoResponseFromServer     string = "No response from server"
+// Dashboard - Server Dashboard
+var (
+	Dashboard                   *lang.Text = lang.New("Server Dashboard")
+	TxtStatusOnline             string     = "Online "
+	TxtStatusOffline            string     = "Offline"
+	TxtDashboardChecking        string     = "Please wait... Checking Services"
+	TxtDashboardCheckingService string     = "Checking %v..."
+	TxtNoResponseFromServer     string     = "No response from server"
 )
 
 // Disksize

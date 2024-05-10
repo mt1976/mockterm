@@ -84,7 +84,7 @@ func Run(t *term.ViewPort, m mode.Modality, pathIn string) {
 	}
 
 	if !ok {
-		p.Info(lang.TxtQuittingMessage)
+		p.Info(lang.Quitting.Text())
 		return
 	}
 

@@ -26,27 +26,27 @@ func Run(t *term.ViewPort) {
 	// Strange News
 
 	t.Clear()
-	p := page.NewPage(t, lang.TxtMenuTitle)
+	p := page.NewPage(t, lang.SkyNewsTitle.Text())
 	p.AddBlankRow()
 	c := 0
 	c++
-	p.AddMenuOption(c, lang.TxtTopicHome, C.URISkyNews+C.URISkyNewsHome, "")
+	p.AddMenuOption(c, lang.SkyNewsTopicHome.Text(), C.URISkyNews+C.URISkyNewsHome, "")
 	c++
-	p.AddMenuOption(c, lang.TxtTopicUK, C.URISkyNews+C.URISkyNewsUK, "")
+	p.AddMenuOption(c, lang.SkyNewsTopicUK.Text(), C.URISkyNews+C.URISkyNewsUK, "")
 	c++
-	p.AddMenuOption(c, lang.TxtTopicWorld, C.URISkyNews+C.URISkyNewsWorld, "")
+	p.AddMenuOption(c, lang.SkyNewsTopicWorld.Text(), C.URISkyNews+C.URISkyNewsWorld, "")
 	c++
-	p.AddMenuOption(c, lang.TxtTopicUS, C.URISkyNews+C.URISkyNewsUS, "")
+	p.AddMenuOption(c, lang.SkyNewsTopicUS.Text(), C.URISkyNews+C.URISkyNewsUS, "")
 	c++
-	p.AddMenuOption(c, lang.TxtTopicBusiness, C.URISkyNews+C.URISkyNewsBusiness, "")
+	p.AddMenuOption(c, lang.SkyNewsTopicBusiness.Text(), C.URISkyNews+C.URISkyNewsBusiness, "")
 	c++
-	p.AddMenuOption(c, lang.TxtTopicPolitics, C.URISkyNews+C.URISkyNewsPolitics, "")
+	p.AddMenuOption(c, lang.SkyNewsTopicPolitics.Text(), C.URISkyNews+C.URISkyNewsPolitics, "")
 	c++
-	p.AddMenuOption(c, lang.TxtTopicTechnology, C.URISkyNews+C.URISkyNewsTechnology, "")
+	p.AddMenuOption(c, lang.SkyNewsTopicTechnology.Text(), C.URISkyNews+C.URISkyNewsTechnology, "")
 	c++
-	p.AddMenuOption(c, lang.TxtTopicEntertainment, C.URISkyNews+C.URISkyNewsEntertainment, "")
+	p.AddMenuOption(c, lang.SkyNewsTopicEntertainment.Text(), C.URISkyNews+C.URISkyNewsEntertainment, "")
 	c++
-	p.AddMenuOption(c, lang.TxtTopicStrange, C.URISkyNews+C.URISkyNewsStrange, "")
+	p.AddMenuOption(c, lang.SkyNewsTopicStrange.Text(), C.URISkyNews+C.URISkyNewsStrange, "")
 	p.AddAction(acts.Quit)
 
 	for {
@@ -58,23 +58,23 @@ func Run(t *term.ViewPort) {
 		if action.IsInt() {
 			switch action.Action() {
 			case "1":
-				Topic(p, C.URISkyNews+C.URISkyNewsHome, lang.TxtTopicHome)
+				Topic(p, C.URISkyNews+C.URISkyNewsHome, lang.SkyNewsTopicHome.Text())
 			case "2":
-				Topic(p, C.URISkyNews+C.URISkyNewsUK, lang.TxtTopicUK)
+				Topic(p, C.URISkyNews+C.URISkyNewsUK, lang.SkyNewsTopicUK.Text())
 			case "3":
-				Topic(p, C.URISkyNews+C.URISkyNewsWorld, lang.TxtTopicWorld)
+				Topic(p, C.URISkyNews+C.URISkyNewsWorld, lang.SkyNewsTopicWorld.Text())
 			case "4":
-				Topic(p, C.URISkyNews+C.URISkyNewsUS, lang.TxtTopicUS)
+				Topic(p, C.URISkyNews+C.URISkyNewsUS, lang.SkyNewsTopicUS.Text())
 			case "5":
-				Topic(p, C.URISkyNews+C.URISkyNewsBusiness, lang.TxtTopicBusiness)
+				Topic(p, C.URISkyNews+C.URISkyNewsBusiness, lang.SkyNewsTopicBusiness.Text())
 			case "6":
-				Topic(p, C.URISkyNews+C.URISkyNewsPolitics, lang.TxtTopicPolitics)
+				Topic(p, C.URISkyNews+C.URISkyNewsPolitics, lang.SkyNewsTopicPolitics.Text())
 			case "7":
-				Topic(p, C.URISkyNews+C.URISkyNewsTechnology, lang.TxtTopicTechnology)
+				Topic(p, C.URISkyNews+C.URISkyNewsTechnology, lang.SkyNewsTopicTechnology.Text())
 			case "8":
-				Topic(p, C.URISkyNews+C.URISkyNewsEntertainment, lang.TxtTopicEntertainment)
+				Topic(p, C.URISkyNews+C.URISkyNewsEntertainment, lang.SkyNewsTopicEntertainment.Text())
 			case "9":
-				Topic(p, C.URISkyNews+C.URISkyNewsStrange, lang.TxtTopicStrange)
+				Topic(p, C.URISkyNews+C.URISkyNewsStrange, lang.SkyNewsTopicStrange.Text())
 			default:
 				p.Error(terr.ErrInvalidAction, action.Action())
 			}

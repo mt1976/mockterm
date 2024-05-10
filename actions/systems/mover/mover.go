@@ -35,7 +35,7 @@ func Run(t *term.ViewPort, m mode.Modality) error {
 		return err
 	}
 	if !proceed {
-		p.Info(lang.TxtQuittingMessage)
+		p.Info(lang.Quitting.Text())
 		return nil
 	}
 	fileName, isDir, err := f.FileChooser(".", f.FilesAll)
@@ -76,7 +76,7 @@ func Run(t *term.ViewPort, m mode.Modality) error {
 		return err
 	}
 	if !move {
-		p.Info(lang.TxtQuittingMessage)
+		p.Info(lang.Quitting.Text())
 		return nil
 	}
 

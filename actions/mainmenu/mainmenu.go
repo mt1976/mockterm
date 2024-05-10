@@ -23,17 +23,17 @@ import (
 // and perform various actions.
 func Run(terminal *terminal.ViewPort) {
 	//log.Println("Starting Main Menu")
-	p := page.NewPage(terminal, l.TxtMainMenuTitle)
+	p := page.NewPage(terminal, l.MainMenuTitle.Text())
 	p.AddBlankRow()
-	p.AddMenuOption(1, l.TxtDashboardTitle, "", "")
-	p.AddMenuOption(2, l.TxtSkyNewsMenuTitle, "", "")
-	p.AddMenuOption(3, "Shows RSS", "", "")
-	p.AddMenuOption(4, l.TxtWeatherMenuTitle, "", "")
-	p.AddMenuOption(5, "TFL", "", "")
-	p.AddMenuOption(6, l.TxtPlexMediaServersMenuTitle, "", "")
+	p.AddMenuOption(1, l.Dashboard.Text(), "", "")
+	p.AddMenuOption(2, l.SkyNews.Text(), "", "")
+	p.AddMenuOption(3, l.ShowsRSS.Text(), "", "")
+	p.AddMenuOption(4, l.Weather.Text(), "", "")
+	p.AddMenuOption(5, l.TFL.Text(), "", "")
+	p.AddMenuOption(6, l.PlexMediaServer.Text(), "", "")
 	p.AddBlankRow()
-	p.AddMenuOption(7, l.TxtRemoteSystemsAccessMenuTitle, "", "")
-	p.AddMenuOption(8, l.TxtSystemsMaintenanceMenuTitle, "", "")
+	p.AddMenuOption(7, l.RemoteSystemsAccess.Text(), "", "")
+	p.AddMenuOption(8, l.SystemsMaintenance.Text(), "", "")
 	//p.AddMenuOption(9, lang.SymBlank, "", "")
 	p.AddAction(acts.Quit)
 
@@ -43,7 +43,7 @@ func Run(terminal *terminal.ViewPort) {
 		action := p.Display_Actions()
 		switch {
 		case action.Is(acts.Quit):
-			p.Info(l.TxtQuittingMessage + " - " + l.TxtThankYouForUsing + " " + l.TxtApplicationName)
+			p.Info(l.Quitting.Text() + " - " + fmt.Sprintf(l.ThankYouForUsing.Text(), l.ApplicationName.Text()))
 			ok = true
 			continue
 		case action.IsInt() && action.Int() == 1:

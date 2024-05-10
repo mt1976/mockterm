@@ -64,7 +64,7 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 	}
 	if !ok {
 		//fmt.Printf("%s Exiting\n", PFY)
-		p.Info(lang.TxtQuittingMessage)
+		p.Info(lang.Quitting.Text())
 		return
 	}
 

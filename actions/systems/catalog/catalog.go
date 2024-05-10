@@ -57,7 +57,7 @@ func Run(t *term.ViewPort) {
 	}
 	if !ok {
 		//fmt.Printf("%s Exiting\n", PFY)
-		p.Info(lang.TxtQuittingMessage)
+		p.Info(lang.Quitting.Text())
 		return
 	}
 	m, _ := mem.VirtualMemory()

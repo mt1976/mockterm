@@ -18,7 +18,7 @@ import (
 // and perform various actions.
 func Run(t *term.ViewPort) {
 
-	p := page.NewPage(t, lang.TxtSystemsMaintenanceMenuTitle)
+	p := page.NewPage(t, lang.SystemsMaintenance.Text())
 	p.AddParagraph(lang.TxtServiceMenuDescription)
 	p.AddBlankRow()
 	p.AddMenuOption(1, lang.TxtPushoverTitle, "", "")
@@ -45,7 +45,7 @@ func Run(t *term.ViewPort) {
 		action := p.Display_Actions()
 		switch {
 		case action.Is(acts.Quit):
-			p.Info(lang.TxtQuittingMessage)
+			p.Info(lang.Quitting.Text())
 			ok = true
 			continue
 		case action.Equals("1"):
