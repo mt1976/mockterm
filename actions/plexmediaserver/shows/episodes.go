@@ -8,8 +8,9 @@ import (
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
+	lang "github.com/mt1976/mockterm/actions/plexmediaserver/language"
 	errs "github.com/mt1976/mockterm/errors"
-	lang "github.com/mt1976/mockterm/language"
+	clng "github.com/mt1976/mockterm/language"
 	plex "github.com/mt1976/mockterm/plexsupport"
 )
 
@@ -19,7 +20,7 @@ func Episodes(t *term.ViewPort, mediaVault *plexms.Plex, seriesTitle string, inf
 		t.Error(errs.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
-	p := page.NewPage(t, seriesTitle+lang.Space+info.Title)
+	p := page.NewPage(t, seriesTitle+clng.Space+info.Title)
 
 	noEps := len(res.MediaContainer.Metadata)
 	for i := 0; i < noEps; i++ {
@@ -42,7 +43,7 @@ func Episodes(t *term.ViewPort, mediaVault *plexms.Plex, seriesTitle string, inf
 
 func EpisodeDetail(t *term.ViewPort, info plexms.Metadata) {
 
-	title := info.GrandparentTitle + lang.Space + info.ParentTitle + lang.Space + info.Title
+	title := info.GrandparentTitle + clng.Space + info.ParentTitle + clng.Space + info.Title
 	p := page.NewPage(t, title)
 	p.AddFieldValuePair(lang.PlexShow.Text(), info.GrandparentTitle)
 	p.AddFieldValuePair(lang.PlexSeason.Text(), info.ParentTitle)

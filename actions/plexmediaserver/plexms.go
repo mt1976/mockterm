@@ -10,12 +10,12 @@ import (
 	acts "github.com/mt1976/crt/page/actions"
 	symb "github.com/mt1976/crt/strings/symbols"
 	term "github.com/mt1976/crt/terminal"
+	lang "github.com/mt1976/mockterm/actions/plexmediaserver/language"
 	movies "github.com/mt1976/mockterm/actions/plexmediaserver/movies"
 	music "github.com/mt1976/mockterm/actions/plexmediaserver/music"
 	shows "github.com/mt1976/mockterm/actions/plexmediaserver/shows"
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
-	lang "github.com/mt1976/mockterm/language"
 )
 
 // The main function initializes and runs a terminal-based news reader application called StarTerm,
