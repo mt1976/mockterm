@@ -45,7 +45,7 @@ func Run(t *term.ViewPort) {
 		action := p.Display_Actions()
 		switch {
 		case action.Is(acts.Quit):
-			p.Info(lang.Quitting.Text())
+			p.Info(lang.Quitting, "", "")
 			ok = true
 			continue
 		case action.Equals("1"):

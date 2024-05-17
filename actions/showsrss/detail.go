@@ -80,7 +80,7 @@ func Detail(t *term.ViewPort, item RssItem) error {
 	p.AddAction(acts.Quit)
 	addTorrentAction := acts.New("A")
 	p.AddAction(addTorrentAction)
-	p.SetPrompt(llng.ShowsRssPrompt.Text())
+	p.SetPrompt(llng.ShowsRssPrompt)
 
 	for {
 		action := p.Display_Actions()

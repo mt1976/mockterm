@@ -14,7 +14,7 @@ var (
 	SkyNewsTopicTechnology    *lang.Text = lang.New("Technology")
 	SkyNewsTopicEntertainment *lang.Text = lang.New("Entertainment")
 	SkyNewsTopicStrange       *lang.Text = lang.New("Strange News")
-	SkyNewsLoadingTopic       *lang.Text = lang.New("Loading news for topic: ")
+	SkyNewsLoadingTopic       *lang.Text = lang.New("Loading news for topic: %v")
 	SkyNewsLoadingStory       *lang.Text = lang.New("Loading news for story...")
 	SkyNewsHTMLTagTitle       string     = "title"
 	SkyNewsHTMLTagP           string     = "p"

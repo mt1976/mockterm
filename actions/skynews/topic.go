@@ -14,7 +14,7 @@ func Topic(t *page.Page, topic, title string) {
 
 	vp := t.ViewPort()
 	// Get the news for the topic
-	t.Info(lang.SkyNewsLoadingTopic.Text() + title)
+	t.Info(lang.SkyNewsLoadingTopic, title)
 	// get the news for the topic from an rss feed
 	fp := gofeed.NewParser()
 	feed, _ := fp.ParseURL(topic)

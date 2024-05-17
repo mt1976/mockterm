@@ -20,7 +20,7 @@ func Story(p *page.Page, storyLink, title string) {
 	//np.AddBlankRow()
 	np = buildPage(np, storyLink)
 	np.SetTitle(title)
-	np.Info(lang.SkyNewsLoadingStory.Text())
+	np.Info(lang.SkyNewsLoadingStory)
 	np.ActivePageIndex = 0
 
 	for {

@@ -11,7 +11,7 @@ var (
 	RemoteSystemsAccess *lang.Text = lang.New("Remote Systems Access")
 	SystemsMaintenance  *lang.Text = lang.New("Systems Maintenance")
 	PlexMediaServer     *lang.Text = lang.New("Plex Media Server")
-	Quitting            *lang.Text = lang.New("Quitting")
+	Quitting            *lang.Text = lang.New("Quitting %v %v")
 	ThankYouForUsing    *lang.Text = lang.New("Thank you for using %v")
 	Torrents            *lang.Text = lang.New("Torrents")
 	TFL                 *lang.Text = lang.New("TFL")

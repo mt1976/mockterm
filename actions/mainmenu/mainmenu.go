@@ -43,7 +43,7 @@ func Run(terminal *terminal.ViewPort) {
 		action := p.Display_Actions()
 		switch {
 		case action.Is(acts.Quit):
-			p.Info(l.Quitting.Text() + " - " + fmt.Sprintf(l.ThankYouForUsing.Text(), l.ApplicationName.Text()))
+			p.Info(l.Quitting, fmt.Sprintf(l.ThankYouForUsing.Text(), l.ApplicationName.Text()))
 			ok = true
 			continue
 		case action.IsInt() && action.Int() == 1:

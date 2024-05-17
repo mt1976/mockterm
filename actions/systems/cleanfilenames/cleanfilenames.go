@@ -58,7 +58,7 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 	p.AddBlankRow()
 	resultsAdd("")
 
-	ok, err := p.Display_Confirmation(lang.TxtAreYouSureYouWantToProceed)
+	ok, err := p.Display_Confirmation(lang.AreYouSureYouWantToProceed)
 	if err != nil {
 		p.Error(err, "unable to get user response")
 	}
