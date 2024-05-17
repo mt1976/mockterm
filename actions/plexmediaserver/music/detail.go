@@ -6,7 +6,7 @@ import (
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
-	plng "github.com/mt1976/mockterm/actions/plexmediaserver/language"
+	plng "github.com/mt1976/mockterm/actions/plexmediaserver/lang"
 )
 
 func Detail(t *term.ViewPort, info plexms.Metadata) {

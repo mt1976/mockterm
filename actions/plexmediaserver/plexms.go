@@ -10,7 +10,7 @@ import (
 	acts "github.com/mt1976/crt/page/actions"
 	symb "github.com/mt1976/crt/strings/symbols"
 	term "github.com/mt1976/crt/terminal"
-	lang "github.com/mt1976/mockterm/actions/plexmediaserver/language"
+	lang "github.com/mt1976/mockterm/actions/plexmediaserver/lang"
 	movies "github.com/mt1976/mockterm/actions/plexmediaserver/movies"
 	music "github.com/mt1976/mockterm/actions/plexmediaserver/music"
 	shows "github.com/mt1976/mockterm/actions/plexmediaserver/shows"

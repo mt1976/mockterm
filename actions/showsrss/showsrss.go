@@ -12,9 +12,9 @@ import (
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
+	lang "github.com/mt1976/mockterm/actions/showsrss/lang"
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
-	lang "github.com/mt1976/mockterm/language"
 )
 
 var C = conf.Configuration

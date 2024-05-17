@@ -12,8 +12,8 @@ import (
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
+	llng "github.com/mt1976/mockterm/actions/showsrss/lang"
 	errs "github.com/mt1976/mockterm/errors"
-	lang "github.com/mt1976/mockterm/language"
 )
 
 // The Run function displays a menu of news topics and allows the user to select a topic to view the
@@ -49,18 +49,18 @@ func Detail(t *term.ViewPort, item RssItem) error {
 
 	// 	p.AddMenuOption(c, desc, item.Link, d)
 	// }
-	p.AddFieldValuePair(lang.ShowsRssName.Text(), item.ShowName)
-	p.AddFieldValuePair(lang.ShowsRssTitle.Text(), item.Title)
-	p.AddFieldValuePair(lang.ShowsRssDate.Text(), d)
+	p.AddFieldValuePair(llng.ShowsRssName.Text(), item.ShowName)
+	p.AddFieldValuePair(llng.ShowsRssTitle.Text(), item.Title)
+	p.AddFieldValuePair(llng.ShowsRssDate.Text(), d)
 	p.AddBreakRow()
-	p.AddFieldValuePair(lang.ShowsRssShowID.Text(), item.ShowID)
-	p.AddFieldValuePair(lang.ShowsRssEpisodeID.Text(), item.EpisodeID)
-	p.AddFieldValuePair(lang.ShowsRssRawTitle.Text(), item.RawTitle)
-	p.AddFieldValuePair(lang.ShowsRssPublished.Text, item.PubDate)
+	p.AddFieldValuePair(llng.ShowsRssShowID.Text(), item.ShowID)
+	p.AddFieldValuePair(llng.ShowsRssEpisodeID.Text(), item.EpisodeID)
+	p.AddFieldValuePair(llng.ShowsRssRawTitle.Text(), item.RawTitle)
+	p.AddFieldValuePair(llng.ShowsRssPublished.Text, item.PubDate)
 	p.AddBreakRow()
-	p.AddFieldValuePair(lang.ShowsRssDescription.Text(), item.Description)
+	p.AddFieldValuePair(llng.ShowsRssDescription.Text(), item.Description)
 	p.AddBreakRow()
-	p.AddFieldValuePair(lang.ShowsRssLink.Text(), item.Link)
+	p.AddFieldValuePair(llng.ShowsRssLink.Text(), item.Link)
 	//p.AddFieldValuePair("Guid", item.Guid.Text)
 
 	// p.AddFieldValuePair("ExternalID", item.ExternalID)
@@ -80,7 +80,7 @@ func Detail(t *term.ViewPort, item RssItem) error {
 	p.AddAction(acts.Quit)
 	addTorrentAction := acts.New("A")
 	p.AddAction(addTorrentAction)
-	p.SetPrompt(lang.ShowsRssPrompt.Text())
+	p.SetPrompt(llng.ShowsRssPrompt.Text())
 
 	for {
 		action := p.Display_Actions()

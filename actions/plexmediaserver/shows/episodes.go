@@ -8,7 +8,7 @@ import (
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
-	lang "github.com/mt1976/mockterm/actions/plexmediaserver/language"
+	lang "github.com/mt1976/mockterm/actions/plexmediaserver/lang"
 	errs "github.com/mt1976/mockterm/errors"
 	clng "github.com/mt1976/mockterm/language"
 	plex "github.com/mt1976/mockterm/plexsupport"
