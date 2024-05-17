@@ -23,7 +23,7 @@ import (
 // and perform various actions.
 func Run(terminal *terminal.ViewPort) {
 	//log.Println("Starting Main Menu")
-	p := page.NewPage(terminal, l.MainMenuTitle.Text())
+	p := page.NewPage(terminal, l.MainMenuTitle)
 	p.AddBlankRow()
 	p.AddMenuOption(1, l.Dashboard.Text(), "", "")
 	p.AddMenuOption(2, l.SkyNews.Text(), "", "")

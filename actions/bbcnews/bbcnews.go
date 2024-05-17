@@ -9,13 +9,14 @@ import (
 	"os"
 
 	"github.com/davecgh/go-spew/spew"
+	lang "github.com/mt1976/crt/language"
 	page "github.com/mt1976/crt/page"
 	term "github.com/mt1976/crt/terminal"
 )
 
 func Run(t *term.ViewPort) (err error) {
 
-	page := page.NewPage(t, "BBC News")
+	page := page.NewPage(t, lang.New("BBC News"))
 
 	uri := "https://feeds.bbci.co.uk/news/rss.xml"
 

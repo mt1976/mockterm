@@ -26,7 +26,7 @@ func Run(t *terminal.ViewPort) {
 	// Strange News
 
 	t.Clear()
-	p := page.NewPage(t, l.SkyNewsTitle.Text())
+	p := page.NewPage(t, l.SkyNewsTitle)
 	p.AddBlankRow()
 	c := 0
 	c++

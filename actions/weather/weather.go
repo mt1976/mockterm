@@ -23,7 +23,7 @@ var C = conf.Configuration
 func Run(t *term.ViewPort) {
 
 	//t.Clear()
-	p := page.NewPage(t, lang.TxtWeatherTitle+lang.Space+lang.TxtSourceService)
+	p := page.NewPage(t, lang.TxtWeatherTitle)
 	w, err := owm.NewCurrent(C.OpenWeatherMapApiUnits, C.OpenWeatherMapApiLang, C.OpenWeatherMapApiKey)
 	if err != nil {
 		p.Error(errs.ErrOpenWeather, err.Error())

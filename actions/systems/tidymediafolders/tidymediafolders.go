@@ -28,7 +28,7 @@ var results = []string{}
 func Run(t *term.ViewPort, m mode.Modality, pathIn string) {
 
 	//new page
-	p := page.NewPage(t, lang.Title.Text())
+	p := page.NewPage(t, lang.Title)
 	resultsAdd(upcase(p, lang.CleanFileNamesReport.Text()))
 
 	if pathIn == "" {
@@ -116,7 +116,7 @@ func Run(t *term.ViewPort, m mode.Modality, pathIn string) {
 	diskSizeTotalAfter, diskSizeFreeAfter, diskPercentUsedAfter := getDiskInfo(p, pathIn)
 
 	printStorageReport(p, m, diskSizeTotalBefore, diskSizeFreeBefore, diskPercentUsedBefore, diskSizeTotalAfter, diskSizeFreeAfter, diskPercentUsedAfter)
-	q := page.NewPage(t, lang.TitleResults.Text())
+	q := page.NewPage(t, lang.TitleResults)
 	q.AddParagraph(results)
 	q.Display_Actions()
 

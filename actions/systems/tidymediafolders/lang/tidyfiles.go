@@ -47,4 +47,5 @@ var (
 	RemovingEmptyDirectories      *lang.Text      = lang.New("Removing empty directories")
 	FindingEmptyDirectories       *lang.Text      = lang.New("Finding empty directories")
 	CleanFileNamesDescription     *lang.Paragraph = lang.NewParagraph([]string{"This menu shows the list of files available for maintenance.", "Select the file you wish to use. PLEASE BE CAREFUL!"})
+	//Title                         *lang.Text      = lang.New("Tidy files")
 )

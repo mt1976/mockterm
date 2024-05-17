@@ -10,6 +10,7 @@ import (
 	move "github.com/mt1976/mockterm/actions/systems/mover"
 	push "github.com/mt1976/mockterm/actions/systems/pushover"
 	tidy "github.com/mt1976/mockterm/actions/systems/tidymediafolders"
+	tlng "github.com/mt1976/mockterm/actions/systems/tidymediafolders/lang"
 	lang "github.com/mt1976/mockterm/language"
 	mode "github.com/mt1976/mockterm/support/modes"
 )
@@ -18,16 +19,16 @@ import (
 // and perform various actions.
 func Run(t *term.ViewPort) {
 
-	p := page.NewPage(t, lang.SystemsMaintenance.Text())
+	p := page.NewPage(t, lang.SystemsMaintenance)
 	p.AddParagraph(lang.TxtServiceMenuDescription)
 	p.AddBlankRow()
-	p.AddMenuOption(1, lang.TxtPushoverTitle, "", "")
+	p.AddMenuOption(1, lang.TxtPushoverTitle.Text(), "", "")
 	p.AddBlankRow()
-	p.AddMenuOption(2, lang.TxtTidyFilesTitle+" (Trial Mode)", "", "")
-	p.AddMenuOption(3, lang.TxtTidyFilesTitle+" (LIVE)", "", "")
+	p.AddMenuOption(2, tlng.Title.Text()+" (Trial Mode)", "", "")
+	p.AddMenuOption(3, tlng.Title.Text()+" (LIVE)", "", "")
 	p.AddBlankRow()
-	p.AddMenuOption(4, lang.TxtCleanFileNames+" (Trial Mode)", "", "")
-	p.AddMenuOption(5, lang.TxtCleanFileNames+" (LIVE)", "", "")
+	p.AddMenuOption(4, tlng.CleanFileNames.Text()+" (Trial Mode)", "", "")
+	p.AddMenuOption(5, tlng.CleanFileNames.Text()+" (LIVE)", "", "")
 	p.AddBlankRow()
 	p.AddMenuOption(6, lang.CatalogTitle.Text(), "", "")
 	p.AddBlankRow()

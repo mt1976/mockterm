@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/davecgh/go-spew/spew"
+	lang "github.com/mt1976/crt/language"
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
@@ -20,9 +21,9 @@ func Run(t *term.ViewPort) {
 	isNumeric = t.Helpers.IsInt
 	toInt = t.Helpers.ToInt
 
-	t.Print("TFL API")
+	//t.Print("TFL API")
 
-	p := page.NewPage(t, "Transport for London - Line Status")
+	p := page.NewPage(t, lang.New("Transport for London - Line Status"))
 
 	tubeLines, _ := tfl.GetTubeLines()
 	// lineTitle := "Line"
@@ -55,7 +56,7 @@ func Run(t *term.ViewPort) {
 }
 
 func LineDetail(t *term.ViewPort, line tfl.Line) {
-	page := page.NewPage(t, "Transport for London - Line Details")
+	page := page.NewPage(t, lang.New("Transport for London - Line Details"))
 
 	lineDetail, err := tfl.GetTubeLineDetails(line.Code)
 	if err != nil {
@@ -90,7 +91,7 @@ func LineDetail(t *term.ViewPort, line tfl.Line) {
 }
 
 func StationDetail(t *term.ViewPort, station tfl.Station) {
-	p := page.NewPage(t, "Transport for London - Station Status")
+	p := page.NewPage(t, lang.New("Transport for London - Station Status"))
 	stationDetail, err := tfl.GetStationDetails(station.Code)
 	if err != nil {
 		t.Error(err, "Error getting station details")

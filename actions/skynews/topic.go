@@ -2,6 +2,7 @@ package skynews
 
 import (
 	"github.com/mmcdole/gofeed"
+	clng "github.com/mt1976/crt/language"
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
 	lang "github.com/mt1976/mockterm/language"
@@ -20,7 +21,7 @@ func Topic(t *page.Page, topic, title string) {
 	feed, _ := fp.ParseURL(topic)
 	t.Clear()
 
-	p := page.NewPage(&vp, feed.Title)
+	p := page.NewPage(&vp, clng.New(feed.Title))
 
 	p.AddBlankRow()
 	noNewsItems := len(feed.Items)

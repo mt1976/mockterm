@@ -31,7 +31,7 @@ func Run(t *term.ViewPort) error {
 	}
 
 	t.Clear()
-	p := page.NewPage(t, lang.ShowsRssPageTitle.Text())
+	p := page.NewPage(t, lang.ShowsRssPageTitle)
 	p.AddBlankRow()
 	c := 0
 

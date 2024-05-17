@@ -21,7 +21,7 @@ import (
 
 func Run(t *term.ViewPort, m mode.Modality) error {
 
-	p := page.NewPage(t, lang.FileMigratorTitle.Text())
+	p := page.NewPage(t, lang.FileMigratorTitle)
 	p.AddBlankRow()
 	if m.IsLive() {
 		p.AddFieldValuePair(lang.FileMigratorMode, lang.TxtLiveMode)

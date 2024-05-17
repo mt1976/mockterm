@@ -2,6 +2,7 @@ package skynews
 
 import (
 	"github.com/gocolly/colly"
+	clng "github.com/mt1976/crt/language"
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
 	lang "github.com/mt1976/mockterm/language"
@@ -12,14 +13,14 @@ import (
 func Story(p *page.Page, storyLink, title string) {
 
 	t := p.ViewPort()
-	np := page.NewPage(&t, "")
+	np := page.NewPage(&t, clng.New(""))
 	np.Clear()
 	np.AddFieldValuePair(lang.Title.Text(), title)
 	np.AddFieldValuePair(lang.SkyNewsStory.Text(), storyLink)
 	np.AddBreakRow()
 	//np.AddBlankRow()
 	np = buildPage(np, storyLink)
-	np.SetTitle(title)
+	np.SetTitle(clng.New(title))
 	np.Info(lang.SkyNewsLoadingStory)
 	np.ActivePageIndex = 0
 
@@ -63,7 +64,7 @@ func buildPage(p *page.Page, storyLink string) *page.Page {
 	c.Visit(storyLink)
 
 	// Create a new page with the title
-	p.SetTitle(pageTitle)
+	p.SetTitle(clng.New(pageTitle))
 	//p.AddBlankRow()
 
 	// Add the story content to the page

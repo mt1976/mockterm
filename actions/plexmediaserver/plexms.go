@@ -6,6 +6,7 @@ import (
 
 	"github.com/jrudio/go-plex-client"
 	terr "github.com/mt1976/crt/errors"
+	clng "github.com/mt1976/crt/language"
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
 	symb "github.com/mt1976/crt/strings/symbols"
@@ -70,7 +71,8 @@ func Run(t *term.ViewPort) {
 		os.Exit(1)
 	}
 
-	p := page.NewPage(t, lang.PlexTitle.Text()+symb.TextDelimiter.Symbol()+mediaVaultProperties.Name)
+	ll := clng.New(lang.PlexTitle.Text() + symb.TextDelimiter.Symbol() + mediaVaultProperties.Name)
+	p := page.NewPage(t, ll)
 	count := 0
 	for mvLibrary := range mvLibraries.MediaContainer.Directory {
 		xx := mvLibraries.MediaContainer.Directory[mvLibrary]

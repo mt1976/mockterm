@@ -9,6 +9,7 @@ import (
 	"time"
 
 	terr "github.com/mt1976/crt/errors"
+	lang "github.com/mt1976/crt/language"
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
@@ -21,7 +22,7 @@ import (
 func Detail(t *term.ViewPort, item RssItem) error {
 
 	t.Clear()
-	p := page.NewPage(t, item.Title)
+	p := page.NewPage(t, lang.New(item.Title))
 	p.AddBlankRow()
 	//c := 0
 
