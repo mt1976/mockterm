@@ -147,6 +147,8 @@ github.com/mt1976/crt v1.1.8-0.20240509105644-2485403c492e h1:EorOQ4mt3AmVv3XZE0
 github.com/mt1976/crt v1.1.8-0.20240509105644-2485403c492e/go.mod h1:d8t4dVN3X3Gtc3krkQzQvsuHa6b7xYgy+8FPMPByubg=
 github.com/mt1976/crt v1.1.9 h1:ZfBMWfuEEgodugSVyCnkZ/3e6ec/tlHh5ldP+b1gFgE=
 github.com/mt1976/crt v1.1.9/go.mod h1:d8t4dVN3X3Gtc3krkQzQvsuHa6b7xYgy+8FPMPByubg=
+github.com/mt1976/crt v1.1.10 h1:03haUYfpMTQLfFvNeqVZvXL/YX/4Vm9OjFlgnMYo5NM=
+github.com/mt1976/crt v1.1.10/go.mod h1:d8t4dVN3X3Gtc3krkQzQvsuHa6b7xYgy+8FPMPByubg=
 github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d h1:VhgPp6v9qf9Agr/56bj7Y/xa04UccTW04VP0Qed4vnQ=
 github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d/go.mod h1:YUTz3bUH2ZwIWBy3CJBeOBEugqcmXREj14T+iG/4k4U=
 github.com/pelletier/go-toml v1.2.0/go.mod h1:5z9KED0ma1S8pY6P1sdut58dfprrGBbd/94hg7ilaic=
