@@ -5,7 +5,7 @@ import (
 
 	"github.com/mt1976/crt/terminal"
 	cfg "github.com/mt1976/mockterm/config"
-	l "github.com/mt1976/mockterm/language"
+	l "github.com/mt1976/mockterm/start/lang"
 )
 
 // Run initializes the terminal and runs the main loop.
