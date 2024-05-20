@@ -23,8 +23,8 @@ func Run(t *term.ViewPort, mediaVault *plexms.Plex, wi *plexms.Directory) {
 	}
 
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
-
-	p := page.NewPage(t, res.MediaContainer.LibrarySectionTitle+lang.Space+t.Formatters.PQuote(noItems))
+	xx := lang.New(res.MediaContainer.LibrarySectionTitle + lang.Space.Text() + t.Formatters.PQuote(noItems))
+	p := page.NewPage(t, xx)
 	count := 0
 
 	for range res.MediaContainer.Metadata {

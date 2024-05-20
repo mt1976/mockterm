@@ -20,7 +20,8 @@ func Episodes(t *term.ViewPort, mediaVault *plexms.Plex, seriesTitle string, inf
 		t.Error(errs.ErrLibraryResponse, err.Error())
 		os.Exit(1)
 	}
-	p := page.NewPage(t, seriesTitle+clng.Space+info.Title)
+	txt := clng.New(seriesTitle + clng.Space.Text() + info.Title)
+	p := page.NewPage(t, txt)
 
 	noEps := len(res.MediaContainer.Metadata)
 	for i := 0; i < noEps; i++ {
@@ -43,15 +44,15 @@ func Episodes(t *term.ViewPort, mediaVault *plexms.Plex, seriesTitle string, inf
 
 func EpisodeDetail(t *term.ViewPort, info plexms.Metadata) {
 
-	title := info.GrandparentTitle + clng.Space + info.ParentTitle + clng.Space + info.Title
+	title := clng.New(info.GrandparentTitle + clng.Space.Text() + info.ParentTitle + clng.Space.Text() + info.Title)
 	p := page.NewPage(t, title)
-	p.AddFieldValuePair(lang.PlexShow.Text(), info.GrandparentTitle)
-	p.AddFieldValuePair(lang.PlexSeason.Text(), info.ParentTitle)
-	p.AddFieldValuePair(lang.PlexEpisode.Text(), info.Title)
-	p.AddFieldValuePair(lang.PlexSummary, info.Summary)
-	p.AddFieldValuePair(lang.PlexDuration.Text(), plex.FormatDuration(info.Duration))
-	p.AddFieldValuePair(lang.PlexReleased.Text(), plex.FormatDate(info.OriginallyAvailableAt))
-	p.AddFieldValuePair(lang.PlexContentRating.Text(), info.ContentRating)
+	p.AddFieldValuePair(lang.Show.Text(), info.GrandparentTitle)
+	p.AddFieldValuePair(lang.Season.Text(), info.ParentTitle)
+	p.AddFieldValuePair(lang.Episode.Text(), info.Title)
+	p.AddFieldValuePair(lang.Summary, info.Summary)
+	p.AddFieldValuePair(lang.Duration.Text(), plex.FormatDuration(info.Duration))
+	p.AddFieldValuePair(lang.Released.Text(), plex.FormatDate(info.OriginallyAvailableAt))
+	p.AddFieldValuePair(lang.ContentRating.Text(), info.ContentRating)
 	videoCodec := info.Media[0].VideoCodec
 	videoFrameRate := info.Media[0].VideoFrameRate
 	videoResolution := info.Media[0].VideoResolution
@@ -59,10 +60,10 @@ func EpisodeDetail(t *term.ViewPort, info plexms.Metadata) {
 	aspectRatio := info.Media[0].AspectRatio
 
 	p.AddBlankRow()
-	p.AddColumnsTitle(lang.PlexCodec.Text(), lang.PlexFrameRate.Text(), lang.PlexResolution.Text(), lang.PlexContainer.Text(), lang.PlexAspectRatio.Text())
+	p.AddColumnsTitle(lang.Codec.Text(), lang.FrameRate.Text(), lang.Resolution.Text(), lang.Container.Text(), lang.AspectRatio.Text())
 	p.AddColumns(videoCodec, videoFrameRate, videoResolution, videoContainer, aspectRatio.String())
 	p.AddBlankRow()
-	p.AddColumnsTitle(lang.PlexMedia.Text())
+	p.AddColumnsTitle(lang.Media.Text())
 	for _, v := range info.Media {
 		p.AddColumns(v.Part[0].File)
 	}

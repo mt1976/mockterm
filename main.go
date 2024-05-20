@@ -41,6 +41,6 @@ func main() {
 	elapsed := time.Since(start)
 
 	// output the elapsed time
-	t.Shout(t.Formatters.Bold(l.Done.Text()) + l.Space + elapsed.String())
+	t.Shout(t.Formatters.Bold(l.Done.Text()) + l.Space.Text() + elapsed.String())
 
 }

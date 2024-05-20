@@ -50,18 +50,18 @@ func Detail(t *term.ViewPort, item RssItem) error {
 
 	// 	p.AddMenuOption(c, desc, item.Link, d)
 	// }
-	p.AddFieldValuePair(llng.ShowsRssName.Text(), item.ShowName)
-	p.AddFieldValuePair(llng.ShowsRssTitle.Text(), item.Title)
-	p.AddFieldValuePair(llng.ShowsRssDate.Text(), d)
+	p.AddFieldValuePair(llng.Name.Text(), item.ShowName)
+	p.AddFieldValuePair(llng.Title.Text(), item.Title)
+	p.AddFieldValuePair(llng.Date.Text(), d)
 	p.AddBreakRow()
-	p.AddFieldValuePair(llng.ShowsRssShowID.Text(), item.ShowID)
-	p.AddFieldValuePair(llng.ShowsRssEpisodeID.Text(), item.EpisodeID)
-	p.AddFieldValuePair(llng.ShowsRssRawTitle.Text(), item.RawTitle)
-	p.AddFieldValuePair(llng.ShowsRssPublished.Text, item.PubDate)
+	p.AddFieldValuePair(llng.ShowID.Text(), item.ShowID)
+	p.AddFieldValuePair(llng.EpisodeID.Text(), item.EpisodeID)
+	p.AddFieldValuePair(llng.RawTitle.Text(), item.RawTitle)
+	p.AddFieldValuePair(llng.Published.Text, item.PubDate)
 	p.AddBreakRow()
-	p.AddFieldValuePair(llng.ShowsRssDescription.Text(), item.Description)
+	p.AddFieldValuePair(llng.Description.Text(), item.Description)
 	p.AddBreakRow()
-	p.AddFieldValuePair(llng.ShowsRssLink.Text(), item.Link)
+	p.AddFieldValuePair(llng.Link.Text(), item.Link)
 	//p.AddFieldValuePair("Guid", item.Guid.Text)
 
 	// p.AddFieldValuePair("ExternalID", item.ExternalID)
@@ -81,7 +81,7 @@ func Detail(t *term.ViewPort, item RssItem) error {
 	p.AddAction(acts.Quit)
 	addTorrentAction := acts.New("A")
 	p.AddAction(addTorrentAction)
-	p.SetPrompt(llng.ShowsRssPrompt)
+	p.SetPrompt(llng.Prompt)
 
 	for {
 		action := p.Display_Actions()

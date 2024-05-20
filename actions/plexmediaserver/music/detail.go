@@ -7,18 +7,19 @@ import (
 	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
 	plng "github.com/mt1976/mockterm/actions/plexmediaserver/lang"
+	lang "github.com/mt1976/mockterm/language"
 )
 
 func Detail(t *term.ViewPort, info plexms.Metadata) {
 
-	p := page.NewPage(t, info.Title)
+	p := page.NewPage(t, lang.New(info.Title))
 
-	p.AddFieldValuePair(plng.PlexTitle, info.Title)
-	p.AddFieldValuePair(plng.PlexSummary, info.Summary)
+	p.AddFieldValuePair(plng.Title, info.Title)
+	p.AddFieldValuePair(plng.Summary, info.Summary)
 
 	count := 0
 	p.AddBlankRow()
-	p.AddColumnsTitle(plng.PlexContainer.Text(), plng.PlexResolution.Text(), plng.PlexCodec.Text(), plng.PlexAspectRatio.Text(), plng.PlexFrameRate.Text())
+	p.AddColumnsTitle(plng.Container.Text(), plng.Resolution.Text(), plng.Codec.Text(), plng.AspectRatio.Text(), plng.FrameRate.Text())
 
 	for range info.Media {
 		med := info.Media[count]

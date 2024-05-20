@@ -9,7 +9,7 @@ import (
 	acts "github.com/mt1976/crt/page/actions"
 	symb "github.com/mt1976/crt/strings/symbols"
 	term "github.com/mt1976/crt/terminal"
-	lang "github.com/mt1976/mockterm/language"
+	lang "github.com/mt1976/mockterm/actions/systems/pushover/lang"
 )
 
 // Init Objects

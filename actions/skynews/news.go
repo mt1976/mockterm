@@ -5,8 +5,8 @@ import (
 	page "github.com/mt1976/crt/page"
 	action "github.com/mt1976/crt/page/actions"
 	"github.com/mt1976/crt/terminal"
+	l "github.com/mt1976/mockterm/actions/skynews/lang"
 	"github.com/mt1976/mockterm/config"
-	l "github.com/mt1976/mockterm/language"
 )
 
 var CFG = config.Configuration
@@ -26,27 +26,27 @@ func Run(t *terminal.ViewPort) {
 	// Strange News
 
 	t.Clear()
-	p := page.NewPage(t, l.SkyNewsTitle)
+	p := page.NewPage(t, l.Title)
 	p.AddBlankRow()
 	c := 0
 	c++
-	p.AddMenuOption(c, l.SkyNewsTopicHome.Text(), CFG.URISkyNews+CFG.URISkyNewsHome, "")
+	p.AddMenuOption(c, l.Home.Text(), CFG.URISkyNews+CFG.URISkyNewsHome, "")
 	c++
-	p.AddMenuOption(c, l.SkyNewsTopicUK.Text(), CFG.URISkyNews+CFG.URISkyNewsUK, "")
+	p.AddMenuOption(c, l.UK.Text(), CFG.URISkyNews+CFG.URISkyNewsUK, "")
 	c++
-	p.AddMenuOption(c, l.SkyNewsTopicWorld.Text(), CFG.URISkyNews+CFG.URISkyNewsWorld, "")
+	p.AddMenuOption(c, l.World.Text(), CFG.URISkyNews+CFG.URISkyNewsWorld, "")
 	c++
-	p.AddMenuOption(c, l.SkyNewsTopicUS.Text(), CFG.URISkyNews+CFG.URISkyNewsUS, "")
+	p.AddMenuOption(c, l.US.Text(), CFG.URISkyNews+CFG.URISkyNewsUS, "")
 	c++
-	p.AddMenuOption(c, l.SkyNewsTopicBusiness.Text(), CFG.URISkyNews+CFG.URISkyNewsBusiness, "")
+	p.AddMenuOption(c, l.Business.Text(), CFG.URISkyNews+CFG.URISkyNewsBusiness, "")
 	c++
-	p.AddMenuOption(c, l.SkyNewsTopicPolitics.Text(), CFG.URISkyNews+CFG.URISkyNewsPolitics, "")
+	p.AddMenuOption(c, l.Politics.Text(), CFG.URISkyNews+CFG.URISkyNewsPolitics, "")
 	c++
-	p.AddMenuOption(c, l.SkyNewsTopicTechnology.Text(), CFG.URISkyNews+CFG.URISkyNewsTechnology, "")
+	p.AddMenuOption(c, l.Technology.Text(), CFG.URISkyNews+CFG.URISkyNewsTechnology, "")
 	c++
-	p.AddMenuOption(c, l.SkyNewsTopicEntertainment.Text(), CFG.URISkyNews+CFG.URISkyNewsEntertainment, "")
+	p.AddMenuOption(c, l.Entertainment.Text(), CFG.URISkyNews+CFG.URISkyNewsEntertainment, "")
 	c++
-	p.AddMenuOption(c, l.SkyNewsTopicStrange.Text(), CFG.URISkyNews+CFG.URISkyNewsStrange, "")
+	p.AddMenuOption(c, l.Strange.Text(), CFG.URISkyNews+CFG.URISkyNewsStrange, "")
 	p.AddAction(action.Quit)
 
 	for {
@@ -58,23 +58,23 @@ func Run(t *terminal.ViewPort) {
 		if next.IsInt() {
 			switch next.Action() {
 			case "1":
-				Topic(p, CFG.URISkyNews+CFG.URISkyNewsHome, l.SkyNewsTopicHome.Text())
+				Topic(p, CFG.URISkyNews+CFG.URISkyNewsHome, l.Home.Text())
 			case "2":
-				Topic(p, CFG.URISkyNews+CFG.URISkyNewsUK, l.SkyNewsTopicUK.Text())
+				Topic(p, CFG.URISkyNews+CFG.URISkyNewsUK, l.UK.Text())
 			case "3":
-				Topic(p, CFG.URISkyNews+CFG.URISkyNewsWorld, l.SkyNewsTopicWorld.Text())
+				Topic(p, CFG.URISkyNews+CFG.URISkyNewsWorld, l.World.Text())
 			case "4":
-				Topic(p, CFG.URISkyNews+CFG.URISkyNewsUS, l.SkyNewsTopicUS.Text())
+				Topic(p, CFG.URISkyNews+CFG.URISkyNewsUS, l.US.Text())
 			case "5":
-				Topic(p, CFG.URISkyNews+CFG.URISkyNewsBusiness, l.SkyNewsTopicBusiness.Text())
+				Topic(p, CFG.URISkyNews+CFG.URISkyNewsBusiness, l.Business.Text())
 			case "6":
-				Topic(p, CFG.URISkyNews+CFG.URISkyNewsPolitics, l.SkyNewsTopicPolitics.Text())
+				Topic(p, CFG.URISkyNews+CFG.URISkyNewsPolitics, l.Politics.Text())
 			case "7":
-				Topic(p, CFG.URISkyNews+CFG.URISkyNewsTechnology, l.SkyNewsTopicTechnology.Text())
+				Topic(p, CFG.URISkyNews+CFG.URISkyNewsTechnology, l.Technology.Text())
 			case "8":
-				Topic(p, CFG.URISkyNews+CFG.URISkyNewsEntertainment, l.SkyNewsTopicEntertainment.Text())
+				Topic(p, CFG.URISkyNews+CFG.URISkyNewsEntertainment, l.Entertainment.Text())
 			case "9":
-				Topic(p, CFG.URISkyNews+CFG.URISkyNewsStrange, l.SkyNewsTopicStrange.Text())
+				Topic(p, CFG.URISkyNews+CFG.URISkyNewsStrange, l.Strange.Text())
 			default:
 				p.Error(terr.ErrInvalidAction, next.Action())
 			}

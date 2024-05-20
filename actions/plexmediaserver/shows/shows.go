@@ -28,7 +28,8 @@ func Run(t *term.ViewPort, mediaVault *plexms.Plex, wi *plexms.Directory) {
 
 	noItems := fmt.Sprintf("%d", res.MediaContainer.Size)
 
-	p := page.NewPage(t, res.MediaContainer.LibrarySectionTitle+clng.Space+t.Formatters.PQuote(noItems))
+	title := clng.New(res.MediaContainer.LibrarySectionTitle + clng.Space.Text() + t.Formatters.PQuote(noItems))
+	p := page.NewPage(t, title)
 	count := 0
 
 	for range res.MediaContainer.Metadata {
@@ -50,18 +51,18 @@ func Run(t *term.ViewPort, mediaVault *plexms.Plex, wi *plexms.Directory) {
 }
 
 func Detail(t *term.ViewPort, info plexms.Metadata, mediaVault *plexms.Plex) {
-	p := page.NewPage(t, info.Title)
+	p := page.NewPage(t, clng.New(info.Title))
 
-	p.AddFieldValuePair(lang.PlexTitle.Text(), info.Title)
-	p.AddFieldValuePair(lang.PlexYear.Text(), t.Helpers.ToString(info.Year))
-	p.AddFieldValuePair(lang.PlexContentRating.Text(), info.ContentRating)
-	p.AddFieldValuePair(lang.PlexReleased.Text(), plex.FormatDate(info.OriginallyAvailableAt))
+	p.AddFieldValuePair(lang.Title.Text(), info.Title)
+	p.AddFieldValuePair(lang.Year.Text(), t.Helpers.ToString(info.Year))
+	p.AddFieldValuePair(lang.ContentRating.Text(), info.ContentRating)
+	p.AddFieldValuePair(lang.Released.Text(), plex.FormatDate(info.OriginallyAvailableAt))
 	p.AddBlankRow()
-	p.AddFieldValuePair(lang.PlexSummary, "")
+	p.AddFieldValuePair(lang.Summary, "")
 	p.AddParagraphString(info.Summary)
 
 	//p.AddAction(acts.Seasons) //Drilldown to episodes
-	p.SetPrompt(lang.PlexSeasonsPrompt.Text())
+	p.SetPrompt(lang.SeasonsPrompt)
 	p.AddBlankRow()
 	yy, err := mediaVault.GetEpisodes(info.RatingKey)
 	if err != nil {

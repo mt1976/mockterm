@@ -13,6 +13,7 @@ var (
 	Mode        *lang.Text = lang.New("Mode")
 	Path        *lang.Text = lang.New("Path")
 	Title       *lang.Text = lang.New("Title")
+	Space       *lang.Text = lang.New(" ")
 )
 
 // Page - Paging

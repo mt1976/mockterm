@@ -12,6 +12,7 @@ import (
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
+	clng "github.com/mt1976/mockterm/actions/dashboard/lang"
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
 	lang "github.com/mt1976/mockterm/language"
@@ -26,13 +27,13 @@ var dummy = term.New()
 // articles.
 func Run(terminal *term.ViewPort) {
 
-	p := page.NewPage(terminal, lang.Dashboard)
-	p.Info(lang.TxtDashboardChecking)
+	p := page.NewPage(terminal, clng.Title)
+	p.Info(clng.TxtDashboardChecking)
 	c := 0
 	c++
 
 	for i := 0; i < props.DashboardURINoEntries; i++ {
-		p.Info(lang.TxtDashboardCheckingService, props.DashboardURIName[i])
+		p.Info(clng.TxtDashboardCheckingService, props.DashboardURIName[i])
 		result := CheckService(p, i)
 		p.AddFieldValuePair(props.DashboardURIName[i], result)
 	}
@@ -93,17 +94,17 @@ func CheckService(p *page.Page, i int) string {
 	if dummy.Formatters.Upcase(operation) == "PING" {
 		pinger, err := ping.NewPinger(host)
 		if err != nil {
-			return lang.TxtStatusOffline.Text() + lang.Space + dummy.Formatters.PQuote(err.Error())
+			return clng.TxtStatusOffline.Text() + lang.Space.Text() + dummy.Formatters.PQuote(err.Error())
 		}
 		pinger.Count = 3
 		err = pinger.Run() // Blocks until finished.
 		if err != nil {
-			return lang.TxtStatusOffline.Text() + lang.Space + dummy.Formatters.PQuote(err.Error())
+			return clng.TxtStatusOffline.Text() + lang.Space.Text() + dummy.Formatters.PQuote(err.Error())
 		}
 		stats := pinger.Statistics() // get send/receive/duplicate/rtt stats
 		avgRtt := stats.AvgRtt
 
-		return lang.TxtStatusOnline.Text() + lang.Space + dummy.Formatters.PQuote(fmt.Sprintf("%v", avgRtt))
+		return clng.TxtStatusOnline.Text() + lang.Space.Text() + dummy.Formatters.PQuote(fmt.Sprintf("%v", avgRtt))
 	}
 
 	// Perform an HTTP request to the service
@@ -147,21 +148,21 @@ func StatusCode(PAGE string, AUTH string, SUCCESS string) (r string) {
 	// Execute the request.
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return lang.TxtStatusOffline.Text() + lang.Space + dummy.Formatters.PQuote(lang.TxtNoResponseFromServer.Text())
+		return clng.TxtStatusOffline.Text() + lang.Space.Text() + dummy.Formatters.PQuote(clng.TxtNoResponseFromServer.Text())
 	}
 
 	// Close response body as required.
 	defer resp.Body.Close()
 
 	if resp.StatusCode == 200 {
-		return lang.TxtStatusOnline.Text() + lang.Space + dummy.Formatters.PQuote(resp.Status)
+		return clng.TxtStatusOnline.Text() + lang.Space.Text() + dummy.Formatters.PQuote(resp.Status)
 	}
 
 	//resp.StatusCode to string
 	scString := strconv.Itoa(resp.StatusCode)
 	if scString == SUCCESS {
-		return lang.TxtStatusOnline.Text() + lang.Space + dummy.Formatters.PQuote(resp.Status)
+		return clng.TxtStatusOnline.Text() + lang.Space.Text() + dummy.Formatters.PQuote(resp.Status)
 	}
 
-	return lang.TxtStatusOffline.Text() + lang.Space + dummy.Formatters.PQuote(resp.Status)
+	return clng.TxtStatusOffline.Text() + lang.Space.Text() + dummy.Formatters.PQuote(resp.Status)
 }

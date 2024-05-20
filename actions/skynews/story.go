@@ -5,7 +5,9 @@ import (
 	clng "github.com/mt1976/crt/language"
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
-	lang "github.com/mt1976/mockterm/language"
+
+	//	lang "github.com/mt1976/mockterm/language"
+	lang "github.com/mt1976/mockterm/actions/skynews/lang"
 )
 
 // The function "Story" displays a story link and allows the user to interact with a menu until they
@@ -16,12 +18,12 @@ func Story(p *page.Page, storyLink, title string) {
 	np := page.NewPage(&t, clng.New(""))
 	np.Clear()
 	np.AddFieldValuePair(lang.Title.Text(), title)
-	np.AddFieldValuePair(lang.SkyNewsStory.Text(), storyLink)
+	np.AddFieldValuePair(lang.Story.Text(), storyLink)
 	np.AddBreakRow()
 	//np.AddBlankRow()
 	np = buildPage(np, storyLink)
 	np.SetTitle(clng.New(title))
-	np.Info(lang.SkyNewsLoadingStory)
+	np.Info(lang.LoadingStory)
 	np.ActivePageIndex = 0
 
 	for {
@@ -48,7 +50,7 @@ func buildPage(p *page.Page, storyLink string) *page.Page {
 	var pageTitle string
 
 	// Find and visit all links
-	c.OnHTML(lang.SkyNewsHTMLTagTitle, func(e *colly.HTMLElement) {
+	c.OnHTML(lang.HTMLTagTitle, func(e *colly.HTMLElement) {
 		pageTitle = e.Text
 	})
 
@@ -56,7 +58,7 @@ func buildPage(p *page.Page, storyLink string) *page.Page {
 	var storyContent []string
 
 	// Parse the story content
-	c.OnHTML(lang.SkyNewsHTMLTagP, func(e *colly.HTMLElement) {
+	c.OnHTML(lang.HTMLTagP, func(e *colly.HTMLElement) {
 		storyContent = append(storyContent, e.Text)
 	})
 

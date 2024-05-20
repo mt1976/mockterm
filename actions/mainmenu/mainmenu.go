@@ -10,9 +10,11 @@ import (
 	acts "github.com/mt1976/crt/page/actions"
 	"github.com/mt1976/crt/terminal"
 	dash "github.com/mt1976/mockterm/actions/dashboard"
+	dlng "github.com/mt1976/mockterm/actions/dashboard/lang"
 	plex "github.com/mt1976/mockterm/actions/plexmediaserver"
 	srss "github.com/mt1976/mockterm/actions/showsrss"
 	news "github.com/mt1976/mockterm/actions/skynews"
+	nlng "github.com/mt1976/mockterm/actions/skynews/lang"
 	syst "github.com/mt1976/mockterm/actions/systems"
 	tfl "github.com/mt1976/mockterm/actions/tfl"
 	wthr "github.com/mt1976/mockterm/actions/weather"
@@ -25,8 +27,8 @@ func Run(terminal *terminal.ViewPort) {
 	//log.Println("Starting Main Menu")
 	p := page.NewPage(terminal, l.MainMenuTitle)
 	p.AddBlankRow()
-	p.AddMenuOption(1, l.Dashboard.Text(), "", "")
-	p.AddMenuOption(2, l.SkyNews.Text(), "", "")
+	p.AddMenuOption(1, dlng.Title.Text(), "", "")
+	p.AddMenuOption(2, nlng.Title.Text(), "", "")
 	p.AddMenuOption(3, l.ShowsRSS.Text(), "", "")
 	p.AddMenuOption(4, l.Weather.Text(), "", "")
 	p.AddMenuOption(5, l.TFL.Text(), "", "")

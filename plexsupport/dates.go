@@ -42,7 +42,7 @@ func DurationToTime(duration int) time.Duration {
 }
 
 func FormatDate(t string) string {
-	return humanize.Time(PlexDateToDate(t)) + lang.Space + dummy.Formatters.DQuote(dummy.Formatters.FormatDate(PlexDateToDate(t)))
+	return humanize.Time(PlexDateToDate(t)) + lang.Space.Text() + dummy.Formatters.DQuote(dummy.Formatters.FormatDate(PlexDateToDate(t)))
 }
 
 func FormatDuration(t int) string {

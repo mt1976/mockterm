@@ -5,7 +5,9 @@ import (
 	clng "github.com/mt1976/crt/language"
 	page "github.com/mt1976/crt/page"
 	acts "github.com/mt1976/crt/page/actions"
-	lang "github.com/mt1976/mockterm/language"
+
+	//lang "github.com/mt1976/mockterm/language"
+	lang "github.com/mt1976/mockterm/actions/skynews/lang"
 )
 
 // The function "Topic" takes in a ViewPort object, a topic, and a title as parameters, and then retrieves
@@ -15,7 +17,7 @@ func Topic(t *page.Page, topic, title string) {
 
 	vp := t.ViewPort()
 	// Get the news for the topic
-	t.Info(lang.SkyNewsLoadingTopic, title)
+	t.Info(lang.LoadingTopic, title)
 	// get the news for the topic from an rss feed
 	fp := gofeed.NewParser()
 	feed, _ := fp.ParseURL(topic)

@@ -8,9 +8,11 @@ import (
 	catalog "github.com/mt1976/mockterm/actions/systems/catalog"
 	ctlg "github.com/mt1976/mockterm/actions/systems/catalog/lang"
 	clean "github.com/mt1976/mockterm/actions/systems/cleanfilenames"
+	slng "github.com/mt1976/mockterm/actions/systems/lang"
 	move "github.com/mt1976/mockterm/actions/systems/mover"
 	flng "github.com/mt1976/mockterm/actions/systems/mover/lang"
 	push "github.com/mt1976/mockterm/actions/systems/pushover"
+	plng "github.com/mt1976/mockterm/actions/systems/pushover/lang"
 	tidy "github.com/mt1976/mockterm/actions/systems/tidymediafolders"
 	tlng "github.com/mt1976/mockterm/actions/systems/tidymediafolders/lang"
 	lang "github.com/mt1976/mockterm/language"
@@ -22,9 +24,9 @@ import (
 func Run(t *term.ViewPort) {
 
 	p := page.NewPage(t, lang.SystemsMaintenance)
-	p.AddParagraph(lang.TxtServiceMenuDescription)
+	p.AddParagraph(slng.ServiceMenuDescription.String())
 	p.AddBlankRow()
-	p.AddMenuOption(1, lang.TxtPushoverTitle.Text(), "", "")
+	p.AddMenuOption(1, plng.TxtPushoverTitle.Text(), "", "")
 	p.AddBlankRow()
 	p.AddMenuOption(2, tlng.Title.Text()+" (Trial Mode)", "", "")
 	p.AddMenuOption(3, tlng.Title.Text()+" (LIVE)", "", "")

@@ -30,7 +30,6 @@ var (
 	SymBreak              string     = " ━━ "
 	TxtOneHour            string     = " (1hr)"
 	TxtThreeHour          string     = " (3hr)"
-	Space                 string     = " "
 )
 
 var TxtRain1Hr string = TxtRainLabel + TxtOneHour

@@ -2,9 +2,9 @@ package language
 
 import lang "github.com/mt1976/crt/language"
 
-// Dashboard - Server Dashboard
+// Title - Server Title
 var (
-	Dashboard                   *lang.Text = lang.New("Server Dashboard")
+	Title                       *lang.Text = lang.New("Server Dashboard")
 	TxtStatusOnline                        = lang.New("Online ")
 	TxtStatusOffline                       = lang.New("Offline")
 	TxtDashboardChecking                   = lang.New("Please wait... Checking Services")

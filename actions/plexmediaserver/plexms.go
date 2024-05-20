@@ -71,7 +71,7 @@ func Run(t *term.ViewPort) {
 		os.Exit(1)
 	}
 
-	ll := clng.New(lang.PlexTitle.Text() + symb.TextDelimiter.Symbol() + mediaVaultProperties.Name)
+	ll := clng.New(lang.Title.Text() + symb.TextDelimiter.Symbol() + mediaVaultProperties.Name)
 	p := page.NewPage(t, ll)
 	count := 0
 	for mvLibrary := range mvLibraries.MediaContainer.Directory {
