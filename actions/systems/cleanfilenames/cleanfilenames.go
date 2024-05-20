@@ -12,9 +12,10 @@ import (
 	file "github.com/mt1976/crt/filechooser"
 	page "github.com/mt1976/crt/page"
 	term "github.com/mt1976/crt/terminal"
+	lang "github.com/mt1976/mockterm/actions/systems/cleanfilenames/lang"
 	conf "github.com/mt1976/mockterm/config"
 	errs "github.com/mt1976/mockterm/errors"
-	lang "github.com/mt1976/mockterm/language"
+	clng "github.com/mt1976/mockterm/language"
 	files "github.com/mt1976/mockterm/support/files"
 	mode "github.com/mt1976/mockterm/support/modes"
 )
@@ -28,8 +29,8 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 	if m.Is(mode.DEBUG) {
 		debugMode = true
 	}
-	p := page.NewPage(t, lang.TxtCleanFileNames)
-	resultsAdd(upcase(p, lang.TxtCleanFileNamesReport))
+	p := page.NewPage(t, lang.Title)
+	resultsAdd(upcase(p, lang.StorageReport.Text()))
 
 	if basePath == "" {
 		home, err := file.UserHome()
@@ -47,13 +48,13 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 		return
 	}
 
-	p.AddFieldValuePair(lang.Path.Text(), baseFolder)
-	resultsAdd(lang.Path.Text() + " " + baseFolder)
+	p.AddFieldValuePair(clng.Path.Text(), baseFolder)
+	resultsAdd(clng.Path.Text() + " " + baseFolder)
 	p.AddBlankRow()
 	p.AddParagraph(lang.CleanFileNamesDescription.String())
 
-	msg := lang.TxtStartingCleanFileNames + t.Formatters.DQuote(t.Formatters.Bold(basePath))
-	p.Info(msg)
+	msg := lang.StartCleanFileNames.Text() + t.Formatters.DQuote(t.Formatters.Bold(basePath))
+	p.Info(clng.New(msg))
 	resultsAdd(msg)
 	p.AddBlankRow()
 	resultsAdd("")
@@ -64,7 +65,7 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 	}
 	if !ok {
 		//fmt.Printf("%s Exiting\n", PFY)
-		p.Info(lang.Quitting.Text())
+		p.Info(clng.Quitting)
 		return
 	}
 
@@ -76,8 +77,8 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 		return
 	}
 
-	msg = fmt.Sprintf(lang.TxtProcessingNFilesIn, len(fileList), baseFolder)
-	p.Info(msg)
+	msg = fmt.Sprintf(lang.ProcessedNFilesIn.Text(), len(fileList), baseFolder)
+	p.Info(clng.New(msg))
 	resultsAdd(msg)
 
 	for _, file := range fileList {
@@ -91,16 +92,16 @@ func Run(t *term.ViewPort, m mode.Modality, basePath string) {
 	}
 
 	if itemCount > 0 {
-		msg := fmt.Sprintf(lang.TxtProcessedNFilesIn, itemCount, basePath)
-		p.Success(msg)
+		msg := fmt.Sprintf(lang.ProcessedNFilesIn.Text(), itemCount, basePath)
+		p.Success(clng.New(msg))
 		resultsAdd(msg)
 	} else {
-		msg := fmt.Sprintf(lang.TxtNoFilesProcessed, basePath)
-		p.Info(msg)
+		msg := fmt.Sprintf(lang.NoFilesProcessed.Text(), basePath)
+		p.Info(clng.New(msg))
 		resultsAdd(msg)
 	}
 
-	q := page.NewPage(t, lang.TxtCleanFileNamesResults)
+	q := page.NewPage(t, lang.CleanFileNamesResults)
 	q.AddParagraph(results)
 	q.Display_Actions()
 
@@ -117,14 +118,14 @@ func cleanFileName(p *page.Page, info fs.DirEntry, path string) error {
 		return errs.ErrCleaningFileName
 	}
 
-	if cleanName == lang.TxtOnlyFansFilename {
+	if cleanName == lang.OnlyFans.Text() {
 		// Rename the file to OnlyFans_Date_Time.mp4
 		id := uuid.New()
-		cleanName = lang.TxtOnlyFans + time.Now().Format(cfg.OnlyFansDateTimeFormat) + id + lang.FileExtensionMP4
+		cleanName = lang.OnlyFans.Text() + time.Now().Format(cfg.OnlyFansDateTimeFormat) + id + lang.MP4.Text()
 	}
 
 	if cleanName != info.Name() {
-		resultsAdd(fmt.Sprintf(lang.TxtRemamedFile, info.Name(), cleanName))
+		resultsAdd(fmt.Sprintf(lang.Renamed.Text(), info.Name(), cleanName))
 		renameFile(p, path, cleanName, info.Name())
 		itemCount++
 	}
@@ -171,7 +172,7 @@ func renameFile(p *page.Page, path string, newFileName string, oldFileName strin
 	if err != nil {
 		p.Error(errs.ErrRenamingFile, path, err.Error())
 	} else {
-		p.Info(fmt.Sprintf(lang.TxtRemamedFile, oldFileName, newPath))
+		p.Info(clng.New(fmt.Sprintf(lang.Renamed.Text(), oldFileName, newPath)))
 	}
 }
 

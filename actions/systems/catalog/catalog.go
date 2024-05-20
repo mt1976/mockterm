@@ -7,7 +7,7 @@ import (
 	mnt "github.com/moby/sys/mountinfo"
 	page "github.com/mt1976/crt/page"
 	term "github.com/mt1976/crt/terminal"
-	lang "github.com/mt1976/mockterm/language"
+	lang "github.com/mt1976/mockterm/actions/systems/catalog/lang"
 	supt "github.com/mt1976/mockterm/support"
 	files "github.com/mt1976/mockterm/support/files"
 	mem "github.com/shirou/gopsutil/mem"
@@ -23,7 +23,7 @@ var results = []string{}
 
 func Run(t *term.ViewPort) {
 
-	p := page.NewPage(t, "Cataloging System Resources")
+	p := page.NewPage(t, lang.Cataloging)
 
 	debugMode = false
 	hostname := t.Helpers.GetHostName()
@@ -51,13 +51,13 @@ func Run(t *term.ViewPort) {
 	p.AddFieldValuePair("Output file", outputFilename)
 	p.AddBreakRow()
 
-	ok, err := p.Display_Confirmation("Do you want to continue with the cataloging process")
+	ok, err := p.Display_Confirmation(lang.Proceed)
 	if err != nil {
 		p.Error(err, "unable to get user response")
 	}
 	if !ok {
 		//fmt.Printf("%s Exiting\n", PFY)
-		p.Info(lang.Quitting.Text())
+		p.Info(lang.Quitting)
 		return
 	}
 	m, _ := mem.VirtualMemory()
@@ -140,7 +140,7 @@ func Run(t *term.ViewPort) {
 		storeData(p, info, fmt.Sprintf("Mount %d InodesUsedPercent", zz), t.Formatters.Human(usage.InodesUsedPercent))
 		p.AddColumns(t.Formatters.Human(v.Mountpoint), t.Formatters.Human(v.FSType), t.Formatters.Human(v.Source), t.Formatters.Human(usage.Free), t.Formatters.Human(usage.Used), t.Formatters.Human(usage.UsedPercent))
 	}
-	p.Success("Cataloging complete")
+	p.Success(lang.Complete)
 	p.AddBreakRow()
 	p.Add("Results have been saved to file: "+outputFilename, "", "")
 	debugMode = false

@@ -14,28 +14,29 @@ import (
 	page "github.com/mt1976/crt/page"
 	symb "github.com/mt1976/crt/strings/symbols"
 	term "github.com/mt1976/crt/terminal"
+	lang "github.com/mt1976/mockterm/actions/systems/mover/lang"
 	errs "github.com/mt1976/mockterm/errors"
-	lang "github.com/mt1976/mockterm/language"
+	clng "github.com/mt1976/mockterm/language"
 	mode "github.com/mt1976/mockterm/support/modes"
 )
 
 func Run(t *term.ViewPort, m mode.Modality) error {
 
-	p := page.NewPage(t, lang.FileMigratorTitle)
+	p := page.NewPage(t, lang.Title)
 	p.AddBlankRow()
 	if m.IsLive() {
-		p.AddFieldValuePair(lang.FileMigratorMode, lang.TxtLiveMode)
+		p.AddFieldValuePair(lang.Mode, clng.LiveRun.Text())
 	} else {
-		p.AddFieldValuePair(lang.FileMigratorMode, lang.TxtDebugMode)
+		p.AddFieldValuePair(lang.Mode, clng.TrailRun.Text())
 	}
 	//p.AddParagraph([]string{"This is a test", "This is a test"})
 	//p.AddBlankRow()
-	proceed, err := p.Display_Confirmation(lang.FileMigratorModeCheckPrompt.Text())
+	proceed, err := p.Display_Confirmation(lang.ModeCheckPrompt)
 	if err != nil {
 		return err
 	}
 	if !proceed {
-		p.Info(lang.Quitting.Text())
+		p.Info(clng.Quitting)
 		return nil
 	}
 	fileName, isDir, err := f.FileChooser(".", f.FilesAll)
@@ -46,8 +47,8 @@ func Run(t *term.ViewPort, m mode.Modality) error {
 		p.Error(errs.ErrFileMigratorDirectory, fileName)
 		return errs.ErrFileMigratorDirectory
 	}
-	p.AddFieldValuePair(lang.FileMigratorFile, fileName)
-	p.Display_Confirmation(lang.FileMigratorModeCheckPrompt.Text() + fileName)
+	p.AddFieldValuePair(lang.File, fileName)
+	p.Display_Confirmation(lang.ModeCheckPrompt)
 
 	// load the file from the os
 	// open the file and read the contents
@@ -69,14 +70,14 @@ func Run(t *term.ViewPort, m mode.Modality) error {
 	}
 
 	lines := strings.Split(string(data), symb.Newline.Symbol())
-	p.AddFieldValuePair(lang.FileMigratorNoFilesToProcess, strconv.Itoa(len(lines)))
+	p.AddFieldValuePair(lang.NoFilesToProcess, strconv.Itoa(len(lines)))
 
-	move, err := p.Display_Confirmation(lang.FileMigratorModeCheckPrompt.Text())
+	move, err := p.Display_Confirmation(lang.ModeCheckPrompt)
 	if err != nil {
 		return err
 	}
 	if !move {
-		p.Info(lang.Quitting.Text())
+		p.Info(clng.Quitting)
 		return nil
 	}
 
@@ -88,10 +89,10 @@ func Run(t *term.ViewPort, m mode.Modality) error {
 		p.Error(errs.ErrFileMigratorFile, toFolder)
 		return errs.ErrFileMigratorFile
 	}
-	p.AddFieldValuePair(lang.FileMigratorDestination, toFolder)
-	p.Display_Confirmation(lang.FileMigratorModeCheckPrompt.Text())
+	p.AddFieldValuePair(lang.Destination, toFolder)
+	p.Display_Confirmation(lang.ModeCheckPrompt)
 	p.AddBlankRow()
-	p.Add(lang.FileMigratorResults.Text(), "", "")
+	p.Add(lang.Results.Text(), "", "")
 	p.AddBreakRow()
 	// loop through each line in the data and read the line
 	for z, from := range lines {
@@ -101,7 +102,7 @@ func Run(t *term.ViewPort, m mode.Modality) error {
 			return err
 		}
 	}
-	p.Display_Confirmation(lang.FileMigratorDonePrompt.Text())
+	p.Display_Confirmation(lang.DonePrompt)
 
 	// write the string to the console
 	//page.Dump(string(data))
@@ -137,12 +138,12 @@ func moveFile(page *page.Page, m mode.Modality, from, to string, pageNo, ofPages
 	lastPart := fromParts[lastPartPos-1]
 	destination := to + sep + lastPart
 
-	progressmsg := fmt.Sprintf(lang.FileMigratorMoving.Text(), pageNo+1, ofPages, from20Chars, to20Chars)
+	progressmsg := fmt.Sprintf(lang.Moving.Text(), pageNo+1, ofPages, from20Chars, to20Chars)
 
-	page.Info(progressmsg)
+	page.Info(clng.New(progressmsg))
 	time.Sleep(2 * time.Second)
 
-	msg := from + lang.FileMigratorMovingArrow.Text() + destination
+	msg := from + lang.Arrow.Text() + destination
 	page.Add(msg, "", "")
 
 	if m.IsTrialMode() {

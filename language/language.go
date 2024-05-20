@@ -42,3 +42,7 @@ var ApplicationHeader []string = []string{
 	"     ██    ██    ██   ██ ██   ██    ██    ██      ██   ██ ██  ██  ██ ",
 	"███████    ██    ██   ██ ██   ██    ██    ███████ ██   ██ ██      ██ ",
 }
+
+func New(in string) *lang.Text {
+	return lang.New(in)
+}

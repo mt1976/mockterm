@@ -6,8 +6,10 @@ import (
 	acts "github.com/mt1976/crt/page/actions"
 	term "github.com/mt1976/crt/terminal"
 	catalog "github.com/mt1976/mockterm/actions/systems/catalog"
+	ctlg "github.com/mt1976/mockterm/actions/systems/catalog/lang"
 	clean "github.com/mt1976/mockterm/actions/systems/cleanfilenames"
 	move "github.com/mt1976/mockterm/actions/systems/mover"
+	flng "github.com/mt1976/mockterm/actions/systems/mover/lang"
 	push "github.com/mt1976/mockterm/actions/systems/pushover"
 	tidy "github.com/mt1976/mockterm/actions/systems/tidymediafolders"
 	tlng "github.com/mt1976/mockterm/actions/systems/tidymediafolders/lang"
@@ -30,10 +32,10 @@ func Run(t *term.ViewPort) {
 	p.AddMenuOption(4, tlng.CleanFileNames.Text()+" (Trial Mode)", "", "")
 	p.AddMenuOption(5, tlng.CleanFileNames.Text()+" (LIVE)", "", "")
 	p.AddBlankRow()
-	p.AddMenuOption(6, lang.CatalogTitle.Text(), "", "")
+	p.AddMenuOption(6, ctlg.Title.Text(), "", "")
 	p.AddBlankRow()
-	p.AddMenuOption(7, lang.FileMigratorTitle.Text()+" (Trial Mode)", "", "")
-	p.AddMenuOption(8, lang.FileMigratorTitle.Text()+" (LIVE)", "", "")
+	p.AddMenuOption(7, flng.Title.Text()+" (Trial Mode)", "", "")
+	p.AddMenuOption(8, flng.Title.Text()+" (LIVE)", "", "")
 
 	p.AddAction(acts.Quit)
 
